@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import FloatingLabelInput from "./floatingLabelInput";
+import { DatePicker } from "@nkeji-web/components/ui/DatePicker";
 
 const FlightBookingWidget = () => {
   return (
@@ -132,6 +133,7 @@ const FlightBookingWidget = () => {
               placeholder="Return"
               defaultValue=""
             />
+            <DatePicker />
             <button className="text-white bg-[#7F56D9] rounded-[100px] py-3 px-10 text-lg inter-medium">
               Search
             </button>
