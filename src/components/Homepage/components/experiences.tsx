@@ -4,23 +4,14 @@ import Link from "next/link";
 export const ExperiencesComponent = () => {
   return (
     <div className="">
-      <div className="">
-        <h2 className="text-center text-2xl md:text-3xl lg:text-4xl font-bold text-[#1B1E21] mb-5 md:w-2/5 lg:w-2/5 mx-auto">
-          Empowering Travelers with Financial Flexibility
-        </h2>
-        <p className="text-[#717171] text-base md:text-lg lg:text-xl inter-medium md:w-3/5 lg:w-3/5 mx-auto">
-          Experience financial flexibility, zero interest installment plans,
-          convertible points rewards, tailored packaged holidays, exclusive
-          last-minute flight deals, and inclusive financial solutions.
-        </p>
-      </div>
+  
       <div className="bg-[#FAFAFA] p-10 md:p-20 mt-10 flex flex-col md:flex-row justify-between items-center">
         <Image
-          height={1}
-          width={1}
+          height={100}
+          width={100}
           layout="intrinsic"
           className="w-full md:w-[50%] mb-5 md:mb-0"
-          src="/assets/exp-1.svg"
+          src="/assets/exp-1.png"
           alt=""
         />
         <div className="w-full md:w-[45%]">
@@ -30,8 +21,8 @@ export const ExperiencesComponent = () => {
           <ul className="flex flex-col space-y-4 text-base md:text-lg text-left">
             <li className="text-[#4B525A] flex items-center">
               <Image
-                height={1}
-                width={1}
+                height={20}
+                width={20}
                 layout="intrinsic"
                 className="pr-2"
                 src="/assets/check.svg"
@@ -41,8 +32,8 @@ export const ExperiencesComponent = () => {
             </li>
             <li className="text-[#4B525A] flex items-center">
               <Image
-                height={1}
-                width={1}
+                height={20}
+                width={20}
                 layout="intrinsic"
                 className="pr-2"
                 src="/assets/check.svg"
@@ -52,8 +43,8 @@ export const ExperiencesComponent = () => {
             </li>
             <li className="text-[#4B525A] flex items-center">
               <Image
-                height={1}
-                width={1}
+                height={20}
+                width={20}
                 layout="intrinsic"
                 className="pr-2"
                 src="/assets/check.svg"
@@ -68,8 +59,8 @@ export const ExperiencesComponent = () => {
           >
             <span className="underline">Explore now</span>
             <Image
-              height={1}
-              width={1}
+              height={20}
+              width={20}
               layout="intrinsic"
               src="/assets/arrow-up.svg"
               alt=""
@@ -86,8 +77,8 @@ export const ExperiencesComponent = () => {
           <ul className="flex flex-col space-y-4 text-base md:text-lg text-left">
             <li className="text-[#114A4C] flex items-center">
               <Image
-                height={1}
-                width={1}
+                height={20}
+                width={20}
                 layout="intrinsic"
                 className="pr-2"
                 src="/assets/check-green.svg"
@@ -97,8 +88,8 @@ export const ExperiencesComponent = () => {
             </li>
             <li className="text-[#114A4C] flex items-center">
               <Image
-                height={1}
-                width={1}
+                height={20}
+                width={20}
                 layout="intrinsic"
                 className="pr-2"
                 src="/assets/check-green.svg"
@@ -108,8 +99,8 @@ export const ExperiencesComponent = () => {
             </li>
             <li className="text-[#114A4C] flex items-center">
               <Image
-                height={1}
-                width={1}
+                height={20}
+                width={20}
                 layout="intrinsic"
                 className="pr-2"
                 src="/assets/check-green.svg"
@@ -119,8 +110,8 @@ export const ExperiencesComponent = () => {
             </li>
             <li className="text-[#114A4C] flex items-center">
               <Image
-                height={1}
-                width={1}
+                height={20}
+                width={20}
                 layout="intrinsic"
                 className="pr-2"
                 src="/assets/check-green.svg"
@@ -135,8 +126,8 @@ export const ExperiencesComponent = () => {
           >
             <span className="underline">Explore now</span>
             <Image
-              height={1}
-              width={1}
+              height={20}
+              width={20}
               layout="intrinsic"
               src="/assets/arrow-up.svg"
               alt=""
@@ -144,22 +135,22 @@ export const ExperiencesComponent = () => {
           </Link>
         </div>
         <Image
-          height={1}
-          width={1}
+          height={200}
+          width={200}
           layout="intrinsic"
           className="w-full md:w-[50%] mt-10 md:mt-0"
-          src="/assets/exp-2.svg"
+          src="/assets/exp-2.png"
           alt=""
         />
       </div>
 
       <div className="bg-[#FAFAFA] p-10 md:p-20 mt-10 flex flex-col md:flex-row justify-between items-center">
         <Image
-          height={1}
-          width={1}
+          height={200}
+          width={200}
           layout="intrinsic"
           className="w-full md:w-[50%] mb-5 md:mb-0"
-          src="/assets/exp-3.svg"
+          src="/assets/exp-3.png"
           alt=""
         />
         <div className="w-full md:w-[45%]">

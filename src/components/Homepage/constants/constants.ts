@@ -132,3 +132,58 @@ export const packagesArray = [
     date: "10th - 20th March, 2023",
   },
 ];
+
+export const passengerArray = [
+  {
+    title:'Adults',
+    description:'Over the age of 16'
+  },
+  {
+    title:'Children',
+    description:'From 2 - 15 years'
+  },
+  {
+    title:'Infants',
+    description:' Under the age of 2'
+  },
+]
+
+export const fromDestinations = [
+  {
+    state:'Birmingham',
+    city:'Birmingham Intl. Airport (BHX)',
+  },
+  {
+    state:'Fleveland',
+    city:'Amsterdam City Center',
+  },  {
+    state:'California',
+    city:'San Francisco',
+  },  {
+    state:'Miami',
+    city:'Maryland',
+  },  {
+    state:'Texas',
+    city:'Dallas',
+  }, 
+]
+
+export const toDestination = [
+  {
+    state:'Abuja',
+    city:'Nnamdi Azikiwe Airport (ABV)',
+  },
+  {
+    state:'Lagos',
+    city:'Gbagada',
+  },  {
+    state:'Oyo',
+    city:'Bodija Market',
+  },  {
+    state:'Ogun',
+    city:'Abeokuta Plaza',
+  },  {
+    state:'Rivers',
+    city:'Porth Harcourt (PHC)',
+  }
+]

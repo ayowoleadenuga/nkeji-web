@@ -3,8 +3,16 @@ import Image from "next/image";
 export const EasySteps = () => {
   return (
     <div className="bg-[#7F56D9] p-10 md:p-20 flex flex-col md:flex-row justify-between items-center">
-      <div className="w-full md:w-[45%] flex flex-col items-start text-left space-y-8">
-        <button className="bg-white text-lg text-[#121212] rounded-[100px] px-4 py-2 ">
+      <div className="w-full md:w-[45%] flex flex-col items-start text-left space-y-8 relative">
+      <Image
+          height={41}
+          width={41}
+          layout="intrinsic"
+          className="rounded-lg absolute left-40 top-38"
+          src="/assets/star.svg"
+          alt=""
+        />
+        <button className="how-it-works text-lg text-[#121212] rounded-[100px] px-4 py-2 ">
           How it Works
         </button>
         <h2 className="text-2xl md:text-4xl font-bold text-white text-left">
@@ -15,15 +23,19 @@ export const EasySteps = () => {
           financial constraints
         </p>
         <Image
-          height={1}
-          width={1}
+          height={291}
+          width={754}
           layout="intrinsic"
           className="rounded-lg"
           src="/assets/easy-step-img.png"
           alt=""
+          quality={100}
         />
       </div>
-      <div className="w-full md:w-[45%] flex flex-col space-y-8 mt-10 md:mt-0">
+      <div className="w-full md:w-[45%] mt-10 md:mt-0">
+
+     
+      <div className=" flex flex-col space-y-8 ">
         <div className="flex items-start space-x-5">
           <div className="bg-white rounded-full h-8 flex justify-center items-center text-black text-sm w-8">
             1
@@ -63,10 +75,12 @@ export const EasySteps = () => {
             </p>
             <p className="text-white text-lg">
               {" "}
-              It's time to embark on your journey.
+              It`s time to embark on your journey.
             </p>
           </div>
         </div>
+      </div>
+ 
       </div>
     </div>
   );

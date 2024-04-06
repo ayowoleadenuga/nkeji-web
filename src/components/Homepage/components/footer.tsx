@@ -7,8 +7,8 @@ export const Footer = () => {
       <div className="bg-[#42307D] grid grid-col-12 lg:grid-cols-8 text-[#E9D7FE] p-10 md:p-20 gap-y-10">
         <div className="w-full text-left col-span-12 lg:col-span-3">
           <Image
-            height={1}
-            width={1}
+            height={100}
+            width={100}
             layout="intrinsic"
             src="/assets/logo.svg"
             alt=""
@@ -82,43 +82,43 @@ export const Footer = () => {
         </p>
         <div className="flex space-x-6">
           <Image
-            height={1}
-            width={1}
+            height={20}
+            width={20}
             layout="intrinsic"
             src="/assets/twitter.svg"
             alt=""
           />
           <Image
-            height={1}
-            width={1}
+            height={20}
+            width={20}
             layout="intrinsic"
             src="/assets/linkedin.svg"
             alt=""
           />
           <Image
-            height={1}
-            width={1}
+            height={20}
+            width={20}
             layout="intrinsic"
             src="/assets/facebook.svg"
             alt=""
           />
           <Image
-            height={1}
-            width={1}
+            height={20}
+            width={20}
             layout="intrinsic"
             src="/assets/github.svg"
             alt=""
           />
           <Image
-            height={1}
-            width={1}
+            height={20}
+            width={20}
             layout="intrinsic"
             src="/assets/hands.svg"
             alt=""
           />
           <Image
-            height={1}
-            width={1}
+            height={20}
+            width={20}
             layout="intrinsic"
             src="/assets/ball.svg"
             alt=""
