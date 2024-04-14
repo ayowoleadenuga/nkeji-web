@@ -7,7 +7,7 @@ export const HolidayPackages = () => {
       <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-left text-[#1B1E21] mb-10 ">
         Holiday Packages
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {packagesArray.map((plan, i) => {
           return (
             <div

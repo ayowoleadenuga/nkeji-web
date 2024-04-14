@@ -2,9 +2,6 @@ import Image from "next/image";
 
 export const CustomerBenefits = () => {
   return (
-    <div className="py-10 md:py-20">
-      <div className="">
- 
         <div className="mt-10 bg-[#FAFAFA] p-10 md:p-20">
         <Image
     layout="fixed"
@@ -18,7 +15,6 @@ export const CustomerBenefits = () => {
 />
 
         </div>
-      </div>
-    </div>
+     
   );
 };

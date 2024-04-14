@@ -13,11 +13,11 @@ const HomePage = () => {
   return (
     <>
       <HeroSection />
-      <div className="bg-white pt-20 md:pt-[220px] px-10 lg:px-20 pb-20">
+      <div className="bg-white pt-20  px-10 lg:px-20 pb-20">
         <PlanComponent />
       </div>
       <EasySteps />
-        <HolidayPackages />
+      <HolidayPackages />
       {/* <ExperiencesComponent /> */}
       <CustomerBenefits />
       <FAQS />

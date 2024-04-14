@@ -4,6 +4,7 @@ import * as React from "react";
 import Image from "next/image";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { passengerArray } from "../Homepage/constants/constants";
+import { count } from "console";
 
 
 interface PassengerOption {
@@ -30,26 +31,30 @@ const ReusablePopover = () => {
     }));
   };
 
+
+  
   return (
     <Popover>
       <PopoverTrigger asChild className="focus:outline-none cursor-pointer">
-        <div className="flex items-center justify-between border border-[#D0D5DD] w-[220px] rounded-[100px] p-3">
-          <span className="flex items-center space-x-2">
-            <Image height={15} width={15} src="/assets/passenger.svg" alt="" />
-            <p>Passengers</p>
-          </span>
-          <Image
-            height={10}
-            width={10}
-            className="float-right"
-            src="/assets/dropdown.svg"
-            alt=""
-          />
-        </div>
+          <div className="flex items-center justify-between border border-[#D0D5DD] w-full md:w-1/2 lg:w-[220px] rounded-[100px] p-3">
+            <span className="flex items-center space-x-2">
+              <Image height={15} width={15} src="/assets/passenger.svg" alt=""  color="#8A3FFC"/>
+              <p>Passengers</p>
+            </span>
+            <Image
+              height={10}
+              width={10}
+              className="float-right"
+              src="/assets/dropdown.svg"
+              alt=""
+            />
+  
+            
+          </div>
       </PopoverTrigger>
       <PopoverContent className="w-[280px] text-center">
         <div>
-          <p className="text-[#7F56D9] inter-bold text-base text-left py-3 px-2">
+          <p className="text-[#7F56D9] inter-bold text-base text-left py-3 ">
             Passengers
           </p>
 
@@ -72,7 +77,7 @@ const ReusablePopover = () => {
                         onClick={() => handlePassengerChange(passengerType, -1)}
                         height={20}
                         width={20}
-                        className="float-right"
+                        className="float-right cursor-pointer"
                         src="/assets/minus-circle.svg"
                         alt=""
                       />
@@ -84,7 +89,7 @@ const ReusablePopover = () => {
                       onClick={() => handlePassengerChange(passengerType, 1)}
                       height={20}
                       width={20}
-                      className="float-right"
+                      className="float-right cursor-pointer"
                       src="/assets/add-icon.svg"
                       alt=""
                     />

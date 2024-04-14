@@ -4,7 +4,7 @@ import FlightBookingWidget from "./flightBookingWidget";
 
 const HeroSection = () => {
   return (
-    <div className="relative z-30 pb-20">
+    <div className="relative z-30 ">
       <div className="absolute w-full left-0 inset-0 h-[60vh] bg-[url('/assets/home-bg.png')] bg-cover">
         <div className="w-full h-full bg-black opacity-60"></div>
       </div>
