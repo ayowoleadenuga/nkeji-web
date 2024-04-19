@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import { cn } from "@nkeji-web/lib/utils";
 import "./globals.css";
+import { ReduxProvider } from "@nkeji-web/redux/provider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -20,15 +21,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
-        )}
-        suppressHydrationWarning={true}
-      >
-        {children}
-      </body>
+      <ReduxProvider>
+        <body
+          className={cn(
+            "min-h-screen bg-background font-sans antialiased",
+            fontSans.variable
+          )}
+          suppressHydrationWarning={true}
+        >
+          {children}
+        </body>
+      </ReduxProvider>
     </html>
   );
 }

@@ -78,7 +78,7 @@ export const Footer = () => {
 
       <div className="px-5 md:px-20 py-10 bg-[#35245B] flex justify-between items-center flex-wrap">
         <p className="text-base text-[#D6BBFB] mb-4 md:mb-0">
-          © 2023 Nkeji. All rights reserved.
+          © 2024 Nkeji. All rights reserved.
         </p>
         <div className="flex space-x-6">
           <Image

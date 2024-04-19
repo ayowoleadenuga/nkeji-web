@@ -41,8 +41,8 @@ export const FAQS = () => {
                   {faq.question}
                 </h3>
                 <Image
-                  height={1}
-                  width={1}
+                  height={30}
+                  width={30}
                   layout="intrinsic"
                   src={`/assets/${faq.expand ? "close" : "open"}-faq.svg`}
                   alt=""
