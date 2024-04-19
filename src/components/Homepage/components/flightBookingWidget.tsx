@@ -11,9 +11,11 @@ import {
 } from "@nkeji-web/components/ui/dropdown-menu";
 import ReusablePopover from "@nkeji-web/components/ui/reusable-popover";
 import { fromDestinations, toDestination } from "../constants/constants";
+import { useGetAirportsQuery } from "@nkeji-web/redux/features/apiSlice";
 
 const FlightBookingWidget = () => {
   const [selectedOption, setSelectedOption] = useState("Round Trip");
+  // const { data, isLoading, error } = useGetAirportsQuery("manchester");
   const handleOptionSelect = (option: string) => {
     setSelectedOption(option);
   };
@@ -75,39 +77,34 @@ const FlightBookingWidget = () => {
           </div>
           <div className="mt-0 lg:mt-6 lg:border border-[#D0D5DD] bg-[#FDFDFD] rounded-[100px] py-4 pl-0 lg:pl-8 pr-0 lg:pr-3  flex flex-col lg:flex-row space-y-4 lg:space-y-0 justify-between items-center lg:h-[80px]">
             <div className="w-full lg:w-1/2 pl-0  md:pl-6 lg:pl-0 flex flex-col space-y-4 md:space-y-0 md:flex-row justify-between items-center border-0 lg:border-0 border-[#D0D5DD] md:rounded-[100px] rounded-none lg:rounded-none md:border md:h-[80px] relative">
-             <div className="w-full  border border-[#D0D5DD] rounded-[100px] md:border-0 md:rounded-none h-[80px] md:h-full">
-
-              <FloatingLabelInput
-                label="From"
-                id="from"
-                defaultValue=""
-                placeholder="City or Airport"
-                locationList={fromDestinations}
-              />
-             </div>
-              <div 
-                className="hidden  mt-0 px-6 lg:px-5 md:flex items-center md:border-r md:border-l border-l-[#EAEAEB] border-r-[#EAEAEB] h-full"
-              >
-
-              <Image
-                height={40}
-                width={40}
-                layout="intrinsic"
-                src="/assets/to-fro.svg"
-                alt=""
-                className=""
-              />
+              <div className="w-full  border border-[#D0D5DD] rounded-[100px] md:border-0 md:rounded-none h-[80px] md:h-full">
+                <FloatingLabelInput
+                  label="From"
+                  id="from"
+                  defaultValue=""
+                  placeholder="City or Airport"
+                  locationList={fromDestinations}
+                />
+              </div>
+              <div className="hidden  mt-0 px-6 lg:px-5 md:flex items-center md:border-r md:border-l border-l-[#EAEAEB] border-r-[#EAEAEB] h-full">
+                <Image
+                  height={40}
+                  width={40}
+                  layout="intrinsic"
+                  src="/assets/to-fro.svg"
+                  alt=""
+                  className=""
+                />
               </div>
               <div className="border border-[#D0D5DD] rounded-[100px] md:border-0  md:rounded-none h-[80px] md:h-full w-full">
-              <FloatingLabelInput
-                label="To"
-                id="to"
-                defaultValue=""
-                placeholder="City or Airport"
-                locationList={toDestination}
-              />
+                <FloatingLabelInput
+                  label="To"
+                  id="to"
+                  defaultValue=""
+                  placeholder="City or Airport"
+                  locationList={toDestination}
+                />
               </div>
-
             </div>
             <div className="w-full md:pl-8 lg:pl-0 lg:w-[35%] md:h-[80px] flex flex-col space-y-4 md:space-y-0 md:flex-row justify-between items-center md:border md:border-[#D0D5DD] md:rounded-[100px] lg:border-0 relative">
               <FloatingLabelInput
@@ -120,8 +117,7 @@ const FlightBookingWidget = () => {
               />
 
               <FloatingLabelInput
-               className="md:border-l lg:border-[#EAEAEB] border border-[#D0D5DD] rounded-[100px] md:border-0 md:rounded-none "
-
+                className="md:border-l lg:border-[#EAEAEB] border border-[#D0D5DD] rounded-[100px] md:border-0 md:rounded-none "
                 label="Return"
                 id="return"
                 defaultValue=""
@@ -136,7 +132,6 @@ const FlightBookingWidget = () => {
           </div>
         </div>
       </div>
-    
     </>
   );
 };

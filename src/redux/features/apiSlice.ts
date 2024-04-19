@@ -10,6 +10,7 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://staging.api.trynkeji.com/api",
   }),
+  tagTypes: ["Airport"],
   endpoints: (builder) => ({
     getAirports: builder.query({
       query: (searchValue: string) => ({
