@@ -3,6 +3,17 @@ import { planArray } from "../constants/constants";
 
 export const PlanComponent = () => {
   return (
+    <div>
+            <div className="mb-5">
+        <h2 className="text-center text-2xl md:text-3xl lg:text-4xl inter-bold text-[#1B1E21] mb-5 md:w-2/5 lg:w-2/5 mx-auto">
+          Empowering Travelers with Financial Flexibility
+        </h2>
+        <p className="text-[#717171] text-base md:text-lg lg:text-xl inter-medium md:w-3/5 lg:w-3/5 mx-auto text-center">
+          Experience financial flexibility, zero interest installment plans,
+          convertible points rewards, tailored packaged holidays, exclusive
+          last-minute flight deals, and inclusive financial solutions.
+        </p>
+      </div>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
       {planArray.map((plan, i) => {
         return (
@@ -26,5 +37,7 @@ export const PlanComponent = () => {
         );
       })}
     </div>
+    </div>
+
   );
 };
