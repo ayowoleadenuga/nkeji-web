@@ -6,7 +6,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { passengerArray } from "../Homepage/constants/constants";
 import { count } from "console";
 
-
 interface PassengerOption {
   title: string;
   description: string;
@@ -17,12 +16,13 @@ interface SelectedPassengers {
 }
 
 const ReusablePopover = () => {
-  const [selectedPassengers, setSelectedPassengers] = React.useState<SelectedPassengers>(
-    passengerArray?.reduce((acc, option) => {
-      acc[option.title.toLowerCase()] = 0;
-      return acc;
-    }, {} as SelectedPassengers)
-  );
+  const [selectedPassengers, setSelectedPassengers] =
+    React.useState<SelectedPassengers>(
+      passengerArray?.reduce((acc, option) => {
+        acc[option.title.toLowerCase()] = 0;
+        return acc;
+      }, {} as SelectedPassengers)
+    );
 
   const handlePassengerChange = (passengerType: string, increment: number) => {
     setSelectedPassengers((prev) => ({
@@ -31,26 +31,28 @@ const ReusablePopover = () => {
     }));
   };
 
-
-  
   return (
     <Popover>
       <PopoverTrigger asChild className="focus:outline-none cursor-pointer">
-          <div className="flex items-center justify-between border border-[#D0D5DD] w-full md:w-1/2 lg:w-[220px] rounded-[100px] p-3">
-            <span className="flex items-center space-x-2">
-              <Image height={15} width={15} src="/assets/passenger.svg" alt=""  color="#8A3FFC"/>
-              <p>Passengers</p>
-            </span>
+        <div className="flex items-center justify-between border border-[#D0D5DD] w-full md:w-1/2 lg:w-[220px] rounded-[100px] p-3">
+          <span className="flex items-center space-x-2">
             <Image
-              height={10}
-              width={10}
-              className="float-right"
-              src="/assets/dropdown.svg"
+              height={15}
+              width={15}
+              src="/assets/passenger.svg"
               alt=""
+              color="#8A3FFC"
             />
-  
-            
-          </div>
+            <p>Passengers</p>
+          </span>
+          <Image
+            height={10}
+            width={10}
+            className="float-right"
+            src="/assets/dropdown.svg"
+            alt=""
+          />
+        </div>
       </PopoverTrigger>
       <PopoverContent className="w-[280px] text-center">
         <div>
@@ -72,7 +74,7 @@ const ReusablePopover = () => {
                   </div>
 
                   <div className="flex space-x-5 items-center">
-                  {count > 0 && (
+                    {count > 0 && (
                       <Image
                         onClick={() => handlePassengerChange(passengerType, -1)}
                         height={20}
@@ -105,4 +107,3 @@ const ReusablePopover = () => {
 };
 
 export default ReusablePopover;
-

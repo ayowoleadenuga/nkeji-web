@@ -15,11 +15,11 @@ import { useGetAirportsQuery } from "@nkeji-web/redux/features/apiSlice";
 
 const FlightBookingWidget = () => {
   const [selectedOption, setSelectedOption] = useState("Round Trip");
-  // const { data, isLoading, error } = useGetAirportsQuery("manchester");
+  const { data, isLoading, error } = useGetAirportsQuery("birmingham");
   const handleOptionSelect = (option: string) => {
     setSelectedOption(option);
   };
-
+  console.log({ data });
   return (
     <>
       <div className="mt-10 relative w-[88%] mx-auto block">
@@ -43,8 +43,9 @@ const FlightBookingWidget = () => {
                       src="/assets/plane.svg"
                       alt=""
                     />
+                    <p>{selectedOption}</p>
                   </span>
-                  <p>{selectedOption}</p>
+
                   <Image
                     height={10}
                     width={10}

@@ -8,7 +8,7 @@ export interface ApiResponse<T> {
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://staging.api.trynkeji.com/api",
+    baseUrl: "http://localhost:8000/api",
   }),
   tagTypes: ["Airport"],
   endpoints: (builder) => ({
