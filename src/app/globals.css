@@ -107,6 +107,14 @@ body {
   font-variation-settings:
     "slnt" 0;
 }
+.inter-semibold {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings:
+    "slnt" 0;
+}
 .inter-bold {
   font-family: "Inter", sans-serif;
   font-weight: 700;
@@ -118,4 +126,8 @@ body {
 
 .how-it-works {
   background: rgba(255, 255, 255, 0.6);
+}
+
+input[type="checkbox"]:checked {
+  border-color: #7F56D9;
 }

@@ -11,13 +11,19 @@ import {
 } from "@nkeji-web/components/ui/dropdown-menu";
 import ReusablePopover from "@nkeji-web/components/ui/reusable-popover";
 import { fromDestinations, toDestination } from "../constants/constants";
+import { useRouter } from "next/navigation";
 
-const FlightBookingWidget = () => {
+interface BookingWidgetProps {
+  setShowFlightComponent?: any;
+  isSamePage?: boolean;
+}
+
+const FlightBookingWidget:React.FC<BookingWidgetProps> = ({ setShowFlightComponent, isSamePage=false}) => {
   const [selectedOption, setSelectedOption] = useState("Round Trip");
   const handleOptionSelect = (option: string) => {
     setSelectedOption(option);
   };
-
+  const router = useRouter()
   return (
     <>
       <div className="mt-10 relative w-[88%] mx-auto block">
@@ -130,7 +136,10 @@ const FlightBookingWidget = () => {
               />
             </div>
 
-            <button className="w-auto text-white bg-[#7F56D9] rounded-[100px] py-3 px-14 lg:px-10 text-lg inter-medium">
+            <button 
+            type="button"
+            onClick={()=> isSamePage ? setShowFlightComponent(false) : router.push('/flight-search')}
+            className="w-auto text-white bg-[#7F56D9] rounded-[100px] py-3 px-14 lg:px-10 text-lg inter-medium">
               Search
             </button>
           </div>

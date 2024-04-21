@@ -4,13 +4,22 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { navLinks } from "../constants/constants";
+import { flightSearchLinks } from "@nkeji-web/components/FlightSearch/constants/constants";
 
-const Navigation = () => {
+interface NavigationProps {
+  hasBg?: boolean;
+}
+
+const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const pathname = usePathname();
+  const filteredNavLists = hasBg ? flightSearchLinks : navLinks
   return (
-    <div className="w-full bg-transparent px-6 lg:px-20 py-8 flex items-center justify-between relative">
+    <div className={`w-full  px-6 lg:px-20 py-8 flex items-center  relative
+    ${hasBg ? 'bg-[#35245B]': 'bg-transparent justify-between' }
+    
+    `}>
       <Link href="/">
         <Image
           height={40}
@@ -21,9 +30,9 @@ const Navigation = () => {
           alt="Nkeji Logo"
         />
       </Link>
-      <div className="hidden md:block">
-        <ul className="flex items-center space-x-10">
-          {navLinks.map((link) => (
+      <div className={`hidden md:flex  ${hasBg ? 'justify-between w-full pl-10' :''}`}>
+        <ul className="flex items-center space-x-10 ">
+          {filteredNavLists.map((link) => (
             <li key={link.navLink}>
               <Link href={link.navLink}>
                 <span
@@ -36,7 +45,9 @@ const Navigation = () => {
               </Link>
             </li>
           ))}
-          <li className="flex space-x-2">
+       
+        </ul>
+        <div className={`flex space-x-2 ${hasBg ? 'ml-auto': 'ml-10'}`}>
             <a
               href="/"
               className="border border-white text-white text-base px-8 py-2 inter-medium rounded-[100px]"
@@ -49,8 +60,7 @@ const Navigation = () => {
             >
               Signup
             </a>
-          </li>
-        </ul>
+          </div>
       </div>
       <div className="block md:hidden">
         <button onClick={() => setIsOpen(true)}>
@@ -91,7 +101,7 @@ const Navigation = () => {
             </button>
           </div>
           <ul className="text-black text-xl space-y-8 mt-10 ml-8 text-left">
-            {navLinks.map((link) => (
+            {filteredNavLists.map((link) => (
               <li key={link.navLink}>
                 <Link href={link.navLink} onClick={() => setIsOpen(false)}>
                   {link.name}
