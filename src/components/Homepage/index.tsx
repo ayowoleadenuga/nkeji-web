@@ -8,6 +8,7 @@ import { Footer } from "./components/footer";
 import { HolidayPackages } from "./components/holiday-package";
 import { PlanComponent } from "./components/plans";
 import HeroSection from "./components/hero-section";
+import FlightSearch from "../FlightSearch";
 
 const HomePage = () => {
   return (

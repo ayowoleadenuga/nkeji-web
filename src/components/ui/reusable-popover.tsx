@@ -4,7 +4,6 @@ import * as React from "react";
 import Image from "next/image";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { passengerArray } from "../Homepage/constants/constants";
-import { count } from "console";
 
 interface PassengerOption {
   title: string;
