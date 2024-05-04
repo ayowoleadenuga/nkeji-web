@@ -38,7 +38,7 @@ const SearchResultComponent = () => {
             height={18}
             width={18}
             layout="intrinsic"
-            src="/assets/info.svg"
+            src="/assets/circle-info-purple.svg"
             alt=""
             className=""
           />
