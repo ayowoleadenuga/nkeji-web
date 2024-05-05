@@ -1,12 +1,19 @@
+"use client";
+
 import { Progress } from "@nkeji-web/components/ui/progress";
 import Image from "next/image";
+import ViewFlightDetails from "./view-flight-details";
+import { useState } from "react";
+import HowItWorksDialog from "@nkeji-web/components/ui/how-it-works-dialog";
 
 const FlightRouteCard = () => {
+  const [openViewDetails, setOpenViewDetails] = useState(false)
   return (
+    <div>
+
     <div className="bg-white rounded-lg overflow-hidden  mt-5 w-full">
         <div className="px-10 py-5">
 
-       
       <div className="flex justify-between items-center inter-semibold text-base mb-4">
         <div className="flex items-center space-x-4">
           <p>Birmingham</p>
@@ -45,7 +52,19 @@ const FlightRouteCard = () => {
         </div>
         <div className="flex flex-col items-center space-y-1 w-[70%]">
             <p className="text-xs inter-semibold">22H 40M</p>
-            <Progress value={33} />
+            <span className="flex w-full items-center justify-center h-1">
+                <span className="h-1 w-[30%] rounded-tl rounded-bl bg-[#7F56D9]"></span>
+                <span className="h-1 w-[30%] bg-[#D7CBF3]"></span>
+                <span className="h-1 w-[30%] bg-[#7F56D9] rounded-tr rounded-br"></span>
+                <Image
+            height={18}
+            width={18}
+            layout="intrinsic"
+            src="/assets/flight.svg"
+            alt=""
+            className="cursor-pointer "
+          />
+            </span>
             <p className="text-xs inter-semibold">2 Stops</p>
 
         </div>
@@ -74,7 +93,20 @@ const FlightRouteCard = () => {
         </div>
         <div className="flex flex-col items-center space-y-1 w-[70%]">
             <p className="text-xs inter-semibold">12H 40M</p>
-            <Progress value={33} />
+            <span className="flex w-full items-center justify-center h-1">
+            <Image
+            height={18}
+            width={18}
+            layout="intrinsic"
+            src="/assets/flight.svg"
+            alt=""
+            className="cursor-pointer  transform rotate-180"
+          />
+                <span className="h-1 w-[30%] rounded-tl rounded-bl bg-[#7F56D9]"></span>
+                <span className="h-1 w-[30%] bg-[#D7CBF3]"></span>
+                <span className="h-1 w-[30%] bg-[#7F56D9] rounded-tr rounded-br"></span>
+            
+            </span>
             <p className="text-xs inter-semibold">1 Stop</p>
 
         </div>
@@ -92,16 +124,12 @@ const FlightRouteCard = () => {
         <div className="flex space-x-5 items-center ">
             <div className="flex items-start space-x-1 ">
             <p className="text-base w-[200px]">Fly now, pay later with as low as <span className="inter-bold">£500.00</span></p>
-            <Image
-                  height={18}
-                  width={18}
-                  layout="intrinsic"
-                  src="/assets/circle-info-purple.svg"
-                  alt=""
-                  className="mt-1"
-                />
+           
+                <HowItWorksDialog/>
             </div>
-            <div className="bg-[#D7CBF3] rounded-full px-3 py-2 flex space-x-2 cursor-pointer">
+            <div 
+            onClick={()=>setOpenViewDetails(!openViewDetails)}
+            className="bg-[#D7CBF3] rounded-full px-3 py-2 flex space-x-2 cursor-pointer">
                 <p className="text-[#7F56D9] inter-bold text-sm">View more details</p>
                 <Image
                   height={12}
@@ -115,6 +143,10 @@ const FlightRouteCard = () => {
        </div>
 
       </div>
+    </div>
+    {
+        openViewDetails && <ViewFlightDetails setOpenViewDetails={setOpenViewDetails} />
+    }
     </div>
   );
 };
