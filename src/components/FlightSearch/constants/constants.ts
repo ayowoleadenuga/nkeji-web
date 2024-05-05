@@ -46,4 +46,19 @@ export const flightSearchLinks = [
       icon: WalletIcon
     },
   ];
-  
+  export const flightRangeTabLists = [
+    {
+      tag:'Recommended',
+      price:'1,500',
+      duration:'20h 14m'
+    },
+    {
+      tag:'Cheapest',
+      price:'500',
+      duration:'30h 14m'
+    }, {
+      tag:'Fastest',
+      price:'1,700',
+      duration:'10h 14m'
+    } 
+  ]

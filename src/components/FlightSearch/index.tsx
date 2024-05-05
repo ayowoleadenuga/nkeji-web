@@ -6,13 +6,24 @@ import Navigation from "../Homepage/components/navigation";
 import FlightTabs from "./components/flight-tabs";
 import { MapImg } from "./constants/images";
 import { useState } from "react";
-import FlightBookingWidget from "../Homepage/components/FlightBookingWidget";
 import SearchResultComponent from "./components/search-result";
 import { flightSearchTabs } from "./constants/constants";
+import FlightRangeTabs from "./components/flight-range";
+import FlightRouteCard from "./components/route-card";
+import ContactDetails from "./components/contact-details";
+import PassengerDetails from "./components/passenger-details";
+import SeatSelection from "./components/seat-selection";
+import BaggageProtection from "./components/baggage-protection";
+import CancellationProtection from "./components/cancellation-protection";
+import PriceDetails from "./components/price-details";
+import { CustomerBenefits } from "../Homepage/components/customer-benefit";
+import { FAQS } from "../Homepage/components/faq";
+import { Footer } from "../Homepage/components/footer";
+import FlightBookingWidget from "../Homepage/components/FlightBookingWidget";
 
 const FlightSearch = () => {
   const [showFlightComponent, setShowFlightComponent] = useState(false);
-  const [currentTab, setCurrentTab] = useState(flightSearchTabs[0].navLink);
+  const [currentTab, setCurrentTab] = useState(flightSearchTabs[1].navLink);
 
   return (
     <>
@@ -120,11 +131,76 @@ const FlightSearch = () => {
               </div>
             )}
           </div>
-          <div className="px-6 py-10 lg:px-20 bg-[#F7F8F9] mt-10">
+          <div className="px-6 py-10 lg:px-20 bg-[#F7F8F9] mt-10 flex space-x-4">
             <SearchResultComponent />
+            <div className="flex-grow">
+              <FlightRangeTabs />
+              <FlightRouteCard />
+              <FlightRouteCard />
+              <FlightRouteCard />
+              <FlightRouteCard />
+              <FlightRouteCard />
+              <FlightRouteCard />
+              <div className="text-center mt-10 bg-[#D7CBF3] mx-auto bg-opacity-20 w-[fit-content] py-2 px-4 rounded-lg">
+                <p className="text-[#7F56D9] inter-semibold text-sm ">
+                  No more flights
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       )}
+
+      {currentTab === "passenger-details" && (
+        <div className="w-full px-6 py-5 lg:px-20">
+          <div className="flex justify-between items-center bg-white w-full">
+            <div className=" flex space-x-3 items-center">
+              <h3 className="inter-bold text-2xl">Your flight details</h3>
+              <p className="text-[#A3A7AB] inter-bold text-base">BHX - ABV</p>
+            </div>
+            <div className="ml-auto flex items-center space-x-1">
+              <a
+                href=""
+                className="text-[#7F56D9] text-sm inter-semibold underline"
+              >
+                View details
+              </a>
+              <Image
+                height={10}
+                width={10}
+                layout="intrinsic"
+                src="/assets/dropdown.svg"
+                alt=""
+                className=""
+              />
+            </div>
+            <div></div>
+          </div>
+          <div className="bg-[#F7F8F9] px-6 py-5 lg:px-20 mt-10 flex justify-between">
+            <div className="w-[68%] flex flex-col space-y-3">
+              <ContactDetails />
+              <PassengerDetails />
+              <SeatSelection />
+            </div>
+            <div className="w-[30%] flex flex-col space-y-3">
+              <CancellationProtection />
+              <BaggageProtection />
+              <PriceDetails />
+            </div>
+          </div>
+          <div className="flex justify-center space-x-3 mt-6">
+            <button className="rounded-full px-14 py-3 border border-[#7F56D9] bg-white text-sm inter-semibold">
+              Back
+            </button>
+            <button className="rounded-full px-14 py-3 bg-[#7F56D9] text-white text-sm inter-semibold">
+              Next
+            </button>
+          </div>
+        </div>
+      )}
+      <CustomerBenefits />
+      <FAQS />
+      <Footer />
     </>
   );
 };
