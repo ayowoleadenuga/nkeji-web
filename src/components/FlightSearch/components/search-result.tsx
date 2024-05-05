@@ -1,6 +1,7 @@
 "use client";
 
 import { CheckboxWithText } from "@nkeji-web/components/ui/checkbox-with-text";
+import HowItWorksDialog from "@nkeji-web/components/ui/how-it-works-dialog";
 import { Label } from "@nkeji-web/components/ui/label";
 import {
   RadioGroup,
@@ -34,14 +35,8 @@ const SearchResultComponent = () => {
         <div className="mt-6 flex justify-between items-center">
             <CheckboxWithText label=" Fly now, pay later" helperText="Pay in 6 installments" showHelperText />
        
-          <Image
-            height={18}
-            width={18}
-            layout="intrinsic"
-            src="/assets/circle-info-purple.svg"
-            alt=""
-            className=""
-          />
+            <HowItWorksDialog/>
+
         </div>
       </div>
       {/* stops */}

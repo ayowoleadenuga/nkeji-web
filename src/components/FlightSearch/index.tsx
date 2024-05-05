@@ -23,7 +23,7 @@ import FlightBookingWidget from "../Homepage/components/FlightBookingWidget";
 
 const FlightSearch = () => {
   const [showFlightComponent, setShowFlightComponent] = useState(false);
-  const [currentTab, setCurrentTab] = useState(flightSearchTabs[1].navLink);
+  const [currentTab, setCurrentTab] = useState(flightSearchTabs[0].navLink);
 
   return (
     <>
