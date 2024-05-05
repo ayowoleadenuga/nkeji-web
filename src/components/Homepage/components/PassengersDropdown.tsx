@@ -2,8 +2,15 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { Popover, PopoverContent, PopoverTrigger } from "./popover";
-import { passengerArray } from "../Homepage/constants/constants";
+import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
+import { passengerArray } from "../constants/constants";
+import { formatPassengerCount } from "@nkeji-web/lib/utils";
+import {
+  updateNoOfAdults,
+  updateNoOfInfants,
+  updateNoOfKids,
+} from "@nkeji-web/redux/features/flightSearchReducer";
+import { useDispatch } from "react-redux";
 
 interface PassengerOption {
   title: string;
@@ -14,7 +21,7 @@ interface SelectedPassengers {
   [key: string]: number;
 }
 
-const ReusablePopover = () => {
+const PassengersDropdown = () => {
   const [selectedPassengers, setSelectedPassengers] =
     React.useState<SelectedPassengers>(
       passengerArray?.reduce((acc, option) => {
@@ -22,14 +29,22 @@ const ReusablePopover = () => {
         return acc;
       }, {} as SelectedPassengers)
     );
-
-  const handlePassengerChange = (passengerType: string, increment: number) => {
-    setSelectedPassengers((prev) => ({
-      ...prev,
-      [passengerType]: Math.max(prev[passengerType] + increment, 0),
-    }));
-  };
-
+  const { adults, children, infants } = selectedPassengers;
+  const dispatch = useDispatch();
+  const handlePassengerChange = React.useCallback(
+    (passengerType: string, increment: number) => {
+      setSelectedPassengers((prev) => ({
+        ...prev,
+        [passengerType]: Math.max(prev[passengerType] + increment, 0),
+      }));
+    },
+    []
+  );
+  React.useEffect(() => {
+    dispatch(updateNoOfAdults(adults));
+    dispatch(updateNoOfInfants(infants));
+    dispatch(updateNoOfKids(children));
+  }, [adults, children, infants]);
   return (
     <Popover>
       <PopoverTrigger asChild className="focus:outline-none cursor-pointer">
@@ -42,7 +57,7 @@ const ReusablePopover = () => {
               alt=""
               color="#8A3FFC"
             />
-            <p>Passengers</p>
+            <p>{formatPassengerCount(selectedPassengers)}</p>
           </span>
           <Image
             height={10}
@@ -105,4 +120,4 @@ const ReusablePopover = () => {
   );
 };
 
-export default ReusablePopover;
+export default PassengersDropdown;

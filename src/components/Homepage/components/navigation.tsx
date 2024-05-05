@@ -14,12 +14,14 @@ const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const pathname = usePathname();
-  const filteredNavLists = hasBg ? flightSearchLinks : navLinks
+  const filteredNavLists = hasBg ? flightSearchLinks : navLinks;
   return (
-    <div className={`w-full  px-6 lg:px-20 py-8 flex items-center  relative
-    ${hasBg ? 'bg-[#35245B]': 'bg-transparent justify-between' }
+    <div
+      className={`w-full  px-6 lg:px-20 py-8 flex items-center  relative
+    ${hasBg ? "bg-[#35245B]" : "bg-transparent justify-between"}
     
-    `}>
+    `}
+    >
       <Link href="/">
         <Image
           height={40}
@@ -30,10 +32,14 @@ const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
           alt="Nkeji Logo"
         />
       </Link>
-      <div className={`hidden md:flex  ${hasBg ? 'justify-between w-full pl-10' :''}`}>
+      <div
+        className={`hidden md:flex  ${
+          hasBg ? "justify-between w-full pl-10" : ""
+        }`}
+      >
         <ul className="flex items-center space-x-10 ">
-          {filteredNavLists.map((link) => (
-            <li key={link.navLink}>
+          {filteredNavLists.map((link, index) => (
+            <li key={`${link.navLink}-${index}`}>
               <Link href={link.navLink}>
                 <span
                   className={`text-sm text-white ${
@@ -45,22 +51,21 @@ const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
               </Link>
             </li>
           ))}
-       
         </ul>
-        <div className={`flex space-x-2 ${hasBg ? 'ml-auto': 'ml-10'}`}>
-            <a
-              href="/"
-              className="border border-white text-white text-base px-8 py-2 inter-medium rounded-[100px]"
-            >
-              Login
-            </a>
-            <a
-              href="/"
-              className="bg-white text-[#1B1E21] text-base px-8 py-2 inter-medium rounded-[100px]"
-            >
-              Signup
-            </a>
-          </div>
+        <div className={`flex space-x-2 ${hasBg ? "ml-auto" : "ml-10"}`}>
+          <a
+            href="/"
+            className="border border-white text-white text-base px-8 py-2 inter-medium rounded-[100px]"
+          >
+            Login
+          </a>
+          <a
+            href="/"
+            className="bg-white text-[#1B1E21] text-base px-8 py-2 inter-medium rounded-[100px]"
+          >
+            Signup
+          </a>
+        </div>
       </div>
       <div className="block md:hidden">
         <button onClick={() => setIsOpen(true)}>
@@ -101,8 +106,8 @@ const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
             </button>
           </div>
           <ul className="text-black text-xl space-y-8 mt-10 ml-8 text-left">
-            {filteredNavLists.map((link) => (
-              <li key={link.navLink}>
+            {filteredNavLists.map((link, index) => (
+              <li key={`${link.navLink}-${index}`}>
                 <Link href={link.navLink} onClick={() => setIsOpen(false)}>
                   {link.name}
                 </Link>

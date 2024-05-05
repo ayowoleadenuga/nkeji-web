@@ -1,39 +1,30 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
-export function useDebounce(value: string, delay: number): string {
-  // State to store the debounced value
+function useDebounce(value: string, delay: number = 500): string {
+  // State and setters for debounced value
   const [debouncedValue, setDebouncedValue] = useState<string>(value);
 
-  useEffect(() => {
-    // Create a ref to store the timeout handler
-    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-    // Cleanup function to clear the timeout when the component unmounts
-    const cleanup = () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-
-    // Effect hook to update the debounced value after the delay
-    useEffect(() => {
-      // Clear any existing timeout
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-
-      // Create a new timeout to update the debounced value
-      timeoutRef.current = setTimeout(() => {
+  useEffect(
+    () => {
+      // Set debouncedValue to value (passed in) after the specified delay
+      const handler = setTimeout(() => {
         setDebouncedValue(value);
       }, delay);
 
-      // Add the cleanup function to the effect dependencies
-      return cleanup;
-    }, [value, delay]);
-
-    // Return the cleanup function to be called on component unmount
-    return cleanup;
-  }, [value, delay]);
+      // Return a cleanup function that will be called every time useEffect is re-called.
+      // useEffect will only be re-called if value changes (see the inputs array below).
+      // This is how we prevent debouncedValue from changing if value is changed within the delay period.
+      // Timeout gets cleared and restarted.
+      return () => {
+        clearTimeout(handler);
+      };
+    },
+    // Only re-call effect if value changes
+    // You could also include the delay here, to only re-call the effect if delay changes.
+    [value, delay]
+  );
 
   return debouncedValue;
 }
+
+export default useDebounce;

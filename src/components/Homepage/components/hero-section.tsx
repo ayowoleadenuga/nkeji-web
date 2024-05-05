@@ -1,6 +1,6 @@
 import React from "react";
 import Navigation from "./navigation";
-import FlightBookingWidget from "./flightBookingWidget";
+import FlightBookingWidget from "./FlightBookingWidget";
 
 const HeroSection = () => {
   return (
