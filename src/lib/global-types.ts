@@ -12,12 +12,13 @@ export type AirportSearch = {
 export enum TicketType {
   ONE_WAY = "One Way",
   RETURN = "Return",
-  MULTI_CITY = "Multi City",
+  // MULTI_CITY = "Multi City",
 }
 export enum CabinClass {
   ECONOMY = "Economy",
+  PREMIUM_ECONOMY = "Premium economy",
   BUSINESS = "Business",
-  FIRST = "First",
+  FIRST = "First-class",
 }
 type Currency = "GBP" | "USD" | "NGN";
 type Luggage = {
@@ -31,9 +32,9 @@ type Airline = {
   code: string;
   logo: string;
 };
-type Departure = {
+export type Departure = {
   airline: Airline;
-  ArrivalAirport: Airport;
+  arrivalAirport: Airport;
   arrivalTime: string;
   departureAirport: Airport;
   departureTime: string;

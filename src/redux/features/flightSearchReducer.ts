@@ -12,11 +12,11 @@ const initialState: FlightSearchPayload = {
   departure: { id: "", name: "", city: "", country: "" } as Airport, // Empty departure airport
   departureDate: "",
   destination: { id: "", name: "", city: "", country: "" } as Airport, // Empty destination airport
-  noOfAdults: undefined,
-  noOfInfants: undefined,
-  noOfKids: undefined,
-  returnDate: undefined,
-  type: TicketType.ONE_WAY, // Default ticket type
+  noOfAdults: 1,
+  noOfInfants: 0,
+  noOfKids: 0,
+  returnDate: "",
+  type: TicketType.RETURN, // Default ticket type
 };
 
 const flightSearchSlice = createSlice({

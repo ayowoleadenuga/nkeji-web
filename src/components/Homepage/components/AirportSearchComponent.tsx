@@ -37,6 +37,7 @@ const AirportSearchComponent: React.FC<AirportSearchComponentProps> = ({
     skip: debouncedText.length <= 2,
   });
   const dispatch = useDispatch();
+
   const action = id === "departure" ? updateDeparture : updateDestination;
   const inputRef = useRef<HTMLInputElement>(null);
 

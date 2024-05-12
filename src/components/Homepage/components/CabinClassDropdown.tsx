@@ -4,26 +4,29 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@nkeji-web/components/ui/dropdown-menu";
-import { TicketType } from "@nkeji-web/lib/global-types";
-import { updateTicketType } from "@nkeji-web/redux/features/flightSearchReducer";
+import { CabinClass } from "@nkeji-web/lib/global-types";
+import { updateCabinClass } from "@nkeji-web/redux/features/flightSearchReducer";
 import { RootState } from "@nkeji-web/redux/store";
 import Image from "next/image";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const TripTypeDropdown = () => {
+const CabinClassDropdown = () => {
   const dispatch = useDispatch();
-  const handleOptionSelect = (option: TicketType) => {
-    dispatch(updateTicketType(option));
+  const cabinClass = useSelector(
+    (state: RootState) => state.flightSearch.cabinClass
+  );
+  const handleOptionSelect = (option: CabinClass) => {
+    dispatch(updateCabinClass(option));
   };
-  const tripType = useSelector((state: RootState) => state.flightSearch.type);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="focus:outline-none w-full md:w-1/2 lg:w-[220px]">
         <div className="flex items-center justify-between border border-[#D0D5DD] w-full  rounded-[100px] p-3">
           <span className="flex items-center space-x-2">
             <Image height={15} width={15} src="/assets/plane.svg" alt="" />
-            <p>{tripType}</p>
+            <p>{cabinClass}</p>
           </span>
 
           <Image
@@ -37,19 +40,27 @@ const TripTypeDropdown = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[220px] text-center">
         <DropdownMenuItem
-          onClick={() => handleOptionSelect(TicketType.RETURN)}
+          onClick={() => handleOptionSelect(CabinClass.ECONOMY)}
           className="text-center"
         >
-          Round trip
+          Economy
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => handleOptionSelect(TicketType.ONE_WAY)}
+          onClick={() => handleOptionSelect(CabinClass.PREMIUM_ECONOMY)}
         >
-          One way trip
+          Premium Economy
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => handleOptionSelect(CabinClass.BUSINESS)}
+        >
+          Business
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleOptionSelect(CabinClass.FIRST)}>
+          First class
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
 };
 
-export default TripTypeDropdown;
+export default CabinClassDropdown;

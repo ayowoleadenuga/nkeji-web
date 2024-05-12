@@ -12,11 +12,6 @@ import {
 } from "@nkeji-web/redux/features/flightSearchReducer";
 import { useDispatch } from "react-redux";
 
-interface PassengerOption {
-  title: string;
-  description: string;
-}
-
 interface SelectedPassengers {
   [key: string]: number;
 }

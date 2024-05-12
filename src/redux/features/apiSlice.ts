@@ -27,14 +27,14 @@ export const apiSlice = createApi({
           : // Provide an empty tag if no results
             [{ type: "Airport", id: "" }],
     }),
-    // Add other API endpoints here using builder.query or builder.mutation
-    getFlights: builder.query({
+    getFlights: builder.mutation({
       query: (payload: FlightSearchPayload) => ({
-        url: "/flights",
-        params: payload,
+        url: "/flights/search",
+        method: "POST",
+        body: payload,
       }),
     }),
   }),
 });
 
-export const { useGetAirportsQuery, useGetFlightsQuery } = apiSlice;
+export const { useGetAirportsQuery, useGetFlightsMutation } = apiSlice;

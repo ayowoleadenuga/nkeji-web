@@ -9,11 +9,12 @@ import {
 import { cn } from "@nkeji-web/lib/utils";
 import React, { useState, useRef, useEffect } from "react";
 import { CalendarIcon } from "lucide-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   updateDepartureDate,
   updateReturnDate,
 } from "@nkeji-web/redux/features/flightSearchReducer";
+import { RootState } from "@nkeji-web/redux/store";
 
 type DatePickerWithFloatingLabelProps = {
   label: string;
@@ -33,13 +34,19 @@ const DatePickerWithFloatingLabel: React.FC<
   const [isFocused, setIsFocused] = useState(false);
   const [date, setDate] = React.useState<Date>();
   const dispatch = useDispatch();
+  const departureDate = useSelector(
+    (state: RootState) => state.flightSearch.departureDate
+  );
 
   useEffect(() => {
-    if (id === "departure") {
-      dispatch(updateDepartureDate(date));
-    }
-    if (id === "return") {
-      dispatch(updateReturnDate(date));
+    if (date) {
+      const formattedDate = format(date, "yyyy-MM-dd");
+      if (id === "departure") {
+        dispatch(updateDepartureDate(formattedDate));
+      }
+      if (id === "return") {
+        dispatch(updateReturnDate(formattedDate));
+      }
     }
   }, [date]);
 
@@ -77,6 +84,11 @@ const DatePickerWithFloatingLabel: React.FC<
         <Calendar
           mode="single"
           selected={date}
+          disabled={
+            id === "departure"
+              ? { before: new Date() }
+              : { before: new Date(departureDate) }
+          }
           onSelect={setDate}
           initialFocus
         />
