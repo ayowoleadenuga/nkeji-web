@@ -244,7 +244,7 @@ const ViewFlightDetails = ({ setOpenViewDetails }: any) => {
             className="cursor-pointer mb-1"
           />
           <div className="inter-semibold">
-            <p className="text-xs">Snacks provided</p>
+            <p className="text-xs">2 checked bags</p>
             <p className="text-[#7F56D9] text-xs ">Max weight is 23kg</p>
 
           </div>

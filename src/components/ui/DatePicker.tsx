@@ -16,14 +16,12 @@ import { CalendarIcon } from "lucide-react";
 
 interface DatePickerProps {
   label: string;
+  isRequired?:boolean
 }
 
-const DatePicker: React.FC<DatePickerProps> = ({ label }) => {
-  const [date, setDate] = React.useState<Date>();
-  const [isFocused, setIsFocused] = React.useState(false);
-
-  const shouldLabelFloat = isFocused || date;
-
+const DatePicker: React.FC<DatePickerProps> = ({ label, isRequired }) => {
+  const [date, setDate] = React.useState<any>();
+  const formattedDate = date ? format(date, "PPP") : "";
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -32,24 +30,22 @@ const DatePicker: React.FC<DatePickerProps> = ({ label }) => {
             "w-[240px] justify-start text-left font-normal relative  transition-colors",
             !date && "text-muted-foreground"
           )}
-          onClick={() => setIsFocused(true)}
         >
-          {date && (
-            <div className="w-full pt-4 pb-1 px-2 text-gray-700">
-              {format(date, "PPP")}
-            </div>
-          )}
-          <label
-            htmlFor={"date"}
-            className={`absolute left-2 top-0 px-0 transition-all ease-in-out duration-300 transform flex items-center ${
-              shouldLabelFloat
-                ? "-translate-y-2 text-xs text-purple-500"
-                : "text-gray-500"
-            }`}
+        
+        <label htmlFor="date" className="text-black">
+                  {label}
+                  {
+                    isRequired &&
+                  <span className="text-red-500">*</span>
+                  }
+                </label>
+          <div
+         className="border w-full border-[#D0D5DD] rounded-lg bg-white p-3 flex justify-between items-center"
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            <span>{label}</span>
-          </label>
+          <input type="text" placeholder="MM/DD/YYYY" value={formattedDate} className="border-0 outline-none" />
+          <CalendarIcon className="mr-2 h-4 w-4" color="#8A3FFC" />
+         
+          </div>
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
