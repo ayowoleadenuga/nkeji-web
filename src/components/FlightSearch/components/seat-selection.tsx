@@ -1,4 +1,5 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@nkeji-web/components/ui/accordion";
+import { Checkbox } from "@nkeji-web/components/ui/checkbox";
 import Image from "next/image"
 
 interface PassengerDetailProps {
@@ -9,9 +10,12 @@ interface PassengerDetailProps {
 const SeatSelectionCard:React.FC<PassengerDetailProps> = ({seatTitle, seatIcon})=>{
     return (
         <div className="w-[33%] bg-[#F2EEFB] rounded-lg px-5 pt-4 pb-8 cursor-pointer flex flex-col space-y-3 ">
-            <div className="">
+            <div className="flex justify-between items-center">
            
               <Image height={15} width={15} src={seatIcon }alt=""  />
+              <Checkbox
+              className="rounded-full"
+                />
               </div>
                 <p className="text-base inter-semibold">{seatTitle}</p>
                 <p className="text-[#1B1E21] text-xs ">
@@ -23,7 +27,6 @@ const SeatSelectionCard:React.FC<PassengerDetailProps> = ({seatTitle, seatIcon})
         </div>
     )
 }
-
 
 
 const SeatSelection = ()=>{
