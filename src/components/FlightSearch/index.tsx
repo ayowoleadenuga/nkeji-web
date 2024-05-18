@@ -32,6 +32,7 @@ import LoadingSpinner from "./components/loading-spinner";
 import TravelerDetails from "./components/traveler-details";
 import BaggageReview from "./components/baggage-review";
 import BaggageAllowance from "./components/baggage-allowance";
+import MakePayment from "./components/make-payment";
 
 const SubHeader = () => {
   return (
@@ -314,8 +315,21 @@ const FlightSearch = () => {
               </div>
             </div>
           )}
+          {currentTab === 4 && (
+            <div className="w-full py-5">
+              <SubHeader />
 
-          {currentTab >= 1 && (
+              <div className="bg-[#F7F8F9] px-6 py-5 lg:px-20 mt-10 flex justify-between">
+                <div className="w-[68%] flex flex-col space-y-3">
+                <MakePayment />
+                </div>
+                <div className="w-[30%] flex flex-col space-y-3">
+                  <PriceDetails />
+                </div>
+              </div>
+            </div>
+          )}
+          {currentTab >= 1 || currentTab >=4 && (
             <div className="flex justify-center space-x-3 mt-6">
               <button
                 type="button"

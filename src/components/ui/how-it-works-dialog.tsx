@@ -14,7 +14,7 @@ const HowItWorksDialog = ()=>{
             className=""
           />
   </DialogTrigger>
-  <DialogContent>
+  <DialogContent className="max-w-xs">
     <DialogHeader>
       <DialogTitle>
         <h3 className="text-center">

@@ -56,7 +56,7 @@ const TravelerDetails: React.FC<TravelerDetailsProps> = ({
               </p>
             </div>
             <div
-              onClick={()=> index && setCurrentTab(index - 1)}
+              onClick={()=> index && setCurrentTab(index - 2)}
               className="cursor-pointer flex space-x-2 items-center w-[fit-content]"
             >
               <Image
