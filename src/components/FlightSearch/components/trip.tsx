@@ -12,6 +12,9 @@ export interface TripProps {
 }
 
 const Trip = ({ trip, direction = "to" }: TripProps) => {
+  if (!trip) {
+    return <div>Invalid trip found</div>;
+  }
   const {
     departureTime,
     arrivalTime,
@@ -29,14 +32,14 @@ const Trip = ({ trip, direction = "to" }: TripProps) => {
         direction === "to" ? "mb-5" : ""
       }`}
     >
-      <div>
+      <div className="mr-4">
         <Image
           height={32}
           width={32}
           layout="intrinsic"
           src={airline.logo}
           alt=""
-          className="cursor-pointer mb-1"
+          className="cursor-pointer mb-1 mx-auto"
         />
         <p className="text-xs text-black ">{airline.name}</p>
       </div>
@@ -82,7 +85,7 @@ const Trip = ({ trip, direction = "to" }: TripProps) => {
           stops > 1 ? "stops" : "stop"
         }`}</p>
       </div>
-      <div className={`${direction === "to" ? "" : "-ml-4"}`}>
+      <div>
         <p className="text-2xl text-[#1B1E21]">{arrivalDateTime.time}</p>
         <p className="relative inter-semibold text-xs text-[#A3A7AB]">
           {arrivalAirport.id} <span className=" top-1/2 left-0">. </span>

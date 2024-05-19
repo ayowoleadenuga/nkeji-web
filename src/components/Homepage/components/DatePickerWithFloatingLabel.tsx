@@ -1,14 +1,10 @@
 "use client";
 import { Calendar } from "@nkeji-web/components/ui/calendar";
-import { format } from "date-fns";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@nkeji-web/components/ui/popover";
+import { format, parse } from "date-fns";
 import { cn } from "@nkeji-web/lib/utils";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { CalendarIcon } from "lucide-react";
+import { CrossCircledIcon } from "@radix-ui/react-icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
   updateDepartureDate,
@@ -18,82 +14,143 @@ import { RootState } from "@nkeji-web/redux/store";
 
 type DatePickerWithFloatingLabelProps = {
   label: string;
-  id: string;
-  type?: string;
-  placeholder?: string;
-  defaultValue?: string;
-  icon?: React.ReactNode;
-  locationList?: any;
-  isDatePicker?: boolean;
+  id: "departure" | "return";
   className?: string;
+  icon?: React.ReactNode;
 };
+
+const Label: React.FC<{
+  label: string;
+  isFocused: boolean;
+  hasValue: boolean;
+}> = ({ label, isFocused, hasValue }) => (
+  <label
+    htmlFor="date"
+    className={`absolute cursor-pointer left-10 md:left-8 top-1/2 px-0 transition-all ease-in-out duration-300 transform ${
+      isFocused || hasValue
+        ? "-translate-y-6 text-xs text-purple-500"
+        : "text-gray-500 -translate-y-1/2"
+    }`}
+  >
+    <span className="inter-medium">{label}</span>
+  </label>
+);
 
 const DatePickerWithFloatingLabel: React.FC<
   DatePickerWithFloatingLabelProps
-> = ({ label, icon, id, isDatePicker = true, className }) => {
+> = ({ label, id, className }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [date, setDate] = React.useState<Date>();
+  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const dispatch = useDispatch();
   const departureDate = useSelector(
     (state: RootState) => state.flightSearch.departureDate
   );
+  const returnDate = useSelector(
+    (state: RootState) => state.flightSearch.returnDate
+  );
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (date) {
       const formattedDate = format(date, "yyyy-MM-dd");
       if (id === "departure") {
         dispatch(updateDepartureDate(formattedDate));
-      }
-      if (id === "return") {
+      } else if (id === "return") {
         dispatch(updateReturnDate(formattedDate));
       }
     }
-  }, [date]);
+  }, [date, id, dispatch]);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setIsFocused(false);
+        setIsCalendarOpen(false);
+      }
+    };
+
+    if (id === "departure") {
+      if (departureDate.length > 3) {
+        const newDate = parse(departureDate, "yyyy-MM-dd", new Date());
+        setDate(newDate);
+      }
+    } else {
+      if (returnDate && returnDate.length > 3) {
+        const newDate = parse(returnDate, "yyyy-MM-dd", new Date());
+        setDate(newDate);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+    setIsCalendarOpen(true);
+  };
+
+  const handleClear = (event: React.MouseEvent<SVGSVGElement>) => {
+    event.stopPropagation();
+    setDate(undefined);
+    if (id === "departure") {
+      dispatch(updateDepartureDate(""));
+    } else if (id === "return") {
+      dispatch(updateReturnDate(""));
+    }
+  };
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <div
-          className={cn(
-            " w-full pl-3 md:w-[200px] lg:w-[240px] justify-start text-left font-normal relative  transition-colors  h-full",
-            className
-          )}
-          onBlur={() => setIsFocused(false)}
-        >
-          {isDatePicker && (
-            <div className="w-full pt-10 pb-1 px-2 text-gray-700 text-sm">
-              {date && format(date, "PPP")}
-            </div>
-          )}
-          <label
-            htmlFor={"date"}
-            className={`absolute cursor-pointer left-4 md:left-2 top-1/2  px-0 transition-all ease-in-out duration-300 transform flex  items-center ${
-              isFocused
-                ? "-translate-y-8 text-xs text-purple-500"
-                : "text-gray-500 -translate-y-1/2"
-            }`}
-          >
-            {icon && <CalendarIcon className="mr-2 h-4 w-4" color="#8A3FFC" />}
-            <span className="inter-medium" onClick={() => setIsFocused(true)}>
-              {label}
-            </span>
-          </label>
-        </div>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto text-center mt-5 " align="start">
-        <Calendar
-          mode="single"
-          selected={date}
-          disabled={
-            id === "departure"
-              ? { before: new Date() }
-              : { before: new Date(departureDate) }
-          }
-          onSelect={setDate}
-          initialFocus
+    <div
+      ref={containerRef}
+      className={cn(
+        "relative w-full pl-3 md:w-[200px] lg:w-[240px] text-left font-normal transition-colors h-full",
+        className
+      )}
+    >
+      <div
+        className="relative flex items-center"
+        onClick={handleFocus}
+        tabIndex={0}
+      >
+        <CalendarIcon className="absolute left-2 h-4 w-4" color="#8A3FFC" />
+        <Label label={label} isFocused={isFocused} hasValue={!!date} />
+        <input
+          type="text"
+          className="mt-8 p-2 w-full outline-none bg-transparent pl-8"
+          value={date ? format(date, "PPP") : ""}
+          readOnly
+          onFocus={handleFocus}
         />
-      </PopoverContent>
-    </Popover>
+        {date && (
+          <CrossCircledIcon
+            onClick={handleClear}
+            className="absolute right-8 bottom-4 cursor-pointer"
+            stroke="#7F56D9"
+          />
+        )}
+      </div>
+      {isCalendarOpen && (
+        <div className="absolute z-10 mt-2 bg-white shadow-lg rounded p-4">
+          <Calendar
+            mode="single"
+            selected={date}
+            disabled={
+              id === "departure"
+                ? { before: new Date() }
+                : { before: new Date(departureDate) }
+            }
+            onSelect={setDate}
+            initialFocus
+          />
+        </div>
+      )}
+    </div>
   );
 };
 

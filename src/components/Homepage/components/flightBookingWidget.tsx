@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useCallback } from "react";
 import Image from "next/image";
 import DatePickerWithFloatingLabel from "./DatePickerWithFloatingLabel";
 import { useRouter } from "next/navigation";
@@ -12,9 +12,10 @@ import { isSearchPayloadValid } from "@nkeji-web/lib/utils";
 import PassengersDropdown from "@nkeji-web/components/Homepage/components/PassengersDropdown";
 import CabinClassDropdown from "./CabinClassDropdown";
 import { TicketType } from "@nkeji-web/lib/global-types";
+import { useGetFlightsMutation } from "@nkeji-web/redux/features/apiSlice";
 
 interface BookingWidgetProps {
-  setShowFlightComponent?: any;
+  setShowFlightComponent?: (show: boolean) => void;
   isSamePage?: boolean;
   showTabs?: boolean;
 }
@@ -29,6 +30,25 @@ const FlightBookingWidget: React.FC<BookingWidgetProps> = ({
     (state: RootState) => state.flightSearch
   );
   const enableButton = isSearchPayloadValid(flightSearchPayload);
+  const [getFlightsMutation] = useGetFlightsMutation();
+  const search = useCallback(async () => {
+    try {
+      await getFlightsMutation(flightSearchPayload);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [flightSearchPayload]);
+
+  const searchButtonHandler = () => {
+    if (!!setShowFlightComponent) {
+      setShowFlightComponent(false);
+    }
+    if (isSamePage) {
+      search();
+    } else {
+      router.push("/flight-search");
+    }
+  };
 
   return (
     <>
@@ -88,9 +108,7 @@ const FlightBookingWidget: React.FC<BookingWidgetProps> = ({
                 className="lg:border-l  lg:border-[#EAEAEB] border border-[#D0D5DD] rounded-[100px] md:border-0 md:rounded-none "
                 label="Departure"
                 id="departure"
-                defaultValue=""
                 icon
-                isDatePicker
               />
 
               {flightSearchPayload.type === TicketType.RETURN && (
@@ -98,9 +116,7 @@ const FlightBookingWidget: React.FC<BookingWidgetProps> = ({
                   className="md:border-l lg:border-[#EAEAEB] border border-[#D0D5DD] rounded-[100px] md:border-0 md:rounded-none "
                   label="Return"
                   id="return"
-                  defaultValue=""
                   icon
-                  isDatePicker
                 />
               )}
             </div>
@@ -108,11 +124,7 @@ const FlightBookingWidget: React.FC<BookingWidgetProps> = ({
             <button
               type="button"
               disabled={!enableButton}
-              onClick={() =>
-                isSamePage
-                  ? setShowFlightComponent(false)
-                  : router.push("/flight-search")
-              }
+              onClick={searchButtonHandler}
               className={`w-auto text-white ${
                 !enableButton ? "bg-gray-400" : "bg-[#7F56D9]"
               } rounded-[100px] py-3 px-14 lg:px-10 text-lg inter-medium ${

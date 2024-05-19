@@ -18,7 +18,7 @@ import PriceDetails from "./components/price-details";
 import { CustomerBenefits } from "../Homepage/components/customer-benefit";
 import { FAQS } from "../Homepage/components/faq";
 import { Footer } from "../Homepage/components/footer";
-import FlightBookingWidget from "../Homepage/components/FlightBookingWidget";
+import FlightBookingWidget from "../Homepage/components/flightBookingWidget";
 import { useSelector } from "react-redux";
 import { RootState } from "@nkeji-web/redux/store";
 import { useGetFlightsMutation } from "@nkeji-web/redux/features/apiSlice";
@@ -71,11 +71,11 @@ const FlightSearch = () => {
     } catch (error) {
       console.error(error);
     }
-  }, [flightSearchPayload, getFlightsMutation]);
+  }, []);
 
   useEffect(() => {
     search();
-  }, [flightSearchPayload]);
+  }, []);
 
   const {
     departure,
@@ -226,7 +226,7 @@ const FlightSearch = () => {
               </div>
               <div className="px-6 py-10 lg:px-20 bg-[#F7F8F9] mt-10 flex space-x-4">
                 <SearchResultComponent />
-                <div className="flex-grow">
+                <div className="w-[74%]">
                   <FlightRangeTabs />
                   {data?.data?.map((offer: FlightSearchResult) => (
                     <div key={offer.id}>

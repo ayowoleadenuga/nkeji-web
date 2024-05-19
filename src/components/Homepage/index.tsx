@@ -2,13 +2,12 @@
 import React from "react";
 import { CustomerBenefits } from "./components/customer-benefit";
 import { EasySteps } from "./components/easy-steps";
-import { ExperiencesComponent } from "./components/experiences";
+// import { ExperiencesComponent } from "./components/experiences";
 import { FAQS } from "./components/faq";
 import { Footer } from "./components/footer";
 import { HolidayPackages } from "./components/holiday-package";
 import { PlanComponent } from "./components/plans";
 import HeroSection from "./components/hero-section";
-import FlightSearch from "../FlightSearch";
 
 const HomePage = () => {
   return (

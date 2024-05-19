@@ -23,9 +23,8 @@ const FlightRouteCard = ({
 }: RouteCardProps) => {
   const [openViewDetails, setOpenViewDetails] = useState(false);
   const { departure, currency, price } = flightData;
-
   return (
-    <div>
+    <div className="w-full">
       <div className="bg-white rounded-lg overflow-hidden  mt-5 w-full">
         <div className="px-10 py-5">
           <div className="flex justify-between items-center inter-semibold text-base mb-4">
@@ -89,7 +88,12 @@ const FlightRouteCard = ({
         </div>
       </div>
       {openViewDetails && (
-        <ViewFlightDetails setOpenViewDetails={setOpenViewDetails} />
+        <div className="max-w-full">
+          <ViewFlightDetails
+            setOpenViewDetails={setOpenViewDetails}
+            details={flightData}
+          />
+        </div>
       )}
     </div>
   );

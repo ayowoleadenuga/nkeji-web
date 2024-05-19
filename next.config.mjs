@@ -1,7 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["r-xx.bstatic.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "r-xx.bstatic.com",
+        port: "",
+        pathname: "/data/airlines_logo/**",
+      },
+    ],
   },
 };
 

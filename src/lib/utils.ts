@@ -53,7 +53,7 @@ export function convertToFormattedDateTime(dateString: string): {
   const formattedDate: string = format(date, "d MMM");
 
   // Format the time to '5PM' using uppercase 'A' for AM/PM
-  const formattedTime: string = format(date, "h a").toUpperCase();
+  const formattedTime: string = format(date, "h:mm a").toUpperCase();
 
   return {
     date: formattedDate,

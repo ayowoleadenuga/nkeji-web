@@ -58,7 +58,7 @@ export type FlightSearchResult = {
   checkedInLuggage: Luggage;
   currency: Currency;
   departure: Departure;
-  departureStops: Departure[];
+  departureStops: Departure[] | null;
   detailsFetched: boolean;
   fares: any[];
   flightSearch: FlightSearchPayload;
