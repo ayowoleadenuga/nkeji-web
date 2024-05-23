@@ -1,6 +1,10 @@
+import ProtectionDialog from "@nkeji-web/components/ui/cancellation-protection-dialog";
+import { Dialog, DialogTrigger } from "@nkeji-web/components/ui/dialog";
 import Image from "next/image";
+import { useState } from "react";
 
 const CancellationProtection = () => {
+  const [openCancellationPopUp, setOpenCancellationPopUp] = useState(false)
   return (
     <div className="bg-[#F2EEFB] w-full px-5 pt-6 pb-10">
       <div className="flex justify-between items-center mb-3">
@@ -25,7 +29,15 @@ const CancellationProtection = () => {
               </p>
               <p className="text-[#A3A7AB] text-xs inter-semibold">
                 This booking can be fully refunded for any of{" "}
-                <span className="underline text-[#7F56D9]">these reasons.</span>
+                <Dialog>
+                <DialogTrigger>
+                <span
+                className="underline text-[#7F56D9] cursor-pointer">these reasons.</span>
+              </DialogTrigger>
+              <ProtectionDialog />
+
+                </Dialog>
+               
               </p>
             </div>
           </div>

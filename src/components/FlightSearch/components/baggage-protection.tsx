@@ -1,3 +1,5 @@
+import ProtectionDialog from "@nkeji-web/components/ui/cancellation-protection-dialog";
+import { Dialog, DialogTrigger } from "@nkeji-web/components/ui/dialog";
 import Image from "next/image";
 
 const BaggageProtection = () => {
@@ -23,9 +25,17 @@ const BaggageProtection = () => {
               <p className="text-base inter-semibold">
                 Yes, protect my baggage
               </p>
-              <p className="text-[#A3A7AB] text-xs inter-semibold">
-              Get compensation if your baggage is lost or delayed.
+            
+              <Dialog>
+                <DialogTrigger>
+                <p className="text-[#A3A7AB] cursor-pointer text-xs inter-semibold">
+              <span className="text-[#7F56D9]">Get compensation</span> if your baggage is lost or delayed.
               </p>
+
+              </DialogTrigger>
+              <ProtectionDialog isBaggage />
+
+                </Dialog>
             </div>
           </div>
         </div>

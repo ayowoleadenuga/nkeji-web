@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { navLinks } from "../constants/constants";
 import { flightSearchLinks } from "@nkeji-web/components/FlightSearch/constants/constants";
+import { Dialog, DialogTrigger } from "@nkeji-web/components/ui/dialog";
+import AuthDialog from "@nkeji-web/components/ui/auth-dialog";
 
 interface NavigationProps {
   hasBg?: boolean;
@@ -53,18 +55,24 @@ const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
           ))}
         </ul>
         <div className={`flex space-x-2 ${hasBg ? "ml-auto" : "ml-10"}`}>
-          <a
-            href="/"
-            className="border border-white text-white text-base px-8 py-2 inter-medium rounded-[100px]"
-          >
-            Login
-          </a>
-          <a
-            href="/"
-            className="bg-white text-[#1B1E21] text-base px-8 py-2 inter-medium rounded-[100px]"
-          >
-            Signup
-          </a>
+          <Dialog>
+            <DialogTrigger>
+              <div className="border border-white text-white text-base px-8 py-2 inter-medium rounded-[100px]">
+                Login
+              </div>
+            </DialogTrigger>
+            <AuthDialog />
+          </Dialog>
+          <Dialog>
+            <DialogTrigger>
+              <div
+                className="bg-white text-[#1B1E21] text-base px-8 py-2 inter-medium rounded-[100px]"
+              >
+                Signup
+              </div>
+            </DialogTrigger>
+            <AuthDialog />
+          </Dialog>
         </div>
       </div>
       <div className="block md:hidden">

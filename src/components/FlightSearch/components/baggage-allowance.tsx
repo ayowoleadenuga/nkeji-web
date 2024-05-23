@@ -7,11 +7,18 @@ interface BaggageAllowanceProps {
 }
 
 interface BaggageAllowanceCardProps {
-    isChecked:number
+    isChecked:boolean
     setIsChecked: any;
-    index: number;
+    index:number
   }
 const BaggageAllowanceCard:React.FC<BaggageAllowanceCardProps> = ({isChecked,setIsChecked, index}) => {
+  const handleCheck = () => {
+    setIsChecked((prev:any) => {
+      const updated = [...prev];
+      updated[index] = !updated[index];
+      return updated;
+    });
+  };
   return (
     <div className="bg-[#F2EEFB] rounded-xl w-[32.5%] overflow-hidden">
       <div className="px-6 pt-6 pb-10">
@@ -53,10 +60,10 @@ const BaggageAllowanceCard:React.FC<BaggageAllowanceCardProps> = ({isChecked,set
             height={32}
             width={32}
             layout="intrinsic"
-            src={isChecked === index ? "/assets/checked.svg" : "/assets/add.svg"}
+            src={isChecked ? "/assets/checked.svg" : "/assets/add.svg"}
             alt=""
             className="cursor-pointer mb-1"
-            onClick={()=> setIsChecked(index)}
+            onClick={handleCheck}
           />
           <div className="inter-semibold text-xs text-[#1B1E21] flex flex-col space-y-1">
             <p className="">Add extra luggage</p>
@@ -71,10 +78,10 @@ const BaggageAllowanceCard:React.FC<BaggageAllowanceCardProps> = ({isChecked,set
 };
 
 const BaggageAllowance: React.FC<BaggageAllowanceProps> = ({
-  setCurrentTab,
-  index,
+
 }) => {
-    const [isChecked, setIsChecked] = useState(1)
+  const [isChecked, setIsChecked] = useState([true, false, false]);
+
 
   return (
     <div>
@@ -82,32 +89,15 @@ const BaggageAllowance: React.FC<BaggageAllowanceProps> = ({
           <div className="flex justify-between items-start">
             <div>
               <h3 className="text-lg inter-bold">Included baggage allowance</h3>
-              {/* <p className="text-sm ">
-                We&apos;ll send your flight confirmation to the information
-                provide.
-              </p> */}
+             
             </div>
-            {/* <div
-              onClick={()=> index && setCurrentTab(index - 1)}
-              className="cursor-pointer flex space-x-2 items-center w-[fit-content]"
-            >
-              <Image
-                height={15}
-                width={15}
-                src="/assets/edit.svg"
-                alt=""
-                className="cursor-pointer"
-              />
-              <p className="text-sm text-[#7F56D9] inter-semibold underline">
-                Edit details
-              </p>
-            </div> */}
+           
           </div>
 
           <div className="flex justify-between mt-5 mb-3">
-           <BaggageAllowanceCard isChecked={isChecked} setIsChecked={setIsChecked} index={1} />
-           <BaggageAllowanceCard isChecked={isChecked} setIsChecked={setIsChecked} index={2}  />
-           <BaggageAllowanceCard isChecked={isChecked} setIsChecked={setIsChecked} index={3} />
+           <BaggageAllowanceCard isChecked={isChecked[0]} setIsChecked={setIsChecked} index={0} />
+           <BaggageAllowanceCard isChecked={isChecked[1]} setIsChecked={setIsChecked} index={1} />
+           <BaggageAllowanceCard isChecked={isChecked[2]} setIsChecked={setIsChecked}  index={2}/>
           </div>
         </div>
     
