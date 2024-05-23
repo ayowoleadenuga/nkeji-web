@@ -10,22 +10,33 @@ import {
   updateNoOfInfants,
   updateNoOfKids,
 } from "@nkeji-web/redux/features/flightSearchReducer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectNoOfAdults,
+  selectNoOfInfants,
+  selectNoOfKids,
+} from "@nkeji-web/redux/selectors";
 
 interface SelectedPassengers {
   [key: string]: number;
 }
 
 const PassengersDropdown = () => {
-  const [selectedPassengers, setSelectedPassengers] =
-    React.useState<SelectedPassengers>(
-      passengerArray?.reduce((acc, option) => {
-        acc[option.title.toLowerCase()] = 0;
-        return acc;
-      }, {} as SelectedPassengers)
-    );
-  const { adults, children, infants } = selectedPassengers;
   const dispatch = useDispatch();
+
+  const noOfAdults = useSelector(selectNoOfAdults);
+  const noOfInfants = useSelector(selectNoOfInfants);
+  const noOfKids = useSelector(selectNoOfKids);
+
+  const [selectedPassengers, setSelectedPassengers] =
+    React.useState<SelectedPassengers>({
+      adults: noOfAdults || 0,
+      children: noOfKids || 0,
+      infants: noOfInfants || 0,
+    });
+
+  const { adults, children, infants } = selectedPassengers;
+
   const handlePassengerChange = React.useCallback(
     (passengerType: string, increment: number) => {
       setSelectedPassengers((prev) => ({
@@ -35,11 +46,21 @@ const PassengersDropdown = () => {
     },
     []
   );
+
+  React.useEffect(() => {
+    setSelectedPassengers({
+      adults: noOfAdults,
+      children: noOfKids,
+      infants: noOfInfants,
+    });
+  }, [noOfAdults, noOfInfants, noOfKids]);
+
   React.useEffect(() => {
     dispatch(updateNoOfAdults(adults));
     dispatch(updateNoOfInfants(infants));
     dispatch(updateNoOfKids(children));
-  }, [adults, children, infants]);
+  }, [adults, children, infants, dispatch]);
+
   return (
     <Popover>
       <PopoverTrigger asChild className="focus:outline-none cursor-pointer">

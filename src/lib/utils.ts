@@ -200,6 +200,25 @@ export function currencyCodetoString(code: string): string {
   return codeToString[code] || code;
 }
 
+export function convertStringToNumber(str: string): number {
+  // Remove commas from the string
+  const cleanedString = str.replace(/,/g, "");
+
+  // Convert the cleaned string to a number
+  const number = parseFloat(cleanedString);
+
+  return number;
+}
+
+export function scrollToTop(): void {
+  if (typeof window !== "undefined") {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Use 'auto' for instant scrolling
+    });
+  }
+}
+
 /**
  * Formats a number into a comma-separated currency string.
  * @param amount The numeric amount to format.

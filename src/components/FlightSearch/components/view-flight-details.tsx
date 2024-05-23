@@ -10,19 +10,24 @@ import {
 interface ViewFlightDetailsProps {
   details: FlightSearchResult;
   setOpenViewDetails: (open: boolean) => void;
+  handleSelectOffer: () => void;
 }
 
 const ViewFlightDetails = ({
   setOpenViewDetails,
   details,
+  handleSelectOffer,
 }: ViewFlightDetailsProps) => {
-  const { departureStops, returnStops, handLuggage, checkedInLuggage } =
-    details;
-  const renderStops = useCallback(
-    (stops: Departure[] | null, direction: string) => {
-      if (!stops || stops.length === 0) {
-        return <div>No {direction} flights available.</div>;
-      }
+  const {
+    departureStops,
+    departure,
+    returnStops,
+    handLuggage,
+    checkedInLuggage,
+    price,
+  } = details;
+  const renderStops = useCallback((stops: Departure[] | null) => {
+    if (stops && stops.length > 0) {
       return stops.map((stop: Departure, index: number) => (
         <div key={index} className="flex justify-between items-start">
           <div className="">
@@ -59,8 +64,8 @@ const ViewFlightDetails = ({
                     width={18}
                     layout="intrinsic"
                     src="/assets/flight.svg"
-                    alt=""
-                    className="transform rotate-90"
+                    alt="airplane icon"
+                    className="transform rotate-90 -ml-[0.08px]"
                   />
                 ) : (
                   <>
@@ -139,10 +144,17 @@ const ViewFlightDetails = ({
           </div>
         </div>
       ));
-    },
-    []
-  );
+    }
+  }, []);
 
+  const departurePath =
+    departureStops && departureStops.length ? departureStops : [departure];
+  const returnPath =
+    returnStops && returnStops.length
+      ? returnStops
+      : details.return
+      ? [details.return]
+      : null;
   return (
     <div className="bg-white  pt-5 rounded-lg mt-2 shadow-lg relative">
       <div className="px-10">
@@ -159,141 +171,163 @@ const ViewFlightDetails = ({
             className="cursor-pointer mb-1"
           />
         </div>
-        <div className="w-full mt-2 mb-10">
+        <div className="w-full mt-2 mb-8">
           <div className="relative">
             <h2 className="text-xl inter-bold">
-              Your flight to{" "}
-              {departureStops &&
-                departureStops.length > 0 &&
-                departureStops[departureStops.length - 1].arrivalAirport.city}
+              Your departure flight to{" "}
+              {departurePath &&
+                departurePath.length > 0 &&
+                departurePath[departurePath.length - 1].arrivalAirport.city}
             </h2>
           </div>
         </div>
-        {renderStops(departureStops, "departure")}
-
-        <div className="w-full mt-6 mb-10">
-          <div className="relative">
-            <h2 className="text-xl inter-bold">
-              Your flight to{" "}
-              {departureStops &&
-                departureStops.length > 0 &&
-                departureStops[departureStops.length - 1].arrivalAirport.city}
-            </h2>
-          </div>
-        </div>
-        {returnStops?.length && renderStops(returnStops, "return")}
+        {renderStops(departurePath)}
+        {returnPath && returnPath.length > 0 ? (
+          <>
+            <div className="w-full mt-20 mb-8">
+              <div className="relative">
+                <h2 className="text-xl inter-bold">
+                  Your return flight to{" "}
+                  {returnPath &&
+                    returnPath.length > 0 &&
+                    returnPath[returnPath.length - 1].arrivalAirport.city}
+                </h2>
+              </div>
+            </div>
+            {renderStops(returnPath)}
+          </>
+        ) : (
+          ""
+        )}
       </div>
 
-      <div className="bg-[#FAFAFA] w-full flex flex-wrap gap-10 px-10 pt-10 pb-20 mt-5">
-        <div className="w-[20%] flex items-center space-x-2">
-          <Image
-            height={32}
-            width={32}
-            layout="intrinsic"
-            src="/assets/luggage.svg"
-            alt=""
-            className="cursor-pointer mb-1"
-          />
-          <div className="inter-semibold">
-            <p className="text-xs">{handLuggage?.pieces || 1} Carry on bag</p>
-            <p className="text-[#7F56D9] text-xs ">
-              Max weight is{" "}
-              {`${handLuggage?.size || 8}${handLuggage?.massUnit || "kg"}`}
-            </p>
+      <div className="bg-[#FAFAFA] w-full px-10 pt-10 pb-20 mt-5">
+        <div className="w-full flex flex-wrap gap-10">
+          <div className="w-[20%] flex items-center space-x-2">
+            <Image
+              height={32}
+              width={32}
+              layout="intrinsic"
+              src="/assets/luggage.svg"
+              alt=""
+              className="cursor-pointer mb-1"
+            />
+            <div className="inter-semibold">
+              <p className="text-xs">{handLuggage?.pieces || 1} Carry on bag</p>
+              <p className="text-[#7F56D9] text-xs ">
+                Max weight is{" "}
+                {`${handLuggage?.size || 8}${handLuggage?.massUnit || "kg"}`}
+              </p>
+            </div>
           </div>
-        </div>
 
-        <div className=" w-[20%] flex items-center space-x-2">
-          <Image
-            height={32}
-            width={32}
-            layout="intrinsic"
-            src="/assets/snacks.svg"
-            alt=""
-            className="cursor-pointer mb-1"
-          />
-          <div className="inter-semibold">
-            <p className="text-xs">Snacks provided</p>
+          <div className=" w-[20%] flex items-center space-x-2">
+            <Image
+              height={32}
+              width={32}
+              layout="intrinsic"
+              src="/assets/snacks.svg"
+              alt=""
+              className="cursor-pointer mb-1"
+            />
+            <div className="inter-semibold">
+              <p className="text-xs">Snacks provided</p>
+            </div>
           </div>
-        </div>
 
-        <div className="w-[20%] flex items-center space-x-2">
-          <Image
-            height={32}
-            width={32}
-            layout="intrinsic"
-            src="/assets/protected.svg"
-            alt=""
-            className="cursor-pointer mb-1"
-          />
-          <div className="inter-semibold">
-            <p className="text-xs">Protected transfer</p>
+          <div className="w-[20%] flex items-center space-x-2">
+            <Image
+              height={32}
+              width={32}
+              layout="intrinsic"
+              src="/assets/protected.svg"
+              alt=""
+              className="cursor-pointer mb-1"
+            />
+            <div className="inter-semibold">
+              <p className="text-xs">Protected transfer</p>
+            </div>
           </div>
-        </div>
 
-        <div className="w-[20%] flex items-center space-x-2">
-          <Image
-            height={32}
-            width={32}
-            layout="intrinsic"
-            src="/assets/no-entertainment.svg"
-            alt=""
-            className="cursor-pointer mb-1"
-          />
-          <div className="inter-semibold">
-            <p className="text-xs">No entertainment</p>
+          <div className="w-[20%] flex items-center space-x-2">
+            <Image
+              height={32}
+              width={32}
+              layout="intrinsic"
+              src="/assets/no-entertainment.svg"
+              alt=""
+              className="cursor-pointer mb-1"
+            />
+            <div className="inter-semibold">
+              <p className="text-xs">No entertainment</p>
+            </div>
           </div>
-        </div>
 
-        <div className="w-[20%] flex items-center space-x-2">
-          <Image
-            height={32}
-            width={32}
-            layout="intrinsic"
-            src="/assets/checked-luggage.svg"
-            alt=""
-            className="cursor-pointer mb-1"
-          />
-          <div className="inter-semibold">
-            <p className="text-xs">
-              {checkedInLuggage?.pieces || 2} checked bags
-            </p>
-            <p className="text-[#7F56D9] text-xs ">
-              Max weight is{" "}
-              {`${checkedInLuggage?.size || 23}${
-                checkedInLuggage?.massUnit || "kg"
-              }`}
-            </p>
+          <div className="w-[20%] flex items-center space-x-2">
+            <Image
+              height={32}
+              width={32}
+              layout="intrinsic"
+              src="/assets/checked-luggage.svg"
+              alt=""
+              className="cursor-pointer mb-1"
+            />
+            <div className="inter-semibold">
+              <p className="text-xs">
+                {checkedInLuggage?.pieces || 2} checked bags
+              </p>
+              <p className="text-[#7F56D9] text-xs ">
+                Max weight is{" "}
+                {`${checkedInLuggage?.size || 23}${
+                  checkedInLuggage?.massUnit || "kg"
+                }`}
+              </p>
+            </div>
           </div>
-        </div>
 
-        <div className="w-[20%] flex items-center space-x-2">
-          <Image
-            height={32}
-            width={32}
-            layout="intrinsic"
-            src="/assets/power-outlet.svg"
-            alt=""
-            className="cursor-pointer mb-1"
-          />
-          <div className="inter-semibold">
-            <p className="text-xs">No Power outlet</p>
+          <div className="w-[20%] flex items-center space-x-2">
+            <Image
+              height={32}
+              width={32}
+              layout="intrinsic"
+              src="/assets/power-outlet.svg"
+              alt=""
+              className="cursor-pointer mb-1"
+            />
+            <div className="inter-semibold">
+              <p className="text-xs">No Power outlet</p>
+            </div>
           </div>
-        </div>
 
-        <div className="w-[20%] flex items-center space-x-2">
-          <Image
-            height={32}
-            width={32}
-            layout="intrinsic"
-            src="/assets/no-wifi.svg"
-            alt=""
-            className="cursor-pointer mb-1"
-          />
-          <div className="inter-semibold">
-            <p className="text-xs">No Wi-Fi</p>
+          <div className="w-[20%] flex items-center space-x-2">
+            <Image
+              height={32}
+              width={32}
+              layout="intrinsic"
+              src="/assets/no-wifi.svg"
+              alt=""
+              className="cursor-pointer mb-1"
+            />
+            <div className="inter-semibold">
+              <p className="text-xs">No Wi-Fi</p>
+            </div>
           </div>
         </div>
+      </div>
+      <div className="flex justify-between px-10 pt-10 pb-10 bg-[#D7CBF3]">
+        <div className=" my-auto flex">
+          <h4 className="text-xl inter-bold mr-2">£{price}</h4>
+          <span className="inter-semibold text-[#95989b] text-md">
+            per person
+          </span>
+        </div>
+        <button
+          type="button"
+          onClick={handleSelectOffer}
+          className={`w-auto  text-white bg-[#7F56D9] rounded-[100px] py-3 px-14 lg:px-10 text-lg inter-medium float-right`}
+        >
+          Select
+        </button>
       </div>
     </div>
   );

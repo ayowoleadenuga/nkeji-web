@@ -8,21 +8,21 @@ import {
   FlightSearchPayload,
   FlightSearchResult,
 } from "@nkeji-web/lib/global-types";
-import {
-  convertToFormattedDateTime,
-  currencyToCode,
-} from "@nkeji-web/lib/utils";
+import { convertStringToNumber, currencyToCode } from "@nkeji-web/lib/utils";
 import Trip from "./trip";
 interface RouteCardProps {
   flightData: FlightSearchResult;
   flightSearchPayload: FlightSearchPayload;
+  selectOffer: () => void;
 }
 const FlightRouteCard = ({
   flightData,
   flightSearchPayload,
+  selectOffer,
 }: RouteCardProps) => {
   const [openViewDetails, setOpenViewDetails] = useState(false);
   const { departure, currency, price } = flightData;
+  const fnplDeposit = convertStringToNumber(price) * 0.25;
   return (
     <div className="w-full">
       <div className="bg-white rounded-lg overflow-hidden  mt-5 w-full">
@@ -63,7 +63,7 @@ const FlightRouteCard = ({
             <div className="flex items-start space-x-1 ">
               <p className="text-base w-[200px]">
                 Fly now, pay later with as low as{" "}
-                <span className="inter-bold">£500.00</span>
+                <span className="inter-bold">£{fnplDeposit.toFixed(2)}</span>
               </p>
 
               <HowItWorksDialog />
@@ -92,6 +92,7 @@ const FlightRouteCard = ({
           <ViewFlightDetails
             setOpenViewDetails={setOpenViewDetails}
             details={flightData}
+            handleSelectOffer={selectOffer}
           />
         </div>
       )}

@@ -19,12 +19,13 @@ import { CustomerBenefits } from "../Homepage/components/customer-benefit";
 import { FAQS } from "../Homepage/components/faq";
 import { Footer } from "../Homepage/components/footer";
 import FlightBookingWidget from "../Homepage/components/flightBookingWidget";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@nkeji-web/redux/store";
 import { useGetFlightsMutation } from "@nkeji-web/redux/features/apiSlice";
 import {
   formatDate,
   formatPassengerCount,
+  scrollToTop,
   truncateSentence,
 } from "@nkeji-web/lib/utils";
 import { FlightSearchResult, TicketType } from "@nkeji-web/lib/global-types";
@@ -32,6 +33,7 @@ import LoadingSpinner from "./components/loading-spinner";
 import TravelerDetails from "./components/traveler-details";
 import BaggageReview from "./components/baggage-review";
 import BaggageAllowance from "./components/baggage-allowance";
+import { updateFlightSelection } from "@nkeji-web/redux/features/flightSelectReducer";
 
 const SubHeader = () => {
   return (
@@ -71,10 +73,16 @@ const FlightSearch = () => {
     } catch (error) {
       console.error(error);
     }
-  }, []);
-
+  }, [flightSearchPayload]);
+  const dispatch = useDispatch();
   useEffect(() => {
     search();
+  }, []);
+
+  const handleSelectFlight = useCallback((offer: FlightSearchResult) => {
+    dispatch(updateFlightSelection(offer));
+    setCurrentTab(1);
+    scrollToTop();
   }, []);
 
   const {
@@ -92,17 +100,16 @@ const FlightSearch = () => {
     children: noOfKids,
     infants: noOfInfants,
   };
-
   return (
     <>
-      {isLoading ? (
+      {!data && isLoading ? (
         <div className="bg-white flex items-center justify-center h-screen">
           <LoadingSpinner />
         </div>
       ) : (
         <>
           <Navigation hasBg />
-          <FlightTabs currentTab={currentTab} setCurrentTab={setCurrentTab} />
+          <FlightTabs currentTab={currentTab} setCurrentTab={() => {}} />
           {currentTab === 0 && (
             <div>
               <div>
@@ -111,6 +118,7 @@ const FlightSearch = () => {
                     setShowFlightComponent={setShowFlightComponent}
                     isSamePage
                     showTabs={false}
+                    searchHandler={search}
                   />
                 ) : (
                   <div className="px-6 lg:px-20 bg-white mt-10 w-full flex flex-col lg:flex-row justify-between ">
@@ -227,21 +235,31 @@ const FlightSearch = () => {
               <div className="px-6 py-10 lg:px-20 bg-[#F7F8F9] mt-10 flex space-x-4">
                 <SearchResultComponent />
                 <div className="w-[74%]">
-                  <FlightRangeTabs />
-                  {data?.data?.map((offer: FlightSearchResult) => (
-                    <div key={offer.id}>
-                      <FlightRouteCard
-                        flightData={offer}
-                        flightSearchPayload={flightSearchPayload}
-                      />
+                  {isLoading ? (
+                    <div className="bg-white flex items-center justify-center h-screen">
+                      <LoadingSpinner />
                     </div>
-                  ))}
-
-                  <div className="text-center mt-10 bg-[#D7CBF3] mx-auto bg-opacity-20 w-[fit-content] py-2 px-4 rounded-lg">
-                    <p className="text-[#7F56D9] inter-semibold text-sm ">
-                      No more flights
-                    </p>
-                  </div>
+                  ) : (
+                    <>
+                      <FlightRangeTabs />
+                      {data?.data?.map((offer: FlightSearchResult) => (
+                        <div key={offer.id}>
+                          <FlightRouteCard
+                            flightData={offer}
+                            flightSearchPayload={flightSearchPayload}
+                            selectOffer={() => {
+                              handleSelectFlight(offer);
+                            }}
+                          />
+                        </div>
+                      ))}
+                      <div className="text-center mt-10 bg-[#D7CBF3] mx-auto bg-opacity-20 w-[fit-content] py-2 px-4 rounded-lg">
+                        <p className="text-[#7F56D9] inter-semibold text-sm ">
+                          No more flights
+                        </p>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

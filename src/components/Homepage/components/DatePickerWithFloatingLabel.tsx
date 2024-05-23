@@ -2,7 +2,7 @@
 import { Calendar } from "@nkeji-web/components/ui/calendar";
 import { format, parse } from "date-fns";
 import { cn } from "@nkeji-web/lib/utils";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { CalendarIcon } from "lucide-react";
 import { CrossCircledIcon } from "@radix-ui/react-icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,10 @@ import {
   updateDepartureDate,
   updateReturnDate,
 } from "@nkeji-web/redux/features/flightSearchReducer";
-import { RootState } from "@nkeji-web/redux/store";
+import {
+  selectDepartureDate,
+  selectReturnDate,
+} from "@nkeji-web/redux/selectors";
 
 type DatePickerWithFloatingLabelProps = {
   label: string;
@@ -43,12 +46,8 @@ const DatePickerWithFloatingLabel: React.FC<
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const dispatch = useDispatch();
-  const departureDate = useSelector(
-    (state: RootState) => state.flightSearch.departureDate
-  );
-  const returnDate = useSelector(
-    (state: RootState) => state.flightSearch.returnDate
-  );
+  const departureDate = useSelector(selectDepartureDate);
+  const returnDate = useSelector(selectReturnDate);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -90,12 +89,12 @@ const DatePickerWithFloatingLabel: React.FC<
     };
   }, []);
 
-  const handleFocus = () => {
+  const handleFocus = useCallback(() => {
     setIsFocused(true);
     setIsCalendarOpen(true);
-  };
+  }, []);
 
-  const handleClear = (event: React.MouseEvent<SVGSVGElement>) => {
+  const handleClear = useCallback((event: React.MouseEvent<SVGSVGElement>) => {
     event.stopPropagation();
     setDate(undefined);
     if (id === "departure") {
@@ -103,7 +102,7 @@ const DatePickerWithFloatingLabel: React.FC<
     } else if (id === "return") {
       dispatch(updateReturnDate(""));
     }
-  };
+  }, []);
 
   return (
     <div

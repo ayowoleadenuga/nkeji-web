@@ -1,50 +1,41 @@
 "use client";
 
-import React, { useCallback } from "react";
+import React from "react";
 import Image from "next/image";
 import DatePickerWithFloatingLabel from "./DatePickerWithFloatingLabel";
 import { useRouter } from "next/navigation";
 import AirportSearchComponent from "./AirportSearchComponent";
 import TripTypeDropdown from "./TripTypeDropdown";
 import { useSelector } from "react-redux";
-import { RootState } from "@nkeji-web/redux/store";
 import { isSearchPayloadValid } from "@nkeji-web/lib/utils";
 import PassengersDropdown from "@nkeji-web/components/Homepage/components/PassengersDropdown";
 import CabinClassDropdown from "./CabinClassDropdown";
 import { TicketType } from "@nkeji-web/lib/global-types";
-import { useGetFlightsMutation } from "@nkeji-web/redux/features/apiSlice";
+import { selectFlightSearchPayload } from "@nkeji-web/redux/selectors";
 
 interface BookingWidgetProps {
   setShowFlightComponent?: (show: boolean) => void;
   isSamePage?: boolean;
   showTabs?: boolean;
+  searchHandler?: () => void;
 }
 
 const FlightBookingWidget: React.FC<BookingWidgetProps> = ({
   setShowFlightComponent,
   showTabs = true,
   isSamePage = false,
+  searchHandler,
 }) => {
   const router = useRouter();
-  const flightSearchPayload = useSelector(
-    (state: RootState) => state.flightSearch
-  );
+  const flightSearchPayload = useSelector(selectFlightSearchPayload);
   const enableButton = isSearchPayloadValid(flightSearchPayload);
-  const [getFlightsMutation] = useGetFlightsMutation();
-  const search = useCallback(async () => {
-    try {
-      await getFlightsMutation(flightSearchPayload);
-    } catch (error) {
-      console.error(error);
-    }
-  }, [flightSearchPayload]);
 
   const searchButtonHandler = () => {
     if (!!setShowFlightComponent) {
       setShowFlightComponent(false);
     }
-    if (isSamePage) {
-      search();
+    if (isSamePage && !!searchHandler) {
+      searchHandler();
     } else {
       router.push("/flight-search");
     }

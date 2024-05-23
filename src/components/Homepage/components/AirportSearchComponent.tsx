@@ -15,7 +15,10 @@ import {
   updateDeparture,
   updateDestination,
 } from "@nkeji-web/redux/features/flightSearchReducer";
-import { RootState } from "@nkeji-web/redux/store";
+import {
+  selectDepartureAirport,
+  selectDestinationAirport,
+} from "@nkeji-web/redux/selectors";
 
 type AirportSearchComponentProps = {
   label: string;
@@ -109,13 +112,9 @@ const AirportSearchComponent: React.FC<AirportSearchComponentProps> = ({
   const inputRef = useFocus(isFocused);
   let storeValue: Airport | null;
   if (id === "departure") {
-    storeValue = useSelector(
-      (state: RootState) => state.flightSearch.departure
-    );
+    storeValue = useSelector(selectDepartureAirport);
   } else {
-    storeValue = useSelector(
-      (state: RootState) => state.flightSearch.destination
-    );
+    storeValue = useSelector(selectDestinationAirport);
   }
   useEffect(() => {
     if (
@@ -164,8 +163,6 @@ const AirportSearchComponent: React.FC<AirportSearchComponentProps> = ({
       setIsFocused(false);
     }
   }, [text, value]);
-
-  console.log({ storeValue });
 
   return (
     <>

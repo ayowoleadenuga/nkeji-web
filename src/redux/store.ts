@@ -11,6 +11,7 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist/es/constants";
+import flightSelectReducer from "./features/flightSelectReducer";
 
 // Define the root state type
 type RootReducerState = ReturnType<typeof rootReducer>;
@@ -23,6 +24,7 @@ type RootPersistConfig = PersistConfig<RootReducerState> & {
 // Combine all reducers
 const rootReducer = combineReducers({
   flightSearch: flightSearchReducer,
+  flightSelect: flightSelectReducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 
@@ -30,7 +32,7 @@ const rootReducer = combineReducers({
 const persistConfig: RootPersistConfig = {
   key: "root",
   storage,
-  whitelist: ["flightSearch"], // specify which reducers to persist
+  whitelist: ["flightSearch", "flightSelect"], // specify which reducers to persist
 };
 
 // Function to create the store

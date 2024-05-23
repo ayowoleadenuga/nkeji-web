@@ -47,9 +47,9 @@ export interface FlightSearchPayload {
   departure: Airport;
   departureDate: string;
   destination: Airport;
-  noOfAdults?: number;
-  noOfInfants?: number;
-  noOfKids?: number;
+  noOfAdults: number;
+  noOfInfants: number;
+  noOfKids: number;
   returnDate?: string;
   type: TicketType;
 }
@@ -70,6 +70,25 @@ export type FlightSearchResult = {
   return: Departure | null;
   returnStops: Departure[] | null;
 };
+
 export type FlightSearchResponse = {
   data: FlightSearchResult[];
+};
+
+type Flyer = {
+  dateOfBirth: string;
+  email: string;
+  firstName: string;
+  gender: string;
+  lastName: string;
+  phoneNumber: string;
+};
+
+export type FlightSelect = {
+  selectedFlight: FlightSearchResult | null;
+  flyers: {
+    adults: Flyer[] | [];
+    infants: Flyer[] | [];
+    kids: Flyer[] | [];
+  };
 };
