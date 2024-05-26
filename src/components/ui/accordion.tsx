@@ -5,6 +5,9 @@ import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import { ChevronDown } from "lucide-react"
 import { cn } from "@nkeji-web/lib/utils"
 
+type AccordionTriggerProps = React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> & {
+  showToggle?: boolean;
+}
 
 const Accordion = AccordionPrimitive.Root
 
@@ -22,8 +25,9 @@ AccordionItem.displayName = "AccordionItem"
 
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
+  AccordionTriggerProps
+  // React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
+>(({ className, children, showToggle = true, ...props }, ref) => (
   <AccordionPrimitive.Header className="flex">
     <AccordionPrimitive.Trigger
       ref={ref}
@@ -34,7 +38,10 @@ const AccordionTrigger = React.forwardRef<
       {...props}
     >
       {children}
+      {
+        showToggle &&
       <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
+      }
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
 ))

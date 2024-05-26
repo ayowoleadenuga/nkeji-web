@@ -33,31 +33,9 @@ import TravelerDetails from "./components/traveler-details";
 import BaggageReview from "./components/baggage-review";
 import BaggageAllowance from "./components/baggage-allowance";
 import MakePayment from "./components/make-payment";
+import FlightDetailsHeader from "./components/flight-details-header";
 
-const SubHeader = () => {
-  return (
-    <div className="flex justify-between items-center bg-white w-full px-6 lg:px-20">
-      <div className=" flex space-x-3 items-center">
-        <h3 className="inter-bold text-2xl">Your flight details</h3>
-        <p className="text-[#A3A7AB] inter-bold text-base">BHX - ABV</p>
-      </div>
-      <div className="ml-auto flex items-center space-x-1">
-        <a href="" className="text-[#7F56D9] text-sm inter-semibold underline">
-          View details
-        </a>
-        <Image
-          height={10}
-          width={10}
-          layout="intrinsic"
-          src="/assets/dropdown.svg"
-          alt=""
-          className=""
-        />
-      </div>
-      <div></div>
-    </div>
-  );
-};
+
 
 const FlightSearch = () => {
   const [showFlightComponent, setShowFlightComponent] = useState(false);
@@ -247,11 +225,14 @@ const FlightSearch = () => {
               </div>
             </div>
           )}
+          {
+            currentTab >= 1 && 
+            <FlightDetailsHeader />
+          }
 
           {currentTab === 1 && (
-            <div className="w-full py-5 ">
-              <SubHeader />
-              <div className="bg-[#F7F8F9] px-6 py-5 lg:px-20 mt-10 flex justify-between">
+            <div className="w-full ">
+              <div className="bg-[#F7F8F9] px-6 py-5 lg:px-20  flex justify-between">
                 <div className="w-[68%] flex flex-col space-y-3">
                   <ContactDetails />
                   <PassengerDetails />
@@ -267,10 +248,9 @@ const FlightSearch = () => {
           )}
 
           {currentTab === 2 && (
-            <div className="w-full py-5">
-              <SubHeader />
+            <div className="w-full">
 
-              <div className="bg-[#F7F8F9] px-6 py-5 lg:px-20 mt-10 flex justify-between">
+              <div className="bg-[#F7F8F9] px-6 py-5 lg:px-20 flex justify-between">
                 <div className="w-[68%] flex flex-col space-y-3">
                   <ContactDetails
                     showDetails
@@ -294,10 +274,9 @@ const FlightSearch = () => {
             </div>
           )}
           {currentTab === 3 && (
-            <div className="w-full py-5">
-              <SubHeader />
+            <div className="w-full ">
 
-              <div className="bg-[#F7F8F9] px-6 py-5 lg:px-20 mt-10 flex justify-between">
+              <div className="bg-[#F7F8F9] px-6 py-5 lg:px-20  flex justify-between">
                 <div className="w-[68%] flex flex-col space-y-3">
                   <ContactDetails
                     showDetails
@@ -316,8 +295,7 @@ const FlightSearch = () => {
             </div>
           )}
           {currentTab === 4 && (
-            <div className="w-full py-5">
-              <SubHeader />
+            <div className="w-full">
 
               <div className="bg-[#F7F8F9] px-6 py-5 lg:px-20 mt-10 flex justify-between">
                 <div className="w-[68%] flex flex-col space-y-3">

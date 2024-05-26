@@ -1,7 +1,12 @@
+"use client";
+
 import Image from "next/image";
-import { DialogContent, DialogDescription, DialogHeader } from "./dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTrigger } from "./dialog";
 import { useState } from "react";
 import { CheckboxWithText } from "./checkbox-with-text";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@nkeji-web/redux/store";
+import { toggleLoginDialog } from "@nkeji-web/redux/features/authModalSlice";
 
 const AuthDialog = () => {
   const [currentTab, setCurrentTab] = useState("login");
@@ -10,8 +15,18 @@ const AuthDialog = () => {
     email: "",
     password: "",
   });
+  const dispatch = useDispatch();
 
+  const isLoginDialogOpen = useSelector((state:RootState) => state.authModal.isLoginDialogOpen);
+console.log(isLoginDialogOpen, 'isLoginDialogOpen');
+const handleCloseAuthDialog = ()=>{
+  dispatch(toggleLoginDialog(false))
+}
   return (
+    <>
+
+    <Dialog open={isLoginDialogOpen} onOpenChange={handleCloseAuthDialog} >
+ 
     <DialogContent className="max-w-4xl p-0 bg-transparent overflow-hidden">
       <DialogHeader className="">
         <DialogDescription>
@@ -34,6 +49,7 @@ const AuthDialog = () => {
                   src={`/assets/close.svg`}
                   alt=""
                   className="cursor-pointer"
+                  onClick={handleCloseAuthDialog}
                 />
               </div>
               <div className="px-10">
@@ -250,6 +266,10 @@ const AuthDialog = () => {
         </DialogDescription>
       </DialogHeader>
     </DialogContent>
+    </Dialog>
+    
+    
+    </>
   );
 };
 

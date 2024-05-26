@@ -3,6 +3,7 @@ import { Inter as FontSans } from "next/font/google";
 import { cn } from "@nkeji-web/lib/utils";
 import "./globals.css";
 import { ReduxProvider } from "@nkeji-web/redux/provider";
+import AuthDialog from "@nkeji-web/components/ui/auth-dialog";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -29,7 +30,9 @@ export default function RootLayout({
           )}
           suppressHydrationWarning={true}
         >
+          <AuthDialog />
           {children}
+
         </body>
       </ReduxProvider>
     </html>

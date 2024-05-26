@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { navLinks } from "../constants/constants";
 import { flightSearchLinks } from "@nkeji-web/components/FlightSearch/constants/constants";
-import { Dialog, DialogTrigger } from "@nkeji-web/components/ui/dialog";
-import AuthDialog from "@nkeji-web/components/ui/auth-dialog";
+import { useDispatch } from "react-redux";
+import { toggleLoginDialog } from "@nkeji-web/redux/features/authModalSlice";
 
 interface NavigationProps {
   hasBg?: boolean;
@@ -14,9 +14,14 @@ interface NavigationProps {
 
 const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const pathname = usePathname();
   const filteredNavLists = hasBg ? flightSearchLinks : navLinks;
+
+  const handleAuthDialog = ()=>{
+    dispatch(toggleLoginDialog(true))
+  }
   return (
     <div
       className={`w-full  px-6 lg:px-20 py-8 flex items-center  relative
@@ -55,24 +60,20 @@ const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
           ))}
         </ul>
         <div className={`flex space-x-2 ${hasBg ? "ml-auto" : "ml-10"}`}>
-          <Dialog>
-            <DialogTrigger>
-              <div className="border border-white text-white text-base px-8 py-2 inter-medium rounded-[100px]">
+        
+              <div
+              onClick={handleAuthDialog}
+              className="border cursor-pointer border-white text-white text-base px-8 py-2 inter-medium rounded-[100px]">
                 Login
               </div>
-            </DialogTrigger>
-            <AuthDialog />
-          </Dialog>
-          <Dialog>
-            <DialogTrigger>
+           
               <div
-                className="bg-white text-[#1B1E21] text-base px-8 py-2 inter-medium rounded-[100px]"
+               onClick={handleAuthDialog}
+                className="bg-white cursor-pointer text-[#1B1E21] text-base px-8 py-2 inter-medium rounded-[100px]"
               >
                 Signup
               </div>
-            </DialogTrigger>
-            <AuthDialog />
-          </Dialog>
+           
         </div>
       </div>
       <div className="block md:hidden">

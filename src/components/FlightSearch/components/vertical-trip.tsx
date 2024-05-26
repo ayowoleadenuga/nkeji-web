@@ -93,7 +93,7 @@ const VerticalTrip = ({ trip, tripStops }: VerticalTripProps) => {
                         </div>
 
                         <span className="mt-4 flex items-center space-x-2">
-                          // layover image
+               
                           <Image
                             height={18}
                             width={18}

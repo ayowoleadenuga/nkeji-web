@@ -1,11 +1,13 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import flightSearchReducer from "./features/flightSearchReducer";
 import { apiSlice } from "./features/apiSlice";
+import authModalReducer from "./features/authModalSlice";
 
 const rootReducer = combineReducers({
   // other reducers here
   flightSearch: flightSearchReducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
+  authModal: authModalReducer
 });
 
 export const store = configureStore({
