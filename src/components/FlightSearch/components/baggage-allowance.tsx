@@ -1,5 +1,8 @@
+import { Passenger } from "@nkeji-web/lib/global-types";
+import { RootState } from "@nkeji-web/redux/store";
 import Image from "next/image";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 interface BaggageAllowanceProps {
   setCurrentTab?: any;
@@ -7,23 +10,33 @@ interface BaggageAllowanceProps {
 }
 
 interface BaggageAllowanceCardProps {
-    isChecked:boolean
-    setIsChecked: any;
-    index:number
-  }
-const BaggageAllowanceCard:React.FC<BaggageAllowanceCardProps> = ({isChecked,setIsChecked, index}) => {
+  isChecked: boolean;
+  setIsChecked: any;
+  index: number;
+  passenger: Passenger;
+}
+const BaggageAllowanceCard: React.FC<BaggageAllowanceCardProps> = ({
+  isChecked,
+  setIsChecked,
+  index,
+  passenger,
+}) => {
   const handleCheck = () => {
-    setIsChecked((prev:any) => {
+    setIsChecked((prev: any) => {
       const updated = [...prev];
       updated[index] = !updated[index];
       return updated;
     });
   };
   return (
-    <div className="bg-[#F2EEFB] rounded-xl w-[32.5%] overflow-hidden">
+    <div className="bg-[#F2EEFB] rounded-xl overflow-hidden">
       <div className="px-6 pt-6 pb-10">
-        <h3 className="inter-semibold text-base">Passenger&apos;s name</h3>
-        <p className="text-xs inter-semibold text-[#A3A7AB] pt-1 ">On each flight</p>
+        <h3 className="inter-semibold text-base">
+          {passenger.firstName ? passenger.firstName : "Passenger&apos;s name"}
+        </h3>
+        <p className="text-xs inter-semibold text-[#A3A7AB] pt-1 ">
+          On each flight
+        </p>
         <div className=" mt-5 flex items-center space-x-2">
           <Image
             height={32}
@@ -39,7 +52,7 @@ const BaggageAllowanceCard:React.FC<BaggageAllowanceCardProps> = ({isChecked,set
           </div>
         </div>
         <div className=" mt-5 flex items-center space-x-2">
-        <Image
+          <Image
             height={32}
             width={32}
             layout="intrinsic"
@@ -50,12 +63,11 @@ const BaggageAllowanceCard:React.FC<BaggageAllowanceCardProps> = ({isChecked,set
           <div className="inter-semibold">
             <p className="text-xs">2 checked bags</p>
             <p className="text-[#7F56D9] text-xs ">Max weight is 23kg</p>
-
           </div>
         </div>
       </div>
       <div className="bg-[#D7CBF3] p-6">
-      <div className=" flex items-center space-x-2">
+        <div className=" flex items-center space-x-2">
           <Image
             height={32}
             width={32}
@@ -69,7 +81,6 @@ const BaggageAllowanceCard:React.FC<BaggageAllowanceCardProps> = ({isChecked,set
             <p className="">Add extra luggage</p>
             <p className="  ">+ £59.66</p>
             <p className="">Max weight is 23kg</p>
-
           </div>
         </div>
       </div>
@@ -77,31 +88,36 @@ const BaggageAllowanceCard:React.FC<BaggageAllowanceCardProps> = ({isChecked,set
   );
 };
 
-const BaggageAllowance: React.FC<BaggageAllowanceProps> = ({
-
-}) => {
+const BaggageAllowance: React.FC<BaggageAllowanceProps> = ({}) => {
   const [isChecked, setIsChecked] = useState([true, false, false]);
 
-
+  const uploadedPassengers = useSelector(
+    (state: RootState) => state.flightSelect.passengerDetails
+  );
   return (
     <div>
-        <div className="bg-white w-full py-4 px-5">
-          <div className="flex justify-between items-start">
-            <div>
-              <h3 className="text-lg inter-bold">Included baggage allowance</h3>
-             
-            </div>
-           
-          </div>
-
-          <div className="flex justify-between mt-5 mb-3">
-           <BaggageAllowanceCard isChecked={isChecked[0]} setIsChecked={setIsChecked} index={0} />
-           <BaggageAllowanceCard isChecked={isChecked[1]} setIsChecked={setIsChecked} index={1} />
-           <BaggageAllowanceCard isChecked={isChecked[2]} setIsChecked={setIsChecked}  index={2}/>
+      <div className="bg-white w-full py-4 px-5">
+        <div className="flex justify-between items-start">
+          <div>
+            <h3 className="text-lg inter-bold">Included baggage allowance</h3>
           </div>
         </div>
-    
-  
+
+        <div className="flex mt-5 mb-3">
+          {uploadedPassengers && uploadedPassengers.length
+            ? uploadedPassengers.map((passenger, index) => (
+                <div key={index} className="mr-6">
+                  <BaggageAllowanceCard
+                    isChecked={isChecked[index]}
+                    setIsChecked={setIsChecked}
+                    index={index}
+                    passenger={passenger}
+                  />
+                </div>
+              ))
+            : ""}
+        </div>
+      </div>
     </div>
   );
 };

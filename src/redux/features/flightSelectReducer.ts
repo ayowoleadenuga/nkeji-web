@@ -8,6 +8,16 @@ const initialState: FlightSelect = {
     infants: [],
     kids: [],
   },
+  passengerDetails: [
+    {
+      id: "Passenger 1",
+      title: "",
+      firstName: "",
+      middleName: "",
+      lastName: "",
+      dob: "",
+    },
+  ],
 };
 
 const flightSelectSlice = createSlice({
@@ -35,6 +45,9 @@ const flightSelectSlice = createSlice({
     updateFlightSelection: (state, action) => {
       state.selectedFlight = action.payload;
     },
+    updatePassengerDetails: (state, action) => {
+      state.passengerDetails = action.payload;
+    },
   },
 });
 
@@ -43,5 +56,6 @@ export const {
   updateAdultFlyers,
   updateKidFlyers,
   updateFlightSelection,
+  updatePassengerDetails,
 } = flightSelectSlice.actions;
 export default flightSelectSlice.reducer;

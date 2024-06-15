@@ -21,7 +21,7 @@ export enum CabinClass {
   FIRST = "First-class",
 }
 type Currency = "GBP" | "USD" | "NGN";
-type Luggage = {
+export type Luggage = {
   type: string;
   pieces: number;
   size: number | null;
@@ -75,6 +75,15 @@ export type FlightSearchResponse = {
   data: FlightSearchResult[];
 };
 
+export interface Passenger {
+  id: string;
+  title: string;
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  dob: string;
+}
+
 type Flyer = {
   dateOfBirth: string;
   email: string;
@@ -91,4 +100,5 @@ export type FlightSelect = {
     infants: Flyer[] | [];
     kids: Flyer[] | [];
   };
+  passengerDetails: Passenger[];
 };

@@ -34,7 +34,7 @@ const FlightSearch = () => {
     } catch (error) {
       console.error(error);
     }
-  }, [getFlightsMutation]);
+  }, [flightSearchPayload, getFlightsMutation]);
 
   useEffect(() => {
     search();
@@ -61,7 +61,7 @@ const FlightSearch = () => {
       ) : (
         <>
           <Navigation hasBg />
-          <FlightTabs currentTab={currentTab} setCurrentTab={() => {}} />
+          <FlightTabs currentTab={currentTab} setCurrentTab={setCurrentTab} />
           {currentTab === 0 && (
             <SearchResultView
               showFlightComponent={showFlightComponent}

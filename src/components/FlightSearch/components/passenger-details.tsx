@@ -4,25 +4,21 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@nkeji-web/components/ui/accordion";
-import DatePicker from "@nkeji-web/components/ui/DatePicker";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@nkeji-web/components/ui/dropdown-menu";
-import HowItWorksDialog from "@nkeji-web/components/ui/how-it-works-dialog";
-import { cn } from "@nkeji-web/lib/utils";
 import Image from "next/image";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import RequestsInput from "./request-input";
 import PassengerDetailCard from "./passenger-detail-card";
-import { title } from "process";
+import { FlightSearchPayload, Passenger } from "@nkeji-web/lib/global-types";
+import PassengerForm from "./passenger-form";
+import { RootState } from "@nkeji-web/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { updatePassengerDetails } from "@nkeji-web/redux/features/flightSelectReducer";
 
 interface PassengerDetailsProps {
   showDetails?: boolean;
   setCurrentTab?: any;
   index?: number;
+  flightSearchPayload: FlightSearchPayload;
 }
 
 const travelerDetails = [
@@ -47,12 +43,60 @@ const PassengerDetails: React.FC<PassengerDetailsProps> = ({
   showDetails,
   setCurrentTab,
   index,
+  flightSearchPayload,
 }) => {
-  const [selectedOption, setSelectedOption] = useState("Round Trip");
-  const handleOptionSelect = (option: string) => {
-    setSelectedOption(option);
+  const { noOfAdults, noOfInfants, noOfKids } = flightSearchPayload;
+  const passengerCount = noOfAdults + noOfInfants + noOfKids;
+  const initialPassengers: Passenger[] = Array.from(
+    { length: passengerCount },
+    (_, index) => ({
+      id: `Passenger ${index + 1}`,
+      title: "",
+      firstName: "",
+      middleName: "",
+      lastName: "",
+      dob: "",
+    })
+  );
+  const [passengers, setPassengers] = useState<Passenger[]>(initialPassengers);
+  const [showPassengerForm, setShowPassengerForm] = useState<boolean>(false);
+  const [selectedPassengerIndex, setSelectedPassengerIndex] = useState<
+    number | null
+  >(null);
+  const uploadedPassengers = useSelector(
+    (state: RootState) => state.flightSelect.passengerDetails
+  );
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (uploadedPassengers && uploadedPassengers.length) {
+      const { firstName, lastName, dob } = uploadedPassengers[0];
+      if (firstName.length > 2 && lastName.length > 2 && dob.length > 2) {
+        setPassengers(uploadedPassengers);
+      }
+    }
+  }, []);
+
+  const handleEditPassenger = (index: number) => {
+    if (index === selectedPassengerIndex && showPassengerForm) {
+      setShowPassengerForm(false);
+      setSelectedPassengerIndex(null);
+      return;
+    }
+    setShowPassengerForm(true);
+    setSelectedPassengerIndex(index);
   };
-  const [showPassengerForm, setShowPassengerForm] = useState();
+
+  const handleChangePassenger = (field: keyof Passenger, value: string) => {
+    if (selectedPassengerIndex !== null) {
+      const newPassengers = [...passengers];
+      newPassengers[selectedPassengerIndex] = {
+        ...newPassengers[selectedPassengerIndex],
+        [field]: value,
+      };
+      setPassengers(newPassengers);
+      dispatch(updatePassengerDetails(newPassengers));
+    }
+  };
   return (
     <div>
       {showDetails ? (
@@ -119,9 +163,7 @@ const PassengerDetails: React.FC<PassengerDetailsProps> = ({
                 </div>
               );
             })}
-           
           </div>
-
         </div>
       ) : (
         <div className="bg-white w-full py-4 px-5">
@@ -141,96 +183,27 @@ const PassengerDetails: React.FC<PassengerDetailsProps> = ({
                 alt=""
                 color="#8A3FFC"
               />
-              <p>3 Passengers</p>
+              <p>{passengerCount} Passengers</p>
             </span>
           </div>
 
-          <div className="flex space-x-5 mt-5 mb-3">
-            <PassengerDetailCard
-              index={1}
-              gender="Female"
-              showPassengerForm={showPassengerForm}
-              setShowPassengerForm={setShowPassengerForm}
-            />
-            <PassengerDetailCard
-              index={2}
-              gender="Male"
-              showPassengerForm={showPassengerForm}
-              setShowPassengerForm={setShowPassengerForm}
-            />
-            <PassengerDetailCard
-              index={3}
-              gender="Young male"
-              showPassengerForm={showPassengerForm}
-              setShowPassengerForm={setShowPassengerForm}
-            />
+          <div className="w-full flex space-x-5 mt-5 mb-3">
+            {passengers.map((passenger, index) => (
+              <div key={passenger.id}>
+                <PassengerDetailCard
+                  index={index}
+                  gender={passengers[index].title}
+                  onEdit={() => handleEditPassenger(index)}
+                  isSelected={index === selectedPassengerIndex}
+                />
+              </div>
+            ))}
           </div>
-          {showPassengerForm && (
-            <div className="py-6">
-              <div className="flex items-center space-x-2 my-5">
-                <HowItWorksDialog />
-                <p>
-                  &quot;First Name&quot; and &quot;Last Name&quot; must match
-                  your travel document exactly
-                </p>
-              </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="focus:outline-none w-full md:w-1/2 lg:w-[200px] mb-5">
-                  <p className="text-left">
-                    Title
-                    <span className="text-red-500">*</span>
-                  </p>
-
-                  <div className="flex items-center justify-between border border-[#D0D5DD] rounded-lg bg-white p-3 w-full">
-                    <span>{selectedOption}</span>
-                    <Image
-                      height={10}
-                      width={10}
-                      className="float-right"
-                      src="/assets/dropdown.svg"
-                      alt=""
-                    />
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-[220px] text-center">
-                  <DropdownMenuItem
-                    onClick={() => handleOptionSelect("Round Trip")}
-                    className="text-center"
-                  >
-                    Male
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => handleOptionSelect("One-way Trip")}
-                  >
-                    Female
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => handleOptionSelect("Multi-city Trip")}
-                  >
-                    Child
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <div className="flex flex-wrap w-[100%] gap-4">
-                <RequestsInput
-                  className={"w-[240px]"}
-                  label="First Name"
-                  placeHolder="Lagbaja"
-                  isRequired
-                />
-                <RequestsInput
-                  className={"w-[240px]"}
-                  label="Middle Name"
-                  placeHolder="Lagbaja"
-                />
-                <RequestsInput
-                  className={"w-[240px]"}
-                  label="Last Name"
-                  placeHolder="Lagbaja"
-                />
-                <DatePicker label="Date of Birth" isRequired />
-              </div>
-            </div>
+          {selectedPassengerIndex !== null && showPassengerForm && (
+            <PassengerForm
+              passenger={passengers[selectedPassengerIndex]}
+              onChange={handleChangePassenger}
+            />
           )}
 
           <Accordion type="single" collapsible>
@@ -241,22 +214,22 @@ const PassengerDetails: React.FC<PassengerDetailsProps> = ({
               </AccordionTrigger>
               <AccordionContent>
                 <div className="flex flex-wrap w-[80%] gap-4">
-                  <RequestsInput label="Meal preference" placeHolder="None" />
+                  <RequestsInput label="Meal preference" placeholder="None" />
                   <RequestsInput
                     label="Special assistance"
-                    placeHolder="None"
+                    placeholder="None"
                   />
                   <RequestsInput
                     label="Addition requests"
-                    placeHolder="Request to book cycle"
+                    placeholder="Request to book cycle"
                   />
                   <RequestsInput
                     label="Frequent flyer program"
-                    placeHolder="None"
+                    placeholder="None"
                   />
                   <RequestsInput
                     label="Frequent flyer number"
-                    placeHolder="frequent flyer number"
+                    placeholder="frequent flyer number"
                   />
                 </div>
               </AccordionContent>

@@ -38,8 +38,3 @@ export const selectReturnDate = createSelector(
   [selectFlightSearch],
   (flightSearch) => flightSearch.returnDate
 );
-
-export const selectFlightSearchPayload = createSelector(
-  [selectFlightSearch],
-  (flightSearch) => flightSearch
-);

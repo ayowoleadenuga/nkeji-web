@@ -11,7 +11,7 @@ import { isSearchPayloadValid } from "@nkeji-web/lib/utils";
 import PassengersDropdown from "@nkeji-web/components/Homepage/components/PassengersDropdown";
 import CabinClassDropdown from "./CabinClassDropdown";
 import { TicketType } from "@nkeji-web/lib/global-types";
-import { selectFlightSearchPayload } from "@nkeji-web/redux/selectors";
+import { RootState } from "@nkeji-web/redux/store";
 
 interface BookingWidgetProps {
   setShowFlightComponent?: (show: boolean) => void;
@@ -27,7 +27,9 @@ const FlightBookingWidget: React.FC<BookingWidgetProps> = ({
   searchHandler,
 }) => {
   const router = useRouter();
-  const flightSearchPayload = useSelector(selectFlightSearchPayload);
+  const flightSearchPayload = useSelector(
+    (state: RootState) => state.flightSearch
+  );
   const enableButton = isSearchPayloadValid(flightSearchPayload);
 
   const searchButtonHandler = () => {

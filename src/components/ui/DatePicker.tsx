@@ -16,7 +16,7 @@ import { CalendarIcon } from "lucide-react";
 
 interface DatePickerProps {
   label: string;
-  isRequired?:boolean
+  isRequired?: boolean;
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({ label, isRequired }) => {
@@ -31,20 +31,18 @@ const DatePicker: React.FC<DatePickerProps> = ({ label, isRequired }) => {
             !date && "text-muted-foreground"
           )}
         >
-        
-        <label htmlFor="date" className="text-black">
-                  {label}
-                  {
-                    isRequired &&
-                  <span className="text-red-500">*</span>
-                  }
-                </label>
-          <div
-         className="border w-full border-[#D0D5DD] rounded-lg bg-white p-3 flex justify-between items-center"
-          >
-          <input type="text" placeholder="MM/DD/YYYY" value={formattedDate} className="border-0 outline-none" />
-          <CalendarIcon className="mr-2 h-4 w-4" color="#8A3FFC" />
-         
+          <label htmlFor="date" className="text-black">
+            {label}
+            {isRequired && <span className="text-red-500">*</span>}
+          </label>
+          <div className="border w-full border-[#D0D5DD] rounded-lg bg-white p-3 flex justify-between items-center">
+            <input
+              type="text"
+              placeholder="MM/DD/YYYY"
+              value={formattedDate}
+              className="border-0 outline-none"
+            />
+            <CalendarIcon className="mr-2 h-4 w-4" color="#8A3FFC" />
           </div>
         </div>
       </PopoverTrigger>
