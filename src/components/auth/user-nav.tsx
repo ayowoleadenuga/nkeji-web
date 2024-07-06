@@ -14,11 +14,11 @@ import { useDispatch } from "react-redux";
 import { logoutAction } from "@nkeji-web/redux/features/authSlice";
 
 export function UserNav({ user }: { user: User }) {
+  const { first_name, last_name, email } = user;
+  const dispatch = useDispatch();
   if (!user) {
     return <div></div>;
   }
-  const { first_name, last_name, email } = user;
-  const dispatch = useDispatch();
   const logout = () => {
     dispatch(logoutAction());
   };

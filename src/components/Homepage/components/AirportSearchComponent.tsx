@@ -118,11 +118,14 @@ const AirportSearchComponent: React.FC<AirportSearchComponentProps> = ({
   const action = id === "departure" ? updateDeparture : updateDestination;
   const inputRef = useFocus(isFocused);
   let storeValue: Airport | null;
+  const selectedDepartureAirport = useSelector(selectDepartureAirport);
+  const selectedDestinationAirport = useSelector(selectDestinationAirport);
   if (id === "departure") {
-    storeValue = useSelector(selectDepartureAirport);
+    storeValue = selectedDepartureAirport;
   } else {
-    storeValue = useSelector(selectDestinationAirport);
+    storeValue = selectedDestinationAirport;
   }
+
   useEffect(() => {
     if (
       storeValue &&

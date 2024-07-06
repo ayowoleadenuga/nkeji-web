@@ -347,4 +347,6 @@ const ViewFlightDetails = forwardRef<HTMLDivElement, ViewFlightDetailsProps>(
   }
 );
 
+ViewFlightDetails.displayName = "ViewFlightDetails";
+
 export default ViewFlightDetails;

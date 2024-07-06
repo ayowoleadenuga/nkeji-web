@@ -11,7 +11,7 @@ const PaymentFailure = () => {
           Payment Failed
         </h1>
         <p className="mt-4 text-muted-foreground">
-          We're sorry, but your payment was unsuccessful. Please check your
+          We&apos;re sorry, but your payment was unsuccessful. Please check your
           payment details and try again.
         </p>
         <div className="mt-6">
