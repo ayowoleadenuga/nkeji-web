@@ -10,8 +10,9 @@ import {
 import { Slider } from "@nkeji-web/components/ui/slider";
 import Image from "next/image";
 import { useState } from "react";
+import { DataList } from "./search-result-view";
 
-const SearchResultComponent = () => {
+const SearchResultComponent = ({ data }: { data: DataList | null }) => {
   const stops = ["Any", "Non-stop", "1 stops", "Up to 2 stops"];
   const [activeStop, setActiveStop] = useState(stops[0]);
   const [toggleStop, setToggleStop] = useState(true);
@@ -22,21 +23,29 @@ const SearchResultComponent = () => {
   const [toggleRewards, setToggleRewards] = useState(true);
   const [toggleAlliances, setToggleAlliances] = useState(true);
   const [activeFlightTime, setActiveFlightTime] = useState("outbound");
-  
 
   return (
     <div className="flex flex-col space-y-2 bg-transparent w-[26%]">
       <div className="bg-white rounded shadow-lg p-4">
         <h5 className="inter-bold text-2xl text-[#1B1E21] ">Search result</h5>
-        <p className="text-base text-[#1B1E21] ">
-          Showing 100 of{" "}
-          <span className="text-[#7F56D9] inter-semibold"> 2237</span> flights
-        </p>
+        {data && data.price && (
+          <p className="text-base text-[#1B1E21] ">
+            Showing {data.price.length} of{" "}
+            <span className="text-[#7F56D9] inter-semibold">
+              {" "}
+              {data.price.length}
+            </span>{" "}
+            flights
+          </p>
+        )}
         <div className="mt-6 flex justify-between items-center">
-            <CheckboxWithText label=" Fly now, pay later" helperText="Pay in 6 installments" showHelperText />
-       
-            <HowItWorksDialog/>
+          <CheckboxWithText
+            label=" Fly now, pay later"
+            helperText="Pay in 6 installments"
+            showHelperText
+          />
 
+          <HowItWorksDialog />
         </div>
       </div>
       {/* stops */}

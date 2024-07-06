@@ -31,9 +31,19 @@ const BaggageAllowanceCard: React.FC<BaggageAllowanceCardProps> = ({
   return (
     <div className="bg-[#F2EEFB] rounded-xl overflow-hidden">
       <div className="px-6 pt-6 pb-10">
-        <h3 className="inter-semibold text-base">
-          {passenger.firstName ? passenger.firstName : "Passenger&apos;s name"}
-        </h3>
+        <div className="flex">
+          <h3 className="inter-semibold text-base">
+            {passenger.firstName
+              ? passenger.firstName
+              : "Passenger&apos;s name"}
+          </h3>
+          {passenger.lastName && (
+            <h3 className="inter-semibold text-base ml-1">
+              {passenger.lastName}
+            </h3>
+          )}
+        </div>
+
         <p className="text-xs inter-semibold text-[#A3A7AB] pt-1 ">
           On each flight
         </p>
@@ -79,7 +89,7 @@ const BaggageAllowanceCard: React.FC<BaggageAllowanceCardProps> = ({
           />
           <div className="inter-semibold text-xs text-[#1B1E21] flex flex-col space-y-1">
             <p className="">Add extra luggage</p>
-            <p className="  ">+ £59.66</p>
+            <p className="  ">+ £50</p>
             <p className="">Max weight is 23kg</p>
           </div>
         </div>
@@ -89,11 +99,16 @@ const BaggageAllowanceCard: React.FC<BaggageAllowanceCardProps> = ({
 };
 
 const BaggageAllowance: React.FC<BaggageAllowanceProps> = ({}) => {
-  const [isChecked, setIsChecked] = useState([true, false, false]);
-
   const uploadedPassengers = useSelector(
     (state: RootState) => state.flightSelect.passengerDetails
   );
+  const passengers =
+    uploadedPassengers && uploadedPassengers.length ? uploadedPassengers : [];
+  const initialExtraBaggageCheck = Array.from(
+    { length: passengers.length },
+    () => false
+  );
+  const [isChecked, setIsChecked] = useState([...initialExtraBaggageCheck]);
   return (
     <div>
       <div className="bg-white w-full py-4 px-5">

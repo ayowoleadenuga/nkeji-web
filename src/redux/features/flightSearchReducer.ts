@@ -53,6 +53,9 @@ const flightSearchSlice = createSlice({
     updateTicketType: (state, action) => {
       state.type = action.payload;
     },
+    resetSearchFlightState: (state) => {
+      state = { ...initialState };
+    },
   },
 });
 
@@ -67,5 +70,6 @@ export const {
   updateNoOfKids,
   updateReturnDate,
   updateTicketType,
+  resetSearchFlightState,
 } = flightSearchSlice.actions;
 export default flightSearchSlice.reducer;

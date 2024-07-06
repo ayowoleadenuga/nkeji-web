@@ -2,7 +2,11 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { persistReducer, persistStore, PersistConfig } from "redux-persist";
 import flightSearchReducer from "./features/flightSearchReducer";
+import authModalReducer from "./features/authModalReducer";
+import flightSelectReducer from "./features/flightSelectReducer";
+import authReducer from "./features/authSlice"; // Import the authReducer
 import { apiSlice } from "./features/apiSlice";
+import { authApi } from "./features/authApi";
 import {
   FLUSH,
   REHYDRATE,
@@ -11,7 +15,6 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist/es/constants";
-import flightSelectReducer from "./features/flightSelectReducer";
 
 // Define the root state type
 type RootReducerState = ReturnType<typeof rootReducer>;
@@ -25,14 +28,17 @@ type RootPersistConfig = PersistConfig<RootReducerState> & {
 const rootReducer = combineReducers({
   flightSearch: flightSearchReducer,
   flightSelect: flightSelectReducer,
-  [apiSlice.reducerPath]: apiSlice.reducer,
+  authModal: authModalReducer,
+  auth: authReducer,
+  [authApi.reducerPath]: authApi.reducer,
+  [apiSlice.reducerPath]: apiSlice.reducer, // Add the API slice reducer
 });
 
 // Persist configuration
 const persistConfig: RootPersistConfig = {
   key: "root",
   storage,
-  whitelist: ["flightSearch", "flightSelect"], // specify which reducers to persist
+  whitelist: ["flightSearch", "flightSelect", "authModal", "auth"], // Add auth to the whitelist
 };
 
 // Function to create the store
@@ -51,7 +57,7 @@ const createStore = () => {
           serializableCheck: {
             ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
           },
-        }).concat(apiSlice.middleware),
+        }).concat(apiSlice.middleware, authApi.middleware),
     });
 
     persistor = persistStore(store);

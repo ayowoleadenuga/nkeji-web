@@ -82,6 +82,9 @@ export interface Passenger {
   middleName: string;
   lastName: string;
   dob: string;
+  email: string;
+  phoneNumber?: string;
+  gender?: "male" | "female";
 }
 
 type Flyer = {
@@ -95,6 +98,7 @@ type Flyer = {
 
 export type FlightSelect = {
   selectedFlight: FlightSearchResult | null;
+  flightId: string | null;
   flyers: {
     adults: Flyer[] | [];
     infants: Flyer[] | [];
@@ -102,3 +106,58 @@ export type FlightSelect = {
   };
   passengerDetails: Passenger[];
 };
+
+export type ResultsTabType = "stopovers" | "price" | "flightTime";
+
+export type FlightIdData = {
+  id: number;
+};
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface User {
+  id: number;
+  first_name: string;
+  last_name: string;
+  date_of_birth: string;
+  email: string;
+  email_verified_at: string | null;
+  phone_number_verified_at: string | null;
+  two_factor_confirmed_at: string | null;
+  phone_number: string;
+  phone_verified_at: string | null;
+  created_at: string;
+  updated_at: string;
+  credit_limit: {
+    currency: string;
+    amount: number;
+    created_at: string;
+  };
+}
+
+export interface LoginResponse {
+  data: {
+    user: User;
+    token: string;
+  };
+}
+
+export interface SignupState {
+  email: string;
+  phoneNumber: string;
+  otp: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  password: string;
+  currentStage:
+    | "emailVerification"
+    | "verifyEmail"
+    | "phoneNumberVerification"
+    | "verifyPhoneNumber"
+    | "registerDetails";
+  error: string | null;
+}

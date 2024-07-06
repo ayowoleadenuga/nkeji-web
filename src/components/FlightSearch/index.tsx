@@ -16,6 +16,9 @@ import FlightTabs from "./components/flight-tabs";
 import { CustomerBenefits } from "@nkeji-web/components/Homepage/components/customer-benefit";
 import { FAQS } from "@nkeji-web/components/Homepage/components/faq";
 import { Footer } from "@nkeji-web/components/Homepage/components/footer";
+import DetailsBanner from "./components/details-banner";
+import { openModal } from "@nkeji-web/redux/features/authModalReducer";
+import AlternateLoader from "./components/alternate-loader";
 
 const FlightSearch = () => {
   const [showFlightComponent, setShowFlightComponent] = useState(false);
@@ -51,13 +54,30 @@ const FlightSearch = () => {
     },
     [dispatch]
   );
-
+  const handleOpenAuthModal = () => {
+    dispatch(openModal());
+  };
+  const user = useSelector((state: RootState) => state.auth.user);
+  const makePayment = () => {
+    if (user) {
+      setCurrentTab(currentTab + 1);
+    } else {
+      handleOpenAuthModal();
+    }
+  };
+  const { departure, departureDate, returnDate, destination } =
+    flightSearchPayload;
   return (
     <>
       {!data && isLoading ? (
-        <div className="bg-white flex items-center justify-center h-screen">
-          <LoadingSpinner />
-        </div>
+        <AlternateLoader
+          departureAirportCode={departure.id}
+          departureDate={departureDate}
+          arrivalAirportCity={destination.city}
+          departureAirportCity={departure.city}
+          arrivalAirportCode={destination.id}
+          returnDate={returnDate}
+        />
       ) : (
         <>
           <Navigation hasBg />
@@ -78,6 +98,7 @@ const FlightSearch = () => {
               currentTab={currentTab}
               setCurrentTab={setCurrentTab}
               flightSearchPayload={flightSearchPayload}
+              makePayment={makePayment}
             />
           )}
           <CustomerBenefits />

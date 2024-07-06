@@ -56,6 +56,9 @@ const PassengerDetails: React.FC<PassengerDetailsProps> = ({
       middleName: "",
       lastName: "",
       dob: "",
+      email: "",
+      gender: undefined,
+      phoneNumber: "",
     })
   );
   const [passengers, setPassengers] = useState<Passenger[]>(initialPassengers);
@@ -127,14 +130,14 @@ const PassengerDetails: React.FC<PassengerDetailsProps> = ({
           </div>
 
           <div className="flex space-x-5 mt-5 mb-3">
-            {travelerDetails.map((detail, index) => {
+            {passengers.map((detail, index) => {
               return (
                 <div className="" key={index}>
                   <div className="flex items-center space-x-2">
                     <div
                       className={`rounded-full  h-[32px] w-[32px] flex justify-center items-center
               ${
-                detail.gender.toLowerCase().includes("female")
+                detail.gender?.toLowerCase().includes("female")
                   ? "bg-[#7F56D9]"
                   : "bg-[#D7CBF3]"
               }
@@ -144,7 +147,7 @@ const PassengerDetails: React.FC<PassengerDetailsProps> = ({
                         height={15}
                         width={15}
                         src={
-                          detail.gender.toLowerCase().includes("female")
+                          detail.gender?.toLowerCase().includes("female")
                             ? "/assets/contact.svg"
                             : "/assets/contact-purple.svg"
                         }
@@ -156,7 +159,7 @@ const PassengerDetails: React.FC<PassengerDetailsProps> = ({
                         Passenger {index}
                       </p>
                       <p className="text-[#A3A7AB] text-base inter-medium">
-                        {detail.title} . {detail.gender} . {detail.dateOfBirth}
+                        {detail.title} . {detail.lastName} . {detail.dob}
                       </p>
                     </div>
                   </div>
@@ -192,7 +195,9 @@ const PassengerDetails: React.FC<PassengerDetailsProps> = ({
               <div key={passenger.id}>
                 <PassengerDetailCard
                   index={index}
-                  gender={passengers[index].title}
+                  title={passengers[index].title}
+                  firstName={passengers[index].firstName}
+                  lastName={passengers[index].lastName}
                   onEdit={() => handleEditPassenger(index)}
                   isSelected={index === selectedPassengerIndex}
                 />

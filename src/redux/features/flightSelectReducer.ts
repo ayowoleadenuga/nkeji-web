@@ -3,6 +3,7 @@ import { FlightSelect } from "@nkeji-web/lib/global-types";
 
 const initialState: FlightSelect = {
   selectedFlight: null,
+  flightId: null,
   flyers: {
     adults: [],
     infants: [],
@@ -16,6 +17,9 @@ const initialState: FlightSelect = {
       middleName: "",
       lastName: "",
       dob: "",
+      email: "",
+      gender: undefined,
+      phoneNumber: "",
     },
   ],
 };
@@ -45,8 +49,14 @@ const flightSelectSlice = createSlice({
     updateFlightSelection: (state, action) => {
       state.selectedFlight = action.payload;
     },
+    updateFlightId: (state, action) => {
+      state.flightId = action.payload;
+    },
     updatePassengerDetails: (state, action) => {
       state.passengerDetails = action.payload;
+    },
+    resetSelectedFlightState: (state) => {
+      state = { ...initialState };
     },
   },
 });
@@ -57,5 +67,7 @@ export const {
   updateKidFlyers,
   updateFlightSelection,
   updatePassengerDetails,
+  updateFlightId,
+  resetSelectedFlightState,
 } = flightSelectSlice.actions;
 export default flightSelectSlice.reducer;

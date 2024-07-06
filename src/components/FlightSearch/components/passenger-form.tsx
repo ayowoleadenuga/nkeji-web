@@ -18,6 +18,7 @@ import { cn } from "@nkeji-web/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@nkeji-web/components/ui/calendar";
 import { Passenger } from "@nkeji-web/lib/global-types";
+import { human_titles } from "../constants/constants";
 
 interface PassengerFormProps {
   passenger: Passenger;
@@ -27,7 +28,17 @@ interface PassengerFormProps {
 const PassengerForm = ({ passenger, onChange }: PassengerFormProps) => {
   const [date, setDate] = React.useState<Date | undefined>(undefined);
 
-  const { title, firstName, middleName, lastName, dob, id } = passenger;
+  const {
+    title,
+    firstName,
+    middleName,
+    lastName,
+    dob,
+    id,
+    email,
+    gender,
+    phoneNumber,
+  } = passenger;
   useEffect(() => {
     if (dob.length > 1) {
       const newDate = parse(dob, "yyyy-MM-dd", new Date());
@@ -63,7 +74,39 @@ const PassengerForm = ({ passenger, onChange }: PassengerFormProps) => {
           </p>
 
           <div className="flex items-center justify-between border border-[#D0D5DD] rounded-lg bg-white p-3 w-full">
-            <span>{title}</span>
+            <span>{title.length > 1 ? title : "Select title"}</span>
+            <Image
+              height={10}
+              width={10}
+              className="float-right"
+              src="/assets/dropdown.svg"
+              alt=""
+            />
+          </div>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-[220px] text-center">
+          {human_titles.map((title) => (
+            <DropdownMenuItem
+              onClick={() => onChange("title", title)}
+              className="text-center"
+              key={title}
+            >
+              {title}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <DropdownMenu>
+        <DropdownMenuTrigger className="focus:outline-none w-full md:w-1/2 lg:w-[200px] mb-5 ml-4">
+          <p className="text-left">
+            Gender
+            <span className="text-red-500">*</span>
+          </p>
+
+          <div className="flex items-center justify-between border border-[#D0D5DD] rounded-lg bg-white p-3 w-full">
+            <span>
+              {gender && gender.length > 1 ? gender : "Select gender"}
+            </span>
             <Image
               height={10}
               width={10}
@@ -75,12 +118,15 @@ const PassengerForm = ({ passenger, onChange }: PassengerFormProps) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-[220px] text-center">
           <DropdownMenuItem
-            onClick={() => onChange("title", "Male")}
+            onClick={() => onChange("gender", "male")}
             className="text-center"
           >
             Male
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onChange("title", "Female")}>
+          <DropdownMenuItem
+            onClick={() => onChange("gender", "female")}
+            className="text-center"
+          >
             Female
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -104,26 +150,44 @@ const PassengerForm = ({ passenger, onChange }: PassengerFormProps) => {
         <RequestsInput
           containerClass={"w-[240px]"}
           label="Last Name"
+          isRequired
           placeholder="Lagbaja"
           value={lastName}
           onChange={(e) => onChange("lastName", e.target.value)}
         />
+        <RequestsInput
+          containerClass={"w-[240px]"}
+          label="Email"
+          isRequired
+          placeholder="Enter Passenger's email"
+          value={email}
+          onChange={(e) => onChange("email", e.target.value)}
+        />
+        <RequestsInput
+          containerClass={"w-[240px]"}
+          label="Phone Number"
+          placeholder="Enter Passenger's phone number"
+          value={phoneNumber}
+          onChange={(e) => onChange("phoneNumber", e.target.value)}
+        />
+
         <Popover>
           <PopoverTrigger asChild>
             <div
               className={cn(
-                "w-[240px] justify-start text-left font-normal relative  transition-colors",
+                "w-[240px] justify-start text-left font-normal mb-2 relative  transition-colors",
                 !date && "text-muted-foreground"
               )}
             >
-              <label htmlFor="date" className="text-black">
+              <label htmlFor="date" className="text-black mb-2">
                 Date of Birth
                 <span className="text-red-500">*</span>
               </label>
-              <div className="border w-full border-[#D0D5DD] rounded-lg bg-white p-3 flex justify-between items-center">
+              <div className="border w-full border-[#D0D5DD] rounded-lg bg-white p-3 flex justify-between items-center mt-1">
                 <input
                   type="text"
                   placeholder="MM/DD/YYYY"
+                  readOnly
                   value={date ? format(date, "PPP") : ""}
                   className="border-0 outline-none"
                 />

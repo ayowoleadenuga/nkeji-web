@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import ViewFlightDetails from "./view-flight-details";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import HowItWorksDialog from "@nkeji-web/components/ui/how-it-works-dialog";
 import {
   FlightSearchPayload,
@@ -21,8 +21,20 @@ const FlightRouteCard = ({
   selectOffer,
 }: RouteCardProps) => {
   const [openViewDetails, setOpenViewDetails] = useState(false);
+  const detailsRef = useRef<HTMLDivElement | null>(null);
   const { departure, currency, price } = flightData;
   const fnplDeposit = convertStringToNumber(price) * 0.25;
+
+  const scrollToDetails = () => {
+    if (detailsRef.current) {
+      detailsRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleViewDetails = () => {
+    setOpenViewDetails(!openViewDetails);
+  };
+
   return (
     <div className="w-full">
       <div className="bg-white rounded-lg overflow-hidden  mt-5 w-full">
@@ -69,7 +81,7 @@ const FlightRouteCard = ({
               <HowItWorksDialog />
             </div>
             <div
-              onClick={() => setOpenViewDetails(!openViewDetails)}
+              onClick={handleViewDetails}
               className="bg-[#D7CBF3] rounded-full px-3 py-2 flex space-x-2 cursor-pointer"
             >
               <p className="text-[#7F56D9] inter-bold text-sm">
@@ -93,6 +105,7 @@ const FlightRouteCard = ({
             setOpenViewDetails={setOpenViewDetails}
             details={flightData}
             handleSelectOffer={selectOffer}
+            ref={detailsRef}
           />
         </div>
       )}

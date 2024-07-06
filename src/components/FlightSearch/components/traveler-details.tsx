@@ -9,14 +9,16 @@ interface TravelerDetailsProps {
 
 interface TravelerDetailsCardProps {
   index: number;
-  name: string;
-  title: string;
+  firstName: string;
+  lastName: string;
+  gender: string | undefined;
   dob: string;
 }
 const TravelerDetailsCard: React.FC<TravelerDetailsCardProps> = ({
   index,
-  name,
-  title,
+  firstName,
+  lastName,
+  gender,
   dob,
 }) => {
   return (
@@ -36,9 +38,16 @@ const TravelerDetailsCard: React.FC<TravelerDetailsCardProps> = ({
         </div>
         <div>
           <p className="text-base inter-semibold">
-            {name ? name : `Passenger ${index}`}
+            <span className="mr-1">
+              {firstName ? firstName : `Passenger ${index}`}
+            </span>
+            {lastName && (
+              <span>
+                <span>{lastName}</span>
+              </span>
+            )}
           </p>
-          <p className="text-[#A3A7AB] text-base inter-medium">{`${title} . ${dob}`}</p>
+          <p className="text-[#A3A7AB] text-base inter-medium">{`${gender} | ${dob}`}</p>
         </div>
       </div>
     </div>
@@ -85,8 +94,9 @@ const TravelerDetails: React.FC<TravelerDetailsProps> = ({
             ? uploadedPassengers.map((passenger, index) => (
                 <div key={index} className="mr-6">
                   <TravelerDetailsCard
-                    title={passenger.title}
-                    name={passenger.firstName}
+                    gender={passenger.gender}
+                    firstName={passenger.firstName}
+                    lastName={passenger.lastName}
                     dob={passenger.dob}
                     index={index + 1}
                   />

@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { DialogContent, DialogDescription, DialogHeader } from "./dialog";
+import { DialogContent, DialogDescription, DialogHeader } from "../ui/dialog";
 import { useState } from "react";
-import { CheckboxWithText } from "./checkbox-with-text";
+import { CheckboxWithText } from "../ui/checkbox-with-text";
 
 const AuthDialog = () => {
   const [currentTab, setCurrentTab] = useState("login");
@@ -16,15 +16,15 @@ const AuthDialog = () => {
       <DialogHeader className="">
         <DialogDescription>
           <div className="flex h-[700px]">
-          <div className="relative w-full h-full">
-        <Image
-          layout="fill" 
-          src="/assets/auth-screen.png"
-          alt="Auth Screen"
-          objectFit="cover"
-          className=""
-        />
-      </div>
+            <div className="relative w-full h-full">
+              <Image
+                layout="fill"
+                src="/assets/auth-screen.png"
+                alt="Auth Screen"
+                objectFit="cover"
+                className=""
+              />
+            </div>
             <div className="bg-white flex-grow relative ">
               <div className="flex justify-end pr-2 pt-4">
                 <Image
@@ -235,13 +235,14 @@ const AuthDialog = () => {
                     </div>
 
                     <button className="text-white inter-semibold text-sm bg-[#7F56D9] rounded-full w-full mt-10 py-5">
-                     Register
+                      Register
                     </button>
                     <div className="pt-5">
-
-            <CheckboxWithText label=" Agree to Terms and Conditions & Privacy Policy" className="text-[#7B8086]" />
+                      <CheckboxWithText
+                        label=" Agree to Terms and Conditions & Privacy Policy"
+                        className="text-[#7B8086]"
+                      />
                     </div>
-
                   </div>
                 )}
               </div>

@@ -51,6 +51,9 @@ const DatePicker: React.FC<DatePickerProps> = ({ label, isRequired }) => {
           mode="single"
           selected={date}
           onSelect={setDate}
+          captionLayout="dropdown"
+          fromYear={2010}
+          toYear={2024}
           initialFocus
         />
       </PopoverContent>

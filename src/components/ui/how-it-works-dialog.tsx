@@ -21,7 +21,7 @@ const HowItWorksDialog = () => {
           className=""
         />
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-w-sm">
         <DialogHeader>
           <DialogTitle>
             <h3 className="text-center">How it works</h3>

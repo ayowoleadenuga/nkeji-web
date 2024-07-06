@@ -3,6 +3,7 @@ import { Inter as FontSans } from "next/font/google";
 import { cn } from "@nkeji-web/lib/utils";
 import "./globals.css";
 import { ReduxProvider } from "@nkeji-web/redux/provider";
+import { Toaster } from "@nkeji-web/components/ui/toaster";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -29,7 +30,8 @@ export default function RootLayout({
           )}
           suppressHydrationWarning={true}
         >
-          {children}
+          <Toaster />
+          <main>{children}</main>
         </body>
       </ReduxProvider>
     </html>

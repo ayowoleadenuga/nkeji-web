@@ -15,11 +15,13 @@ interface BookingStepsProps {
   currentTab: number;
   setCurrentTab: (tab: number) => void;
   flightSearchPayload: FlightSearchPayload;
+  makePayment: () => void;
 }
 const BookingSteps = ({
   currentTab,
   setCurrentTab,
   flightSearchPayload,
+  makePayment,
 }: BookingStepsProps) => (
   <>
     <SubHeader
@@ -42,6 +44,7 @@ const BookingSteps = ({
               setCurrentTab={setCurrentTab}
               index={2}
             /> */}
+            <PassengerDetails flightSearchPayload={flightSearchPayload} />
             <BaggageAllowance setCurrentTab={setCurrentTab} index={2} />
             <div className="bg-white w-full py-6 px-5">
               <div className="flex justify-between items-center">
@@ -79,11 +82,13 @@ const BookingSteps = ({
         Back
       </button>
       <button
-        onClick={() => setCurrentTab(currentTab + 1)}
+        onClick={() =>
+          currentTab >= 3 ? makePayment() : setCurrentTab(currentTab + 1)
+        }
         type="button"
         className="rounded-full px-14 py-3 bg-[#7F56D9] text-white text-sm inter-semibold"
       >
-        {currentTab === 3 ? "Make payment" : "Next"}
+        {currentTab >= 3 ? "Make payment" : "Next"}
       </button>
     </div>
   </>

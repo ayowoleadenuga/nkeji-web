@@ -52,6 +52,7 @@ type DropdownListProps = {
   data: { data: Airport[] } | undefined;
   isLoading: boolean;
   error: any;
+  text: string;
   handleSelectAirport: (
     event: MouseEvent<HTMLLIElement>,
     option: Airport
@@ -62,23 +63,28 @@ const DropdownList: React.FC<DropdownListProps> = ({
   data,
   isLoading,
   error,
+  text,
   handleSelectAirport,
 }) => (
   <ul className="w-full shadow-lg border-gray-600 bg-[#FDFDFD] rounded p-2 mt-2 max-h-80 overflow-y-scroll text-center flex flex-col space-y-5">
     {isLoading && <div>Loading...</div>}
     {error && <div>Error fetching airports</div>}
-    {data?.data?.map((option) => (
-      <li
-        key={option.id}
-        className="text-left p-2 hover:bg-[#eeedfb] cursor-pointer"
-        onClick={(e) => handleSelectAirport(e, option)}
-      >
-        <p className="text-[#33383E] text-sm inter-bold">{option.name}</p>
-        <p className="text-[#A3A7AB] text-xs">
-          <span>{option.city}</span>,<span>{option.country}</span>
-        </p>
-      </li>
-    ))}
+    {data?.data ? (
+      data.data.map((option) => (
+        <li
+          key={option.id}
+          className="text-left p-2 hover:bg-[#eeedfb] cursor-pointer"
+          onClick={(e) => handleSelectAirport(e, option)}
+        >
+          <p className="text-[#33383E] text-sm inter-bold">{option.name}</p>
+          <p className="text-[#A3A7AB] text-xs">
+            <span>{option.city}</span>,<span>{option.country}</span>
+          </p>
+        </li>
+      ))
+    ) : (
+      <div>{`Airport '${text}' not found`}</div>
+    )}
   </ul>
 );
 
@@ -106,6 +112,7 @@ const AirportSearchComponent: React.FC<AirportSearchComponentProps> = ({
   const { data, isLoading, error } = useGetAirportsQuery(debouncedText, {
     skip: debouncedText.length <= 2,
   });
+
   const dispatch = useDispatch();
 
   const action = id === "departure" ? updateDeparture : updateDestination;
@@ -209,6 +216,7 @@ const AirportSearchComponent: React.FC<AirportSearchComponentProps> = ({
           data={data}
           isLoading={isLoading}
           error={error}
+          text={debouncedText}
           handleSelectAirport={handleSelectAirport}
         />
       )}

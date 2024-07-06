@@ -1,9 +1,48 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { FlightSearchPayload, TicketType } from "./global-types";
+import {
+  FlightSearchPayload,
+  FlightSearchResult,
+  TicketType,
+} from "./global-types";
 import getSymbolFromCurrency from "currency-symbol-map";
 
 import { parseISO, format } from "date-fns";
+
+export const sortFlights = (flights: FlightSearchResult[]) => {
+  const parsePrice = (price: string): number =>
+    parseFloat(price.replace(/[^0-9.-]+/g, ""));
+  const parseTime = (time: string): Date => new Date(time);
+  let sortedFlights;
+
+  // Create a copy of the flights array to avoid mutating the original array
+  if (Array.isArray(flights)) {
+    sortedFlights = [...flights];
+    let sortedByPrice = [...flights];
+    let sortedByDuration = [...flights];
+    let sortedByStops = [...flights];
+    sortedByPrice.sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
+
+    sortedByStops.sort((a, b) => a.departure.stops - b.departure.stops);
+
+    sortedByDuration.sort((a, b) => {
+      const aTime =
+        parseTime(a.departure.arrivalTime).getTime() -
+        parseTime(a.departure.departureTime).getTime();
+      const bTime =
+        parseTime(b.departure.arrivalTime).getTime() -
+        parseTime(b.departure.departureTime).getTime();
+      return aTime - bTime;
+    });
+    return {
+      price: sortedByPrice,
+      flightTime: sortedByDuration,
+      stopovers: sortedByStops,
+    };
+  } else {
+    throw new Error("The input is not an array.");
+  }
+};
 
 /**
  * Calculates and formats the duration between two ISO date strings using native JavaScript Date.
