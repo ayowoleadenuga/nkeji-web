@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Accordion,
   AccordionContent,
@@ -14,21 +16,31 @@ import GoCardlessDialog from "@nkeji-web/components/ui/go-cardless-dialog";
 import {
   useGetDirectPaymentLinkMutation,
   useGetFlightIdMutation,
+  useGetPaymentMandateLinkMutation,
 } from "@nkeji-web/redux/features/apiSlice";
 import {
   resetSelectedFlightState,
   updateFlightId,
 } from "@nkeji-web/redux/features/flightSelectReducer";
 import { resetSearchFlightState } from "@nkeji-web/redux/features/flightSearchReducer";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+
+import GoCardlessPaymentMandateDialog from "@nkeji-web/components/ui/payment-mandate-dialog";
+
+import ReusablePaymentModalContainer from "./reusablePaymentModalHead";
+import MoonLoader from "react-spinners/MoonLoader";
 
 const MakePayment = () => {
-  const [expandCard1, setExpandCard1] = useState(false);
-  const [expandCard2, setExpandCard2] = useState(false);
+  const [expandCard1, setExpandCard1] = useState<boolean>(false);
+  const [expandCard2, setExpandCard2] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const router = useRouter();
+
   const selected = useSelector((state: RootState) => state.flightSelect);
   const user = useSelector((state: RootState) => state.auth.user);
   if (!user) {
-    redirect("/flight-search");
+    router.push("/flight-search");
+    return;
   }
   const dispatch = useDispatch();
   const { passengerDetails, selectedFlight, flightId } = selected;
@@ -38,9 +50,16 @@ const MakePayment = () => {
         parseFloat(selectedFlight?.price.replace(/[^0-9.-]+/g, ""))
       : 0.0;
   const downPaymentForFNPL = 0.25 * fullAmount;
-  const spreadableAmountForFNPL = (fullAmount - downPaymentForFNPL) / 5;
-  const [getDirectPaymentLink, { data, error, isLoading }] =
+  const spreadableAmountForFNPL = (
+    (fullAmount - downPaymentForFNPL) /
+    5
+  ).toFixed(2);
+  const [getDirectPaymentLink, { data, isLoading: instantPaymentLoading }] =
     useGetDirectPaymentLinkMutation();
+  const [
+    getPaymentMandateLink,
+    { data: paymentMandateData, isLoading: directDebitLoading },
+  ] = useGetPaymentMandateLinkMutation();
   const [getFlightIdMutation] = useGetFlightIdMutation();
   const handleInstantPayment = async () => {
     try {
@@ -52,11 +71,20 @@ const MakePayment = () => {
       console.error("Failed to get payment link:", err);
     }
   };
+  const handleDirectDebitPayment = async () => {
+    try {
+      await getPaymentMandateLink({
+        flightId: flightId || "",
+        amount: fullAmount,
+      }).unwrap();
+    } catch (err) {
+      console.error("Failed to get direct debit payment link:", err);
+    }
+  };
   useEffect(() => {
     const fetchFlightId = async () => {
       try {
         const result = await getFlightIdMutation(selectedFlight?.id || "");
-        console.log(result);
         if ("data" in result) {
           const {
             data: {
@@ -76,9 +104,9 @@ const MakePayment = () => {
   const paymentSuccessHandler = () => {
     dispatch(resetSelectedFlightState());
     dispatch(resetSearchFlightState());
-    redirect("/confirm");
-  };
 
+    router.push("/payment-success");
+  };
   return (
     <div>
       <div className="bg-white px-5 py-4 ">
@@ -151,14 +179,28 @@ const MakePayment = () => {
                           className=""
                         />
                         <p className="text-[#1B1E21] text-base inter-semibold">
-                          Bank Instant Payment
+                          Click here for bank Instant Payment
                         </p>
                       </div>
                     </DialogTrigger>
-                    {data && (
+                    {data ? (
                       <GoCardlessDialog
+                        onSuccess={paymentSuccessHandler}
                         authorisation_url={data?.data?.authorisation_url}
                       />
+                    ) : (
+                      <ReusablePaymentModalContainer title="Instant Payment">
+                        {instantPaymentLoading ? (
+                          <div className="flex items-center justify-center my-4">
+                            <MoonLoader color="#7F56D9" size={80} />
+                          </div>
+                        ) : (
+                          <div className="my-4">
+                            Unable to initiate payment link. Please go back and
+                            try again later
+                          </div>
+                        )}
+                      </ReusablePaymentModalContainer>
                     )}
                   </Dialog>
                 </div>
@@ -200,7 +242,7 @@ const MakePayment = () => {
               <div className="flex justify-between w-full ">
                 <div>
                   <h3 className="text-lg text-[#1B1E21] text-left inter-bold">
-                    Pay in 6 or Financing
+                    Pay in 6
                   </h3>
                   <p className="text-sm text-[#1B1E21]">
                     Spread the cost into smaller payments, over 6 months.
@@ -214,12 +256,15 @@ const MakePayment = () => {
                   Here your payment schedule
                 </p>
                 <p className="text-base">
-                  The payment breakdown below includes a 25% interest.
+                  The payment breakdown amount may increase based on your risk
+                  profile.
                 </p>
 
                 <div className="flex justify-between items-start mt-5">
                   <div className="flex flex-col items-center">
-                    <span className="text-lg inter-semibold ">{`£${downPaymentForFNPL}`}</span>
+                    <span className="text-lg inter-semibold ">{`£${downPaymentForFNPL.toFixed(
+                      2
+                    )}`}</span>
                     <span className="text-[#A3A7AB] text-xs">Due today</span>
                   </div>
                   <div className="flex flex-col items-center">
@@ -246,23 +291,61 @@ const MakePayment = () => {
                   </div>
                   <div className="flex flex-col items-center ">
                     <span className="text-lg inter-semibold ">{`£${spreadableAmountForFNPL}`}</span>
-                    <span className="text-[#A3A7AB] text-xs">Due 120 days</span>
+                    <span className="text-[#A3A7AB] text-xs">Due 150 days</span>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-3 my-10">
                   <div className="flex flex-col items-center ">
-                    <span className="text-lg inter-semibold ">£5,541.95</span>
+                    <span className="text-lg inter-semibold ">{`£${fullAmount}`}</span>
                     <span className="text-[#A3A7AB] text-xs">Total cost</span>
                   </div>
-                  <Dialog>
-                    <DialogTrigger>
-                      <button className="text-white inter-semibold text-sm bg-[#7F56D9] rounded-full px-12 py-4">
+                  {user.credit_limit.amount > 0 ? (
+                    <div>
+                      <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="text-white inter-semibold text-sm bg-[#7F56D9] rounded-full px-12 py-4"
+                      >
                         Proceed
                       </button>
-                    </DialogTrigger>
-                    <AddAccountDialog />
-                  </Dialog>
+                      <AddAccountDialog
+                        visible={isOpen}
+                        closeOnClickOut
+                        onClose={() => setIsOpen(false)}
+                      />
+                    </div>
+                  ) : (
+                    <Dialog>
+                      <DialogTrigger
+                        onClick={handleDirectDebitPayment}
+                        className="text-white inter-semibold text-sm bg-[#7F56D9] rounded-full px-12 py-4"
+                      >
+                        Proceed with pay-in-6 payment
+                      </DialogTrigger>
+
+                      {paymentMandateData ? (
+                        <GoCardlessPaymentMandateDialog
+                          onSuccess={paymentSuccessHandler}
+                          authorisation_url={
+                            paymentMandateData?.data?.authorisation_url
+                          }
+                        />
+                      ) : (
+                        <ReusablePaymentModalContainer title="Direct Debit Setup">
+                          {directDebitLoading ? (
+                            <div className="flex items-center justify-center my-4">
+                              <MoonLoader color="#7F56D9" size={80} />
+                            </div>
+                          ) : (
+                            <div className="my-4">
+                              Unable to initiate payment link. Please go back
+                              and try again later
+                            </div>
+                          )}
+                        </ReusablePaymentModalContainer>
+                      )}
+                    </Dialog>
+                  )}
                 </div>
 
                 <div className="pr-10">

@@ -44,6 +44,12 @@ export const sortFlights = (flights: FlightSearchResult[]) => {
   }
 };
 
+export function extractParamValue(url: string, param: string) {
+  if (url) {
+    const urlObj = new URL(url);
+    return urlObj.searchParams.get(param);
+  }
+}
 /**
  * Calculates and formats the duration between two ISO date strings using native JavaScript Date.
  * @param {string} departureISO - The ISO string for the departure time.

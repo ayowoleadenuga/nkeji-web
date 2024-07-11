@@ -1,8 +1,8 @@
+import ReusablePaymentModalContainer from "../FlightSearch/components/reusablePaymentModalHead";
 import GoCardlessDropinButon from "./GoCardlessDropinButon";
 import { extractParamValue } from "@nkeji-web/lib/utils";
-import ReusablePaymentModalContainer from "../FlightSearch/components/reusablePaymentModalHead";
 
-const GoCardlessDialog = ({
+const GoCardlessPaymentMandateDialog = ({
   authorisation_url,
   onSuccess,
 }: {
@@ -11,7 +11,7 @@ const GoCardlessDialog = ({
 }) => {
   const flow_id = extractParamValue(authorisation_url, "id");
   return (
-    <ReusablePaymentModalContainer title="Instant Payment">
+    <ReusablePaymentModalContainer title="Direct Debit Setup">
       <span className="mt-3 text-center text-black">
         Click the button below to launch a payment session to make payment via
         your bank
@@ -22,9 +22,7 @@ const GoCardlessDialog = ({
             billingRequestFlowID: flow_id || "",
             environment: process.env.NEXT_PUBLIC_GOCARDLESS_ENV || "sandbox",
             onSuccess: onSuccess,
-            onExit: () => {
-              console.log("exited");
-            },
+            onExit: () => {},
           }}
           title="Make Payment Via Bank"
         />
@@ -33,4 +31,4 @@ const GoCardlessDialog = ({
   );
 };
 
-export default GoCardlessDialog;
+export default GoCardlessPaymentMandateDialog;

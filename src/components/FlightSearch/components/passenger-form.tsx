@@ -164,10 +164,16 @@ const PassengerForm = ({ passenger, onChange }: PassengerFormProps) => {
           onChange={(e) => onChange("email", e.target.value)}
         />
         <RequestsInput
-          containerClass={"w-[240px]"}
+          containerClass={"w-[240px] relative"}
           label="Phone Number"
-          placeholder="Enter Passenger's phone number"
+          placeholder="Enter phone number"
           value={phoneNumber}
+          type="tel"
+          autoComplete="tel"
+          max="10"
+          min="10"
+          pattern="[0-9]{10}"
+          prependContent={<span className="absolute top-9 left-2">+44</span>}
           onChange={(e) => onChange("phoneNumber", e.target.value)}
         />
 

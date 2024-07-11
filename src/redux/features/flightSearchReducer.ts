@@ -54,7 +54,7 @@ const flightSearchSlice = createSlice({
       state.type = action.payload;
     },
     resetSearchFlightState: (state) => {
-      state = { ...initialState };
+      return initialState;
     },
   },
 });

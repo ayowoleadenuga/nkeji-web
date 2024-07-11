@@ -1,14 +1,16 @@
 "use client";
 import { CircleCheckIcon } from "lucide-react";
-import { useSelector } from "react-redux";
-import { RootState } from "@nkeji-web/redux/store";
-import { redirect } from "next/navigation";
+// import { useSelector } from "react-redux";
+// import { RootState } from "@nkeji-web/redux/store";
+import { useRouter } from "next/navigation";
 
 const FlightConfirmationPage = () => {
-  const user = useSelector((state: RootState) => state.auth.user);
-  if (!user) {
-    redirect("/");
-  }
+  const router = useRouter();
+  // const user = useSelector((state: RootState) => state.auth.user);
+
+  // if (!user) {
+  //   redirect("/");
+  // }
   return (
     <div>
       <div className="flex flex-col items-center justify-center min-h-screen pt-12 space-y-4 md:py-24">
@@ -27,7 +29,7 @@ const FlightConfirmationPage = () => {
           <button
             className="text-white inter-semibold text-sm bg-[#7F56D9]
              rounded-full w-full mt-10 py-5"
-            onClick={redirect("/")}
+            onClick={() => router.push("/")}
           >
             Back to home
           </button>

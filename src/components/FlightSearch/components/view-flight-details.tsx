@@ -6,15 +6,16 @@ import {
   formatFlightDuration,
   truncateSentence,
 } from "@nkeji-web/lib/utils";
+import { DialogTitle } from "@nkeji-web/components/ui/dialog";
 
 interface ViewFlightDetailsProps {
   details: FlightSearchResult;
-  setOpenViewDetails: (open: boolean) => void;
   handleSelectOffer: () => void;
+  closeModal: () => void;
 }
 
 const ViewFlightDetails = forwardRef<HTMLDivElement, ViewFlightDetailsProps>(
-  ({ setOpenViewDetails, details, handleSelectOffer }, ref) => {
+  ({ details, handleSelectOffer, closeModal }, ref) => {
     const {
       departureStops,
       departure,
@@ -169,27 +170,14 @@ const ViewFlightDetails = forwardRef<HTMLDivElement, ViewFlightDetailsProps>(
         ref={ref}
       >
         <div className="px-10">
-          <div
-            className="absolute right-6 top-6"
-            onClick={() => setOpenViewDetails(false)}
-          >
-            <Image
-              height={32}
-              width={32}
-              layout="intrinsic"
-              src="/assets/close-btn.svg"
-              alt=""
-              className="cursor-pointer mb-1"
-            />
-          </div>
           <div className="w-full mt-2 mb-8">
             <div className="relative">
-              <h2 className="text-xl inter-bold">
+              <DialogTitle className="text-xl inter-bold">
                 Your departure flight to{" "}
                 {departurePath &&
                   departurePath.length > 0 &&
                   departurePath[departurePath.length - 1].arrivalAirport.city}
-              </h2>
+              </DialogTitle>
             </div>
           </div>
           {renderStops(departurePath)}
@@ -213,7 +201,7 @@ const ViewFlightDetails = forwardRef<HTMLDivElement, ViewFlightDetailsProps>(
         </div>
 
         <div className="bg-[#FAFAFA] w-full px-10 pt-10 pb-20 mt-5">
-          <div className="w-full flex flex-wrap gap-10">
+          <div className="w-full flex flex-wrap gap-8">
             <div className="w-[20%] flex items-center space-x-2">
               <Image
                 height={32}

@@ -73,7 +73,7 @@ const BookingSteps = ({
         <PriceDetails />
       </div>
     </div>
-    <div className="flex justify-center space-x-3 mt-6">
+    <div className="flex justify-center space-x-3 mt-6 mb-6">
       <button
         type="button"
         onClick={() => setCurrentTab(currentTab - 1)}
@@ -81,15 +81,17 @@ const BookingSteps = ({
       >
         Back
       </button>
-      <button
-        onClick={() =>
-          currentTab >= 3 ? makePayment() : setCurrentTab(currentTab + 1)
-        }
-        type="button"
-        className="rounded-full px-14 py-3 bg-[#7F56D9] text-white text-sm inter-semibold"
-      >
-        {currentTab >= 3 ? "Make payment" : "Next"}
-      </button>
+      {currentTab === 4 ? null : (
+        <button
+          onClick={() =>
+            currentTab > 2 ? makePayment() : setCurrentTab(currentTab + 1)
+          }
+          type="button"
+          className="rounded-full px-14 py-3 bg-[#7F56D9] text-white text-sm inter-semibold"
+        >
+          {currentTab >= 3 ? "Make payment" : "Next"}
+        </button>
+      )}
     </div>
   </>
 );

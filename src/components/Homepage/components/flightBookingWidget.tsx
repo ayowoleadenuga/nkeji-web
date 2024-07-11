@@ -66,7 +66,7 @@ const FlightBookingWidget: React.FC<BookingWidgetProps> = ({
             <PassengersDropdown />
             <CabinClassDropdown />
           </div>
-          <div className="mt-0 lg:mt-6 lg:border border-[#D0D5DD] bg-[#FDFDFD] rounded-[100px] py-4 pl-0 lg:pl-8 pr-0 lg:pr-3  flex flex-col lg:flex-row space-y-4 lg:space-y-0 justify-between items-center lg:h-[80px]">
+          <div className="mt-0 lg:mt-6 lg:border border-[#D0D5DD] bg-[#FDFDFD] rounded-[100px] py-4 pl-0 lg:pl-8 pr-0 lg:pr-3  flex flex-col lg:flex-row space-y-4 lg:space-y-0 justify-between items-center lg:h-[80px] md:space-x-3 lg:space-x-8">
             <div className="w-full lg:w-1/2 pl-0  md:pl-6 lg:pl-0 flex flex-col space-y-4 md:space-y-0 md:flex-row justify-between items-center border-0 lg:border-0 border-[#D0D5DD] md:rounded-[100px] rounded-none lg:rounded-none md:border md:h-[80px] relative">
               <div className="w-full  border border-[#D0D5DD] rounded-[100px] md:border-0 md:rounded-none h-[80px] md:h-full">
                 <AirportSearchComponent label="From" id="departure" />
@@ -113,19 +113,20 @@ const FlightBookingWidget: React.FC<BookingWidgetProps> = ({
                 />
               )}
             </div>
-
-            <button
-              type="button"
-              disabled={!enableButton}
-              onClick={searchButtonHandler}
-              className={`w-auto text-white ${
-                !enableButton ? "bg-gray-400" : "bg-[#7F56D9]"
-              } rounded-[100px] py-3 px-14 lg:px-10 text-lg inter-medium ${
-                !enableButton && "cursor-not-allowed"
-              }`}
-            >
-              Search
-            </button>
+            <div className="block lg:flex">
+              <button
+                type="button"
+                disabled={!enableButton}
+                onClick={searchButtonHandler}
+                className={`w-auto text-white ${
+                  !enableButton ? "bg-gray-400" : "bg-[#7F56D9]"
+                } rounded-[100px] py-3 px-14 lg:px-10 text-lg inter-medium ${
+                  !enableButton && "cursor-not-allowed"
+                }`}
+              >
+                Search
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -161,3 +161,11 @@ export interface SignupState {
     | "registerDetails";
   error: string | null;
 }
+
+export interface GetPlaidTokenResponse {
+  data: {
+    expiration: Date;
+    link_token: string;
+    request_id: string;
+  };
+}

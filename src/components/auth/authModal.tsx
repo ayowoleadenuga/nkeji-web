@@ -1,85 +1,83 @@
 import Image from "next/image";
-import { useState } from "react";
-import Modal from "../ui/modal";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@nkeji-web/redux/store";
-import { closeModal } from "@nkeji-web/redux/features/authModalReducer";
+import { useDispatch } from "react-redux";
 import LoginForm from "./loginForm";
 import { clearError, resetState } from "@nkeji-web/redux/features/authSlice";
 import SignupForm from "./signupForm";
+import { DialogContent } from "../ui/dialog";
+import { AuthTabType } from ".";
 
-const AuthModal = () => {
-  const [currentTab, setCurrentTab] = useState("login");
+const AuthModal = ({
+  currentTab,
+  setCurrentTab,
+}: {
+  currentTab: AuthTabType;
+  setCurrentTab: (val: AuthTabType) => void;
+}) => {
   const dispatch = useDispatch();
   const handleClose = () => {
-    dispatch(closeModal());
     dispatch(clearError());
     dispatch(resetState());
   };
-  const isOpen = useSelector((state: RootState) => state.authModal.isOpen);
 
   return (
-    <Modal
-      visible={isOpen}
-      zIndex="100"
-      onClose={handleClose}
-      closeOnClickOut={false}
+    <DialogContent
+      closeButton={
+        <div className="absolute right-6 top-2">
+          <Image
+            height={30}
+            width={30}
+            layout="intrinsic"
+            src={`/assets/close.svg`}
+            alt=""
+            className="cursor-pointer"
+          />
+        </div>
+      }
+      className="lg:max-w-[55%] md:max-w-[70%] max-w-[100%] lg:max-h-[90vh] md:max-h-[80vh] max-h-[100vh] overflow-auto p-0"
     >
-      <div>
-        <div className="flex min-h-[700px] mt-10 mb-10">
-          <div className="relative w-full h-full">
-            <Image
-              layout="fill"
-              src="/assets/auth-screen.png"
-              alt="Auth Screen"
-              objectFit="cover"
-              className=""
-            />
-          </div>
-          <div className="bg-white flex-grow relative ">
-            <div className="flex justify-end pr-2 pt-4" onClick={handleClose}>
-              <Image
-                height={30}
-                width={30}
-                layout="intrinsic"
-                src={`/assets/close.svg`}
-                alt=""
-                className="cursor-pointer"
-              />
-            </div>
-            <div className="px-10">
-              <div className="flex border-b border-b-[#DEDFE0] w-full space-x-8 mt-5 ">
-                <div
-                  onClick={() => setCurrentTab("login")}
-                  className={`cursor-pointer text-base pb-4 ${
-                    currentTab === "login"
-                      ? "border-b border-b-black text-[#1B1E21] inter-bold"
-                      : "text-[#A3A7AB]"
-                  }`}
-                >
-                  Login
-                </div>
-                <div
-                  onClick={() => setCurrentTab("register")}
-                  className={`cursor-pointer text-base pb-4  ${
-                    currentTab === "register"
-                      ? "border-b inter-bold text-base text-[#1B1E21] border-b-black"
-                      : "text-[#A3A7AB]"
-                  }`}
-                >
-                  Register
-                </div>
+      <div className="flex overflow-auto rounded-lg relative mb-[-16px]">
+        <div className="relative w-[40%]">
+          <Image
+            layout="fill"
+            src="/assets/auth-screen.png"
+            alt="Auth Screen"
+            objectFit="cover"
+            className=""
+          />
+        </div>
+        <div className="bg-white w-[60%] relative pt-4">
+          <div className="px-10">
+            <div className="flex border-b border-b-[#DEDFE0] w-full space-x-8 mt-5 ">
+              <div
+                onClick={() => setCurrentTab("login")}
+                className={`cursor-pointer text-base pb-4 ${
+                  currentTab === "login"
+                    ? "border-b border-b-black text-[#1B1E21] inter-bold"
+                    : "text-[#A3A7AB]"
+                }`}
+              >
+                Login
               </div>
-              {currentTab === "login" && <LoginForm closeModal={handleClose} />}
-
-              {currentTab === "register" && (
-                <SignupForm closeModal={handleClose} />
-              )}
+              <div
+                onClick={() => setCurrentTab("register")}
+                className={`cursor-pointer text-base pb-4  ${
+                  currentTab === "register"
+                    ? "border-b inter-bold text-base text-[#1B1E21] border-b-black"
+                    : "text-[#A3A7AB]"
+                }`}
+              >
+                Register
+              </div>
             </div>
+            {currentTab === "login" && <LoginForm closeModal={handleClose} />}
+
+            {currentTab === "register" && (
+              <SignupForm closeModal={handleClose} />
+            )}
           </div>
         </div>
       </div>
-    </Modal>
+    </DialogContent>
   );
 };
 

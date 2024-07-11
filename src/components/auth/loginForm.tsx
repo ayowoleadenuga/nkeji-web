@@ -44,7 +44,7 @@ const LoginForm = ({ closeModal }: { closeModal: () => void }) => {
     }
   };
   return (
-    <div className="mt-8">
+    <div className="mt-8 mb-14">
       <h3 className="text-2xl inter-bold text-[#1B1E21]">
         Login to your account
       </h3>

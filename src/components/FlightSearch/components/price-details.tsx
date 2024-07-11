@@ -20,16 +20,20 @@ const PriceDetails = () => {
           <p className="">Fare</p>
           <p>{`£${fullAmount}`}</p>
         </div>
-        {/* <div>
+        <div className="flex justify-between text-[#7B8086] text-base inter-semibold">
+          <p className="">Passenger(s)</p>
+          <p>{passengerDetails.length}</p>
+        </div>
+        <div>
           <div className="flex justify-between text-[#7B8086] text-base inter-semibold mb-2">
             <p className="">Cancellation Protection fee</p>
-            <p>£166.95</p>
+            <p>£0</p>
           </div>
           <div className="flex justify-between text-[#7B8086] text-base inter-semibold">
             <p className="">Lost Baggage Protection fee</p>
-            <p>£66.95</p>
+            <p>£0</p>
           </div>
-        </div> */}
+        </div>
         <div className="flex justify-between">
           <div>
             <p className="text-base inter-semibold">Total</p>

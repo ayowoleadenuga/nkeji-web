@@ -10,15 +10,12 @@ import { scrollToTop } from "@nkeji-web/lib/utils";
 import { FlightSearchResult } from "@nkeji-web/lib/global-types";
 import BookingSteps from "./components/booking-steps";
 import SearchResultView from "./components/search-result-view";
-import LoadingSpinner from "./components/loading-spinner";
 import Navigation from "@nkeji-web/components/Homepage/components/navigation";
 import FlightTabs from "./components/flight-tabs";
-import { CustomerBenefits } from "@nkeji-web/components/Homepage/components/customer-benefit";
-import { FAQS } from "@nkeji-web/components/Homepage/components/faq";
 import { Footer } from "@nkeji-web/components/Homepage/components/footer";
-import DetailsBanner from "./components/details-banner";
 import { openModal } from "@nkeji-web/redux/features/authModalReducer";
 import AlternateLoader from "./components/alternate-loader";
+import { useToast } from "../ui/use-toast";
 
 const FlightSearch = () => {
   const [showFlightComponent, setShowFlightComponent] = useState(false);
@@ -27,21 +24,25 @@ const FlightSearch = () => {
   const flightSearchPayload = useSelector(
     (state: RootState) => state.flightSearch
   );
-
+  const { toast } = useToast();
   const [getFlightsMutation, { data, isLoading }] = useGetFlightsMutation();
   const dispatch = useDispatch();
 
-  const search = useCallback(async () => {
+  const search = async () => {
     try {
       await getFlightsMutation(flightSearchPayload);
     } catch (error) {
       console.error(error);
+      toast({
+        title: "Oops! an error has occurred",
+        variant: "destructive",
+        description: `Unable to find flight deals. Please try again later`,
+      });
     }
-  }, [getFlightsMutation]);
-
+  };
   useEffect(() => {
     search();
-  }, [search]);
+  }, []);
 
   useEffect(() => {
     scrollToTop();
@@ -101,8 +102,8 @@ const FlightSearch = () => {
               makePayment={makePayment}
             />
           )}
-          <CustomerBenefits />
-          <FAQS />
+          {/* <CustomerBenefits />
+          <FAQS /> */}
           <Footer />
         </>
       )}

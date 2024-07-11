@@ -2,9 +2,11 @@ import {
   Airport,
   FlightIdData,
   FlightSearchPayload,
+  User,
 } from "@nkeji-web/lib/global-types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
+import { PlaidLinkOnSuccessMetadata } from "react-plaid-link";
 
 export interface ApiResponse<T> {
   data: T;
@@ -68,6 +70,45 @@ export const apiSlice = createApi({
         },
       }),
     }),
+    getPaymentMandateLink: builder.mutation({
+      query: ({ flightId, amount }: { flightId: string; amount: number }) => ({
+        url: `/flights/${flightId}/payments/with-mandate`,
+        method: "POST",
+        body: {
+          successURL: `${process.env.NEXT_PUBLIC_APP_URL}/payment-success`,
+          failureURL: `${process.env.NEXT_PUBLIC_APP_URL}/payment-failure`,
+          amount,
+        },
+      }),
+    }),
+    getPlaidToken: builder.mutation({
+      query: () => ({
+        url: "/bank-connection/tokens",
+        method: "POST",
+      }),
+    }),
+    exchangePlaidToken: builder.mutation({
+      query: ({
+        token,
+        metadata,
+      }: {
+        token: string;
+        metadata: PlaidLinkOnSuccessMetadata;
+      }) => ({
+        url: "/bank-connection/public-tokens",
+        method: "POST",
+        body: {
+          token,
+          metadata,
+        },
+      }),
+    }),
+    getUser: builder.query<ApiResponse<User>, null>({
+      query: () => ({
+        url: "/user",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -76,4 +117,8 @@ export const {
   useGetFlightsMutation,
   useGetDirectPaymentLinkMutation,
   useGetFlightIdMutation,
+  useGetPlaidTokenMutation,
+  useExchangePlaidTokenMutation,
+  useGetUserQuery,
+  useGetPaymentMandateLinkMutation,
 } = apiSlice;

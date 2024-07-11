@@ -10,6 +10,11 @@ import {
 } from "@nkeji-web/lib/global-types";
 import { convertStringToNumber, currencyToCode } from "@nkeji-web/lib/utils";
 import Trip from "./trip";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@nkeji-web/components/ui/dialog";
 interface RouteCardProps {
   flightData: FlightSearchResult;
   flightSearchPayload: FlightSearchPayload;
@@ -22,17 +27,18 @@ const FlightRouteCard = ({
 }: RouteCardProps) => {
   const [openViewDetails, setOpenViewDetails] = useState(false);
   const detailsRef = useRef<HTMLDivElement | null>(null);
+  const overlayRef = useRef<HTMLDivElement | null>(null);
   const { departure, currency, price } = flightData;
   const fnplDeposit = convertStringToNumber(price) * 0.25;
 
-  const scrollToDetails = () => {
-    if (detailsRef.current) {
-      detailsRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   const handleViewDetails = () => {
     setOpenViewDetails(!openViewDetails);
+  };
+
+  const handleCloseModal = () => {
+    if (overlayRef && overlayRef.current) {
+      overlayRef.current.click();
+    }
   };
 
   return (
@@ -80,35 +86,53 @@ const FlightRouteCard = ({
 
               <HowItWorksDialog />
             </div>
-            <div
-              onClick={handleViewDetails}
-              className="bg-[#D7CBF3] rounded-full px-3 py-2 flex space-x-2 cursor-pointer"
-            >
-              <p className="text-[#7F56D9] inter-bold text-sm">
-                View more details
-              </p>
-              <Image
-                height={12}
-                width={12}
-                layout="intrinsic"
-                src="/assets/dropdown.svg"
-                alt=""
-                className=""
-              />
-            </div>
+            <Dialog>
+              <DialogTrigger>
+                <div
+                  onClick={handleViewDetails}
+                  className="bg-[#D7CBF3] rounded-full px-3 py-2 flex space-x-2 cursor-pointer"
+                >
+                  <p className="text-[#7F56D9] inter-bold text-sm">
+                    View more details
+                  </p>
+                  <Image
+                    height={12}
+                    width={12}
+                    layout="intrinsic"
+                    src="/assets/dropdown.svg"
+                    alt=""
+                    className=""
+                  />
+                </div>
+              </DialogTrigger>
+              <DialogContent
+                className="max-w-2xl max-h-[80vh] overflow-auto p-0"
+                closeButton={
+                  <div className="absolute right-6 top-6">
+                    <Image
+                      height={32}
+                      width={32}
+                      layout="intrinsic"
+                      src="/assets/close-btn.svg"
+                      alt=""
+                      className="cursor-pointer mb-1"
+                    />
+                  </div>
+                }
+              >
+                <div className="mb-[-1.5rem]">
+                  <ViewFlightDetails
+                    details={flightData}
+                    handleSelectOffer={selectOffer}
+                    ref={detailsRef}
+                    closeModal={handleCloseModal}
+                  />
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </div>
-      {openViewDetails && (
-        <div className="max-w-full">
-          <ViewFlightDetails
-            setOpenViewDetails={setOpenViewDetails}
-            details={flightData}
-            handleSelectOffer={selectOffer}
-            ref={detailsRef}
-          />
-        </div>
-      )}
     </div>
   );
 };

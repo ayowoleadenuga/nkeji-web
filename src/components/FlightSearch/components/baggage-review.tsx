@@ -67,7 +67,6 @@ const BaggageReview = ({}) => {
   const selectedFlight = useSelector(
     (state: RootState) => state.flightSelect.selectedFlight
   );
-  // console.log({ selectedFlight });
   return (
     <div>
       <div className="bg-white w-full py-4 px-5">

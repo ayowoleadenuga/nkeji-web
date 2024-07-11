@@ -121,6 +121,9 @@ const authSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    updateUser: (state, action: PayloadAction<{ user: User }>) => {
+      state.user = action.payload.user;
+    },
     resetState: (state) => {
       return {
         ...initialState,
@@ -171,6 +174,7 @@ export const {
   setCurrentStage,
   setError,
   resetState,
+  updateUser,
 } = authSlice.actions;
 
 // Export the auth reducer

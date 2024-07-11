@@ -4,12 +4,14 @@ interface RequestProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   isRequired?: boolean;
   containerClass?: string;
+  prependContent?: React.ReactNode | undefined;
 }
 
 const RequestsInput: React.FC<RequestProps> = ({
   label,
   isRequired,
   containerClass,
+  prependContent,
   type,
   ...props
 }) => {
@@ -19,11 +21,14 @@ const RequestsInput: React.FC<RequestProps> = ({
         {label}
         {isRequired && <span className="text-red-500">*</span>}
       </label>
+      {prependContent}
       <input
-        type="text"
+        type={type || "text"}
         id={label}
         placeholder={props.placeholder}
-        className="border border-[#D0D5DD] rounded-lg bg-white p-3"
+        className={`border border-[#D0D5DD] rounded-lg bg-white p-3 ${
+          prependContent ? "pl-10" : ""
+        }`}
         {...props}
       />
     </div>

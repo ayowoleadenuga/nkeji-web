@@ -14,6 +14,7 @@ import {
   usePhoneNumberVerificationMutation,
   useVerifyPhoneNumberMutation,
   useRegisterUserMutation,
+  useLoginMutation,
 } from "@nkeji-web/redux/features/authApi";
 import {
   setEmail,
@@ -27,7 +28,6 @@ import {
   setError,
   clearError,
 } from "@nkeji-web/redux/features/authSlice";
-import { closeModal } from "@nkeji-web/redux/features/authModalReducer";
 import { useToast } from "../ui/use-toast";
 import { format } from "date-fns";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
@@ -49,7 +49,7 @@ const SignupForm = ({ closeModal }: { closeModal: () => void }) => {
   const { toast } = useToast();
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  console.log({ firstName, lastName, password });
+
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -63,6 +63,7 @@ const SignupForm = ({ closeModal }: { closeModal: () => void }) => {
     useVerifyPhoneNumberMutation();
   const [registerUser, { isLoading: isRegistering }] =
     useRegisterUserMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
   React.useEffect(() => {
     if (date) {
@@ -138,13 +139,14 @@ const SignupForm = ({ closeModal }: { closeModal: () => void }) => {
       await registerUser({
         first_name: firstName,
         last_name: lastName,
-        date_of_birth: "1992-07-27",
+        date_of_birth: dateOfBirth,
         phone_number: phoneNumber,
         email,
         password,
       }).unwrap();
-      // Registration successful, handle success (e.g., navigate to login)
+      await login({ email, password }).unwrap();
       closeModal();
+
       toast({
         title: "Success!",
         description: "Your registration was successful",
@@ -160,305 +162,306 @@ const SignupForm = ({ closeModal }: { closeModal: () => void }) => {
   };
 
   return (
-    <div>
-      <div className="mt-8">
-        <h3 className="text-2xl inter-bold text-[#1B1E21]">
-          Create your account
-        </h3>
-        <div className="mt-5 flex space-x-8">
-          <div>
-            <Image
-              height={30}
-              width={30}
-              layout="intrinsic"
-              src={`/assets/google.svg`}
-              alt=""
-              className="cursor-pointer"
-            />
-          </div>
-          <div>
-            <Image
-              height={30}
-              width={30}
-              layout="intrinsic"
-              src={`/assets/facebook-blue.svg`}
-              alt=""
-              className="cursor-pointer"
-            />
-          </div>
-          <div>
-            <Image
-              height={30}
-              width={30}
-              layout="intrinsic"
-              src={`/assets/apple.svg`}
-              alt=""
-              className="cursor-pointer"
-            />
-          </div>
+    <div className="my-8 h-full">
+      <h3 className="text-2xl inter-bold text-[#1B1E21]">
+        Create your account
+      </h3>
+      <div className="mt-5 flex space-x-8">
+        <div>
+          <Image
+            height={30}
+            width={30}
+            layout="intrinsic"
+            src={`/assets/google.svg`}
+            alt=""
+            className="cursor-pointer"
+          />
         </div>
-
-        <div className="flex space-x-1 items-center mt-5">
-          <span className="border w-60"></span>
-          <span className="text-[#A3A7AB] inter-semibold text-base">or</span>
-          <span className="border w-60"></span>
+        <div>
+          <Image
+            height={30}
+            width={30}
+            layout="intrinsic"
+            src={`/assets/facebook-blue.svg`}
+            alt=""
+            className="cursor-pointer"
+          />
         </div>
-        <div className="mt-5 flex flex-col space-y-4 mb-10">
-          {currentStage === "emailVerification" && (
-            <form onSubmit={handleEmailVerification}>
-              <h2 className="text-xl inter-bold text-[#1B1E21] mb-4">
-                Email Verification
-              </h2>
-              <div className={`grid items-center gap-1.5 w-full `}>
-                <label
-                  htmlFor="email"
-                  className="text-[#1B1E21] inter-bold text-base"
-                >
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  required
-                  placeholder="lagbaja@gmail.com"
-                  value={email}
-                  onChange={(e) => dispatch(setEmail(e.target.value))}
-                  className="border border-[#F0F0F1] shadow rounded-lg bg-white p-3"
-                />
-              </div>
-              <button
-                disabled={isEmailVerifying}
-                onClick={handleEmailVerification}
-                className={`text-white inter-semibold text-sm ${
-                  isEmailVerifying
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-[#7F56D9]"
-                } rounded-full w-full mt-10 py-5`}
+        <div>
+          <Image
+            height={30}
+            width={30}
+            layout="intrinsic"
+            src={`/assets/apple.svg`}
+            alt=""
+            className="cursor-pointer"
+          />
+        </div>
+      </div>
+
+      <div className="flex space-x-1 items-center mt-5">
+        <span className="border w-60"></span>
+        <span className="text-[#A3A7AB] inter-semibold text-base">or</span>
+        <span className="border w-60"></span>
+      </div>
+      <div className="mt-5 flex flex-col space-y-4 mb-10">
+        {currentStage === "emailVerification" && (
+          <form onSubmit={handleEmailVerification}>
+            <h2 className="text-xl inter-bold text-[#1B1E21] mb-4">
+              Email Verification
+            </h2>
+            <div className={`grid items-center gap-1.5 w-full `}>
+              <label
+                htmlFor="email"
+                className="text-[#1B1E21] inter-bold text-base"
               >
-                {isEmailVerifying ? "sending otp" : "Send OTP"}
-              </button>
-            </form>
-          )}
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="email"
+                required
+                placeholder="lagbaja@gmail.com"
+                value={email}
+                onChange={(e) => dispatch(setEmail(e.target.value))}
+                className="border border-[#F0F0F1] shadow rounded-lg bg-white p-3"
+              />
+            </div>
+            <button
+              disabled={isEmailVerifying}
+              onClick={handleEmailVerification}
+              className={`text-white inter-semibold text-sm ${
+                isEmailVerifying
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-[#7F56D9]"
+              } rounded-full w-full mt-10 py-5`}
+            >
+              {isEmailVerifying ? "sending otp" : "Send OTP"}
+            </button>
+          </form>
+        )}
 
-          {currentStage === "verifyEmail" && (
-            <form onSubmit={handleVerifyEmail}>
-              <h2 className="text-xl inter-bold text-[#1B1E21] mb-4">
-                Verify Email
-              </h2>
-              <div className={`grid items-center gap-1.5 w-full `}>
-                <label
-                  htmlFor="otp"
-                  className="text-[#1B1E21] inter-bold text-base"
-                >
-                  Enter OTP
-                </label>
-                <input
-                  type="text"
-                  id="otp"
-                  placeholder="Your name"
-                  value={otp}
-                  onChange={(e) => dispatch(setOtp(e.target.value))}
-                  className="border border-[#F0F0F1] shadow rounded-lg bg-white p-3"
-                />
-              </div>
-              <button
-                disabled={isEmailVerified}
-                className={`text-white inter-semibold text-sm ${
-                  isEmailVerified
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-[#7F56D9]"
-                } rounded-full w-full mt-10 py-5`}
+        {currentStage === "verifyEmail" && (
+          <form onSubmit={handleVerifyEmail}>
+            <h2 className="text-xl inter-bold text-[#1B1E21] mb-4">
+              Verify Email
+            </h2>
+            <div className={`grid items-center gap-1.5 w-full `}>
+              <label
+                htmlFor="otp"
+                className="text-[#1B1E21] inter-bold text-base"
               >
-                {isEmailVerified ? "submitting" : "Submit OTP"}
-              </button>
-            </form>
-          )}
+                Enter OTP
+              </label>
+              <input
+                type="text"
+                id="otp"
+                placeholder="Your name"
+                value={otp}
+                onChange={(e) => dispatch(setOtp(e.target.value))}
+                className="border border-[#F0F0F1] shadow rounded-lg bg-white p-3"
+              />
+            </div>
+            <button
+              disabled={isEmailVerified}
+              className={`text-white inter-semibold text-sm ${
+                isEmailVerified
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-[#7F56D9]"
+              } rounded-full w-full mt-10 py-5`}
+            >
+              {isEmailVerified ? "submitting" : "Submit OTP"}
+            </button>
+          </form>
+        )}
 
-          {currentStage === "phoneNumberVerification" && (
-            <form onSubmit={handlePhoneNumberVerification}>
-              <h2 className="text-xl inter-bold text-[#1B1E21] mb-4">
-                Phone Number Verification
-              </h2>
-              <div className={`grid items-center gap-1.5 w-full `}>
-                <label
-                  htmlFor="phoneNumber"
-                  className="text-[#1B1E21] inter-bold text-base"
-                >
-                  Phone Number
-                </label>
-                <input
-                  type="tel"
-                  id="phoneNumber"
-                  placeholder="+44 730 000 0000"
-                  autoComplete="tel"
-                  max="10"
-                  min="10"
-                  pattern="[0-9]{10}"
-                  required
-                  value={phoneNumber}
-                  onChange={(e) => dispatch(setPhoneNumber(e.target.value))}
-                  className="border border-[#F0F0F1] shadow rounded-lg bg-white p-3"
-                />
-              </div>
-              <button
-                disabled={isPhoneNumberVerifying}
-                className={`text-white inter-semibold text-sm ${
-                  isPhoneNumberVerifying
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-[#7F56D9]"
-                } rounded-full w-full mt-10 py-5`}
+        {currentStage === "phoneNumberVerification" && (
+          <form onSubmit={handlePhoneNumberVerification}>
+            <h2 className="text-xl inter-bold text-[#1B1E21] mb-4">
+              Phone Number Verification
+            </h2>
+            <div className={`grid items-center gap-1.5 w-full relative`}>
+              <label
+                htmlFor="phoneNumber"
+                className="text-[#1B1E21] inter-bold text-base"
               >
-                {isPhoneNumberVerifying ? "verifying" : "Verify Phone Number"}
-              </button>
-            </form>
-          )}
+                Phone Number
+              </label>
+              <span className="absolute top-[1.95rem] left-[0.05rem] bg-gray-200 p-3 pr-2 rounded-lg">
+                +44
+              </span>
+              <input
+                type="tel"
+                id="phoneNumber"
+                placeholder="730 000 0000"
+                autoComplete="tel"
+                max="10"
+                min="10"
+                pattern="[0-9]{10}"
+                required
+                value={phoneNumber}
+                onChange={(e) => dispatch(setPhoneNumber(e.target.value))}
+                className="border border-[#F0F0F1] shadow rounded-lg bg-white p-3 pl-14"
+              />
+            </div>
+            <button
+              disabled={isPhoneNumberVerifying}
+              className={`text-white inter-semibold text-sm ${
+                isPhoneNumberVerifying
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-[#7F56D9]"
+              } rounded-full w-full mt-10 py-5`}
+            >
+              {isPhoneNumberVerifying ? "verifying" : "Verify Phone Number"}
+            </button>
+          </form>
+        )}
 
-          {currentStage === "verifyPhoneNumber" && (
-            <form onSubmit={handleVerifyPhoneNumber}>
-              <h2 className="text-xl inter-bold text-[#1B1E21] mb-4">
-                Verify Phone number OTP
-              </h2>
-              <div className={`grid items-center gap-1.5 w-full `}>
-                <label
-                  htmlFor="otp"
-                  className="text-[#1B1E21] inter-bold text-base"
-                >
-                  Enter OTP
-                </label>
-                <input
-                  type="text"
-                  id="otp"
-                  placeholder="Phone OTP"
-                  value={otp}
-                  onChange={(e) => dispatch(setOtp(e.target.value))}
-                  className="border border-[#F0F0F1] shadow rounded-lg bg-white p-3"
-                />
-              </div>
-              <button
-                disabled={isPhoneNumberVerified}
-                className={`text-white inter-semibold text-sm ${
-                  isPhoneNumberVerified
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-[#7F56D9]"
-                } rounded-full w-full mt-10 py-5`}
+        {currentStage === "verifyPhoneNumber" && (
+          <form onSubmit={handleVerifyPhoneNumber}>
+            <h2 className="text-xl inter-bold text-[#1B1E21] mb-4">
+              Verify Phone number OTP
+            </h2>
+            <div className={`grid items-center gap-1.5 w-full `}>
+              <label
+                htmlFor="otp"
+                className="text-[#1B1E21] inter-bold text-base"
               >
-                {isPhoneNumberVerified ? "submitting" : "Submit OTP"}
-              </button>
-            </form>
-          )}
+                Enter OTP
+              </label>
+              <input
+                type="text"
+                id="otp"
+                placeholder="Phone OTP"
+                value={otp}
+                onChange={(e) => dispatch(setOtp(e.target.value))}
+                className="border border-[#F0F0F1] shadow rounded-lg bg-white p-3"
+              />
+            </div>
+            <button
+              disabled={isPhoneNumberVerified}
+              className={`text-white inter-semibold text-sm ${
+                isPhoneNumberVerified
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-[#7F56D9]"
+              } rounded-full w-full mt-10 py-5`}
+            >
+              {isPhoneNumberVerified ? "submitting" : "Submit OTP"}
+            </button>
+          </form>
+        )}
 
-          {currentStage === "registerDetails" && (
-            <form onSubmit={handleRegister}>
-              <h2 className="text-xl inter-bold text-[#1B1E21] mb-6">
-                Register your details
-              </h2>
-              <div className={`grid items-center gap-1.5 w-full mb-6 `}>
-                <label
-                  htmlFor="firstName"
-                  className="text-[#1B1E21] inter-bold text-base"
-                >
-                  First name
-                </label>
-                <input
-                  type="text"
-                  id="firstName"
-                  value={firstName}
-                  onChange={(e) => dispatch(setFirstName(e.target.value))}
-                  placeholder="Enter first name"
-                  className="border border-[#F0F0F1] shadow rounded-lg bg-white p-3"
-                />
-              </div>
+        {currentStage === "registerDetails" && (
+          <form onSubmit={handleRegister}>
+            <h2 className="text-xl inter-bold text-[#1B1E21] mb-6">
+              Register your details
+            </h2>
+            <div className={`grid items-center gap-1.5 w-full mb-6 `}>
+              <label
+                htmlFor="firstName"
+                className="text-[#1B1E21] inter-bold text-base"
+              >
+                First name
+              </label>
+              <input
+                type="text"
+                id="firstName"
+                value={firstName}
+                onChange={(e) => dispatch(setFirstName(e.target.value))}
+                placeholder="Enter first name"
+                className="border border-[#F0F0F1] shadow rounded-lg bg-white p-3"
+              />
+            </div>
 
-              <div className={`grid items-center gap-1.5 w-full mb-6 `}>
-                <label
-                  htmlFor="lastName"
-                  className="text-[#1B1E21] inter-bold text-base"
+            <div className={`grid items-center gap-1.5 w-full mb-6 `}>
+              <label
+                htmlFor="lastName"
+                className="text-[#1B1E21] inter-bold text-base"
+              >
+                Last name
+              </label>
+              <input
+                type="text"
+                id="lastName"
+                value={lastName}
+                onChange={(e) => dispatch(setLastName(e.target.value))}
+                placeholder="Enter last name"
+                className="border border-[#F0F0F1] shadow rounded-lg bg-white p-3"
+              />
+            </div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <div
+                  className={`grid items-center gap-1.5 w-full text-left font-normal relative mb-6`}
                 >
-                  Last name
-                </label>
-                <input
-                  type="text"
-                  id="lastName"
-                  value={lastName}
-                  onChange={(e) => dispatch(setLastName(e.target.value))}
-                  placeholder="Enter last name"
-                  className="border border-[#F0F0F1] shadow rounded-lg bg-white p-3"
-                />
-              </div>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <div
-                    className={`grid items-center gap-1.5 w-full text-left font-normal relative mb-6`}
+                  <label
+                    htmlFor="date"
+                    className="text-[#1B1E21] inter-bold text-base"
                   >
-                    <label
-                      htmlFor="date"
-                      className="text-[#1B1E21] inter-bold text-base"
-                    >
-                      Date of birth
-                    </label>
-                    <div className="border border-[#F0F0F1] shadow rounded-lg bg-white p-3 flex justify-between items-center">
-                      <input
-                        type="text"
-                        placeholder="MM/DD/YYYY"
-                        onChange={() => {}}
-                        value={date ? format(date, "PPP") : ""}
-                        className="border-0 outline-none"
-                      />
-                      <CalendarIcon className="mr-2 h-4 w-4" color="#8A3FFC" />
-                    </div>
+                    Date of birth
+                  </label>
+                  <div className="border border-[#F0F0F1] shadow rounded-lg bg-white p-3 flex justify-between items-center">
+                    <input
+                      type="text"
+                      placeholder="MM/DD/YYYY"
+                      onChange={() => {}}
+                      value={date ? format(date, "PPP") : ""}
+                      className="border-0 outline-none"
+                    />
+                    <CalendarIcon className="mr-2 h-4 w-4" color="#8A3FFC" />
                   </div>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-
-              <div className={`grid items-center gap-1.5 w-full`}>
-                <label
-                  htmlFor="password"
-                  className="text-[#1B1E21] inter-bold text-base"
-                >
-                  Password
-                </label>
-                <div className="relative border border-[#F0F0F1] shadow rounded-lg bg-white p-3">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    id="password"
-                    value={password}
-                    onChange={(e) => dispatch(setPassword(e.target.value))}
-                    placeholder="Password"
-                    className="border-0 outline-none"
-                  />
-                  <span
-                    className="absolute top-1 right-3 cursor-pointer translate-y-[50%]"
-                    onClick={handlePasswordVisibility}
-                  >
-                    {showPassword ? (
-                      <EyeOffIcon color="#8A3FFC" />
-                    ) : (
-                      <EyeIcon color="#8A3FFC" />
-                    )}
-                  </span>
                 </div>
-              </div>
-              <button
-                disabled={isRegistering}
-                className={`text-white inter-semibold text-sm ${
-                  isRegistering
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-[#7F56D9]"
-                } rounded-full w-full mt-10 py-5`}
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={setDate}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+
+            <div className={`grid items-center gap-1.5 w-full`}>
+              <label
+                htmlFor="password"
+                className="text-[#1B1E21] inter-bold text-base"
               >
-                {isRegistering ? "registering" : "Register"}
-              </button>
-            </form>
-          )}
-        </div>
+                Password
+              </label>
+              <div className="relative border border-[#F0F0F1] shadow rounded-lg bg-white p-3">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  value={password}
+                  onChange={(e) => dispatch(setPassword(e.target.value))}
+                  placeholder="Password"
+                  className="border-0 outline-none"
+                />
+                <span
+                  className="absolute top-1 right-3 cursor-pointer translate-y-[50%]"
+                  onClick={handlePasswordVisibility}
+                >
+                  {showPassword ? (
+                    <EyeOffIcon color="#8A3FFC" />
+                  ) : (
+                    <EyeIcon color="#8A3FFC" />
+                  )}
+                </span>
+              </div>
+            </div>
+            <button
+              disabled={isRegistering}
+              className={`text-white inter-semibold text-sm ${
+                isRegistering
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-[#7F56D9]"
+              } rounded-full w-full mt-10 py-5`}
+            >
+              {isRegistering ? "registering" : "Register"}
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );

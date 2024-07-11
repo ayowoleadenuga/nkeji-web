@@ -56,7 +56,7 @@ const flightSelectSlice = createSlice({
       state.passengerDetails = action.payload;
     },
     resetSelectedFlightState: (state) => {
-      state = { ...initialState };
+      return initialState;
     },
   },
 });

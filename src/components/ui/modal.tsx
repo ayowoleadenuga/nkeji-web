@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { cn } from "@nkeji-web/lib/utils";
 
-interface ModalProps {
+export interface ModalProps {
   visible: boolean;
   onClose?: () => void;
   closeOnClickOut?: boolean;
@@ -49,12 +49,12 @@ const Modal: React.FC<ModalProps> = ({
       ref={modalRef}
       onClick={handleCloseModal}
       className={cn(
-        "fixed top-0 left-0 right-0 bottom-0 bg-opacity-50 bg-black backdrop-blur-sm flex justify-center items-center ease-in ml-0 overflow-y-auto",
+        "fixed top-0 left-0 right-0 bottom-0 bg-opacity-50 bg-black backdrop-blur-sm flex justify-center items-center ease-in ml-0",
         className
       )}
       style={{ zIndex }}
     >
-      <div className="max-h-full overflow-y-auto">{children}</div>
+      <div className="max-h-[80vh]">{children}</div>
     </div>
   );
 };

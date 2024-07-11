@@ -9,7 +9,7 @@ const BaggageProtection = () => {
         <h3 className="text-lg inter-semibold text-[#1B1E21]">
           Lost Baggage Protection
         </h3>
-        <p className="text-[#7F56D9] text-lg inter-semibold">£300</p>
+        <p className="text-[#7F56D9] text-lg inter-semibold"></p>
       </div>
       <div className="flex flex-col space-y-3">
         <div>
@@ -25,17 +25,16 @@ const BaggageProtection = () => {
               <p className="text-base inter-semibold">
                 Yes, protect my baggage
               </p>
-            
+
               <Dialog>
                 <DialogTrigger>
-                <p className="text-[#A3A7AB] cursor-pointer text-xs inter-semibold">
-              <span className="text-[#7F56D9]">Get compensation</span> if your baggage is lost or delayed.
-              </p>
-
-              </DialogTrigger>
-              <ProtectionDialog isBaggage />
-
-                </Dialog>
+                  <p className="text-[#A3A7AB] cursor-pointer text-xs inter-semibold">
+                    <span className="text-[#7F56D9]">Get compensation</span> if
+                    your baggage is lost or delayed.
+                  </p>
+                </DialogTrigger>
+                <ProtectionDialog isBaggage />
+              </Dialog>
             </div>
           </div>
         </div>
@@ -50,9 +49,8 @@ const BaggageProtection = () => {
             />
             <div>
               <p className="text-base inter-semibold">
-               No, I will risk my baggage
+                No, I will risk my baggage
               </p>
-
             </div>
           </div>
         </div>
@@ -60,4 +58,4 @@ const BaggageProtection = () => {
     </div>
   );
 };
-export default BaggageProtection
+export default BaggageProtection;
