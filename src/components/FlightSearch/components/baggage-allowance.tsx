@@ -35,7 +35,7 @@ const BaggageAllowanceCard: React.FC<BaggageAllowanceCardProps> = ({
           <h3 className="inter-semibold text-base">
             {passenger.firstName
               ? passenger.firstName
-              : "Passenger&apos;s name"}
+              : `Passenger ${index + 1}'s name`}
           </h3>
           {passenger.lastName && (
             <h3 className="inter-semibold text-base ml-1">
@@ -102,6 +102,7 @@ const BaggageAllowance: React.FC<BaggageAllowanceProps> = ({}) => {
   const uploadedPassengers = useSelector(
     (state: RootState) => state.flightSelect.passengerDetails
   );
+
   const passengers =
     uploadedPassengers && uploadedPassengers.length ? uploadedPassengers : [];
   const initialExtraBaggageCheck = Array.from(

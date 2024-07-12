@@ -3,7 +3,7 @@ import BaggageAllowance from "./baggage-allowance";
 import BaggageProtection from "./baggage-protection";
 import BaggageReview from "./baggage-review";
 import CancellationProtection from "./cancellation-protection";
-import ContactDetails from "./contact-details";
+// import ContactDetails from "./contact-details";
 import MakePayment from "./make-payment";
 import PassengerDetails from "./passenger-details";
 import PriceDetails from "./price-details";

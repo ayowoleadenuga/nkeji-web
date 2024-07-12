@@ -47,7 +47,7 @@ const AddAccountDialog = (props: AddAccountDialogProps) => {
         props.onClose && props.onClose();
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

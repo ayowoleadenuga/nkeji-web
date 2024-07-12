@@ -29,6 +29,7 @@ import GoCardlessPaymentMandateDialog from "@nkeji-web/components/ui/payment-man
 
 import ReusablePaymentModalContainer from "./reusablePaymentModalHead";
 import MoonLoader from "react-spinners/MoonLoader";
+import { moneyValueformat } from "@nkeji-web/lib/utils";
 
 const MakePayment = () => {
   const [expandCard1, setExpandCard1] = useState<boolean>(false);
@@ -87,7 +88,7 @@ const MakePayment = () => {
     try {
       await getDirectPaymentLink({
         flightId: flightId || "",
-        amount: fullAmount,
+        amount: Number(fullAmount.toFixed(2)),
       }).unwrap();
     } catch (err) {
       console.error("Failed to get payment link:", err);
@@ -97,7 +98,7 @@ const MakePayment = () => {
     try {
       await getPaymentMandateLink({
         flightId: flightId || "",
-        amount: fullAmount,
+        amount: Number(fullAmount.toFixed(2)),
       }).unwrap();
     } catch (err) {
       console.error("Failed to get direct debit payment link:", err);
@@ -114,7 +115,7 @@ const MakePayment = () => {
     <div>
       <div className="bg-white px-5 py-4 ">
         <h3 className="text-lg inter-bold">
-          {`How do you want to pay £${fullAmount}?`}
+          {`How do you want to pay £${moneyValueformat(fullAmount)}?`}
         </h3>
         <p className="text-sm ">Select payment method below</p>
       </div>
@@ -265,42 +266,54 @@ const MakePayment = () => {
 
                 <div className="flex justify-between items-start mt-5">
                   <div className="flex flex-col items-center">
-                    <span className="text-lg inter-semibold ">{`£${downPaymentForFNPL.toFixed(
-                      2
+                    <span className="text-lg inter-semibold ">{`£${moneyValueformat(
+                      parseFloat(downPaymentForFNPL.toFixed(2))
                     )}`}</span>
                     <span className="text-[#A3A7AB] text-xs">Due today</span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <span className="text-lg inter-semibold ">{`£${spreadableAmountForFNPL}`}</span>
+                    <span className="text-lg inter-semibold ">{`£${moneyValueformat(
+                      parseFloat(spreadableAmountForFNPL)
+                    )}`}</span>
                     <span className="text-[#A3A7AB] text-xs">
                       Due in 30 days
                     </span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <span className="text-lg inter-semibold ">{`£${spreadableAmountForFNPL}`}</span>
+                    <span className="text-lg inter-semibold ">{`£${moneyValueformat(
+                      parseFloat(spreadableAmountForFNPL)
+                    )}`}</span>
                     <span className="text-[#A3A7AB] text-xs">
                       Due in 60 days
                     </span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <span className="text-lg inter-semibold ">{`£${spreadableAmountForFNPL}`}</span>
+                    <span className="text-lg inter-semibold ">{`£${moneyValueformat(
+                      parseFloat(spreadableAmountForFNPL)
+                    )}`}</span>
                     <span className="text-[#A3A7AB] text-xs">
                       Due in 90 days
                     </span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <span className="text-lg inter-semibold ">{`£${spreadableAmountForFNPL}`}</span>
+                    <span className="text-lg inter-semibold ">{`£${moneyValueformat(
+                      parseFloat(spreadableAmountForFNPL)
+                    )}`}</span>
                     <span className="text-[#A3A7AB] text-xs">Due 120 days</span>
                   </div>
                   <div className="flex flex-col items-center ">
-                    <span className="text-lg inter-semibold ">{`£${spreadableAmountForFNPL}`}</span>
+                    <span className="text-lg inter-semibold ">{`£${moneyValueformat(
+                      parseFloat(spreadableAmountForFNPL)
+                    )}`}</span>
                     <span className="text-[#A3A7AB] text-xs">Due 150 days</span>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-3 my-10">
                   <div className="flex flex-col items-center ">
-                    <span className="text-lg inter-semibold ">{`£${fullAmount}`}</span>
+                    <span className="text-lg inter-semibold ">{`£${moneyValueformat(
+                      fullAmount
+                    )}`}</span>
                     <span className="text-[#A3A7AB] text-xs">Total cost</span>
                   </div>
                   {user.credit_limit.amount > 0 ? (

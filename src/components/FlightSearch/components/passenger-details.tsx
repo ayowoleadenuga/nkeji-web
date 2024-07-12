@@ -21,24 +21,6 @@ interface PassengerDetailsProps {
   flightSearchPayload: FlightSearchPayload;
 }
 
-const travelerDetails = [
-  {
-    gender: "Female",
-    dateOfBirth: "1 Jan 1987",
-    title: "Adult",
-  },
-  {
-    gender: "Male",
-    dateOfBirth: "1 Jan 1977",
-    title: "Adult",
-  },
-  {
-    gender: "Male",
-    dateOfBirth: "1 Jan 2002",
-    title: "Child",
-  },
-];
-
 const PassengerDetails: React.FC<PassengerDetailsProps> = ({
   showDetails,
   setCurrentTab,

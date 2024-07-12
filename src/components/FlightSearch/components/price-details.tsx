@@ -1,4 +1,5 @@
 "use client";
+import { moneyValueformat } from "@nkeji-web/lib/utils";
 import { RootState } from "@nkeji-web/redux/store";
 import { useSelector } from "react-redux";
 
@@ -23,10 +24,10 @@ const PriceDetails = () => {
       <div className="flex flex-col space-y-8 mt-5">
         <div className="flex justify-between text-[#7B8086] text-base inter-semibold">
           <p className="">Fare</p>
-          <p>{`£${fullAmount}`}</p>
+          <p>{`£${moneyValueformat(fullAmount)}`}</p>
         </div>
         <div className="flex justify-between text-[#7B8086] text-base inter-semibold">
-          <p className="">Passenger(s)</p>
+          <p>Passenger(s)</p>
           <p>{passengerCount}</p>
         </div>
         <div>
@@ -46,7 +47,9 @@ const PriceDetails = () => {
               Includes tax and charges
             </p>
           </div>
-          <p className="text-lg inter-semibold">{`£${fullAmount}`}</p>
+          <p className="text-lg inter-semibold">{`£${moneyValueformat(
+            fullAmount
+          )}`}</p>
         </div>
       </div>
     </div>

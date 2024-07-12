@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "@nkeji-web/redux/store";
 import { useGetFlightsMutation } from "@nkeji-web/redux/features/apiSlice";
-import { updateFlightSelection } from "@nkeji-web/redux/features/flightSelectReducer";
+import {
+  resetSelectedFlightState,
+  updateFlightSelection,
+} from "@nkeji-web/redux/features/flightSelectReducer";
 import { scrollToTop } from "@nkeji-web/lib/utils";
 import { FlightSearchResult } from "@nkeji-web/lib/global-types";
 import BookingSteps from "./components/booking-steps";
@@ -50,6 +53,7 @@ const FlightSearch = () => {
 
   const handleSelectFlight = useCallback(
     (offer: FlightSearchResult) => {
+      dispatch(resetSelectedFlightState());
       dispatch(updateFlightSelection(offer));
       setCurrentTab(1);
     },
