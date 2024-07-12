@@ -38,11 +38,39 @@ const MakePayment = () => {
 
   const selected = useSelector((state: RootState) => state.flightSelect);
   const user = useSelector((state: RootState) => state.auth.user);
+  const dispatch = useDispatch();
+  const [getDirectPaymentLink, { data, isLoading: instantPaymentLoading }] =
+    useGetDirectPaymentLinkMutation();
+  const [
+    getPaymentMandateLink,
+    { data: paymentMandateData, isLoading: directDebitLoading },
+  ] = useGetPaymentMandateLinkMutation();
+  const [getFlightIdMutation] = useGetFlightIdMutation();
+  useEffect(() => {
+    const fetchFlightId = async () => {
+      try {
+        const result = await getFlightIdMutation(selectedFlight?.id || "");
+        if ("data" in result) {
+          const {
+            data: {
+              data: { id },
+            },
+          } = result;
+
+          dispatch(updateFlightId(id));
+        }
+      } catch (error) {
+        console.error("Failed to get flight id:", error);
+      }
+    };
+    fetchFlightId();
+  }, []);
+
   if (!user) {
     router.push("/flight-search");
     return;
   }
-  const dispatch = useDispatch();
+
   const { passengerDetails, selectedFlight, flightId } = selected;
   const fullAmount =
     selectedFlight && selectedFlight.price
@@ -54,13 +82,7 @@ const MakePayment = () => {
     (fullAmount - downPaymentForFNPL) /
     5
   ).toFixed(2);
-  const [getDirectPaymentLink, { data, isLoading: instantPaymentLoading }] =
-    useGetDirectPaymentLinkMutation();
-  const [
-    getPaymentMandateLink,
-    { data: paymentMandateData, isLoading: directDebitLoading },
-  ] = useGetPaymentMandateLinkMutation();
-  const [getFlightIdMutation] = useGetFlightIdMutation();
+
   const handleInstantPayment = async () => {
     try {
       await getDirectPaymentLink({
@@ -81,25 +103,6 @@ const MakePayment = () => {
       console.error("Failed to get direct debit payment link:", err);
     }
   };
-  useEffect(() => {
-    const fetchFlightId = async () => {
-      try {
-        const result = await getFlightIdMutation(selectedFlight?.id || "");
-        if ("data" in result) {
-          const {
-            data: {
-              data: { id },
-            },
-          } = result;
-
-          dispatch(updateFlightId(id));
-        }
-      } catch (error) {
-        console.error("Failed to get flight id:", error);
-      }
-    };
-    fetchFlightId();
-  }, []);
 
   const paymentSuccessHandler = () => {
     dispatch(resetSelectedFlightState());
