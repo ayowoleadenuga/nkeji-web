@@ -74,7 +74,7 @@ const FlightRouteCard = ({
               {currencyToCode(currency) + price}
             </p>
             <span className="text-[#A3A7AB] text-base inter-medium">
-              per person
+              in total
             </span>
           </div>
           <div className="flex space-x-5 items-center ">

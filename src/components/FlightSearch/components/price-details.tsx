@@ -4,6 +4,11 @@ import { useSelector } from "react-redux";
 
 const PriceDetails = () => {
   const selected = useSelector((state: RootState) => state.flightSelect);
+  const flightSearchPayload = useSelector(
+    (state: RootState) => state.flightSearch
+  );
+  const { noOfAdults, noOfInfants, noOfKids } = flightSearchPayload;
+  const passengerCount = noOfAdults + noOfInfants + noOfKids;
   const { passengerDetails, selectedFlight } = selected;
   const fullAmount =
     selectedFlight && selectedFlight.price
@@ -22,7 +27,7 @@ const PriceDetails = () => {
         </div>
         <div className="flex justify-between text-[#7B8086] text-base inter-semibold">
           <p className="">Passenger(s)</p>
-          <p>{passengerDetails.length}</p>
+          <p>{passengerCount}</p>
         </div>
         <div>
           <div className="flex justify-between text-[#7B8086] text-base inter-semibold mb-2">

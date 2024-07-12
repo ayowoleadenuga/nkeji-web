@@ -319,7 +319,7 @@ const ViewFlightDetails = forwardRef<HTMLDivElement, ViewFlightDetailsProps>(
           <div className=" my-auto flex">
             <h4 className="text-xl inter-bold mr-2">£{price}</h4>
             <span className="inter-semibold text-[#95989b] text-md">
-              per person
+              in total
             </span>
           </div>
           <button
