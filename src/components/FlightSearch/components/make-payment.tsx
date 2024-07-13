@@ -34,6 +34,7 @@ import { moneyValueformat } from "@nkeji-web/lib/utils";
 const MakePayment = () => {
   const [expandCard1, setExpandCard1] = useState<boolean>(false);
   const [expandCard2, setExpandCard2] = useState<boolean>(false);
+  const [isUnderwritingDone, setIsUnderwritingDone] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const router = useRouter();
 
@@ -316,7 +317,7 @@ const MakePayment = () => {
                     )}`}</span>
                     <span className="text-[#A3A7AB] text-xs">Total cost</span>
                   </div>
-                  {user.credit_limit.amount > 0 ? (
+                  {!isUnderwritingDone ? (
                     <div>
                       <button
                         onClick={() => setIsOpen(!isOpen)}
@@ -327,7 +328,10 @@ const MakePayment = () => {
                       <AddAccountDialog
                         visible={isOpen}
                         closeOnClickOut
-                        onClose={() => setIsOpen(false)}
+                        setIsUnderwritingDone={setIsUnderwritingDone}
+                        onClose={() => {
+                          setIsOpen(false);
+                        }}
                       />
                     </div>
                   ) : (
@@ -336,7 +340,7 @@ const MakePayment = () => {
                         onClick={handleDirectDebitPayment}
                         className="text-white inter-semibold text-sm bg-[#7F56D9] rounded-full px-12 py-4"
                       >
-                        Proceed with pay-in-6 payment
+                        Proceed
                       </DialogTrigger>
 
                       {paymentMandateData ? (

@@ -12,7 +12,9 @@ import Modal, { ModalProps } from "./modal";
 import { updateUser } from "@nkeji-web/redux/features/authSlice";
 import { useToast } from "./use-toast";
 
-interface AddAccountDialogProps extends Omit<ModalProps, "children"> {}
+interface AddAccountDialogProps extends Omit<ModalProps, "children"> {
+  setIsUnderwritingDone: (val: boolean) => void;
+}
 const AddAccountDialog = (props: AddAccountDialogProps) => {
   const [plaidData, setPlaidData] = useState<GetPlaidTokenResponse | null>(
     null
@@ -44,6 +46,7 @@ const AddAccountDialog = (props: AddAccountDialogProps) => {
           description:
             "Your bank has been successfully verified! We will now analyse your account and give you a credit limit once that is done. Please note, the process of analyzing and scoring you might take a while. You can continue searching for flights while we do that. Once we are done, we will send you an email notification. Happy booking!",
         });
+        props.setIsUnderwritingDone(true);
         props.onClose && props.onClose();
       }
     } catch (error) {
@@ -85,8 +88,9 @@ const AddAccountDialog = (props: AddAccountDialogProps) => {
           </h2>
         </div>
         <div className="text-center text-black mb-4">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          You need to connect your bank account to allow us complete an
+          underwriting process in determining your eligibility. This will only
+          take a few minutes.
         </div>
         <div className="flex justify-center">
           {plaidData && (

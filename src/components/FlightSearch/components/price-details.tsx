@@ -22,22 +22,22 @@ const PriceDetails = () => {
         <h3 className="text-lg inter-semibold text-[#1B1E21]">Price Details</h3>
       </div>
       <div className="flex flex-col space-y-8 mt-5">
-        <div className="flex justify-between text-[#7B8086] text-base inter-semibold">
+        <div className="flex justify-between text-black text-base inter-semibold">
           <p className="">Fare</p>
           <p>{`£${moneyValueformat(fullAmount)}`}</p>
         </div>
-        <div className="flex justify-between text-[#7B8086] text-base inter-semibold">
+        <div className="flex justify-between text-black text-base inter-semibold">
           <p>Passenger(s)</p>
           <p>{passengerCount}</p>
         </div>
         <div>
-          <div className="flex justify-between text-[#7B8086] text-base inter-semibold mb-2">
+          <div className="flex justify-between text-black text-base inter-semibold mb-2">
             <p className="">Cancellation Protection fee</p>
-            <p>£0</p>
+            <p className="text-[#A3A7AB]">£0</p>
           </div>
-          <div className="flex justify-between text-[#7B8086] text-base inter-semibold">
+          <div className="flex justify-between text-black text-base inter-semibold">
             <p className="">Lost Baggage Protection fee</p>
-            <p>£0</p>
+            <p className="text-[#A3A7AB]">£0</p>
           </div>
         </div>
         <div className="flex justify-between">
