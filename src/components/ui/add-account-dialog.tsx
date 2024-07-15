@@ -31,6 +31,11 @@ const AddAccountDialog = (props: AddAccountDialogProps) => {
         setPlaidData(response);
       } catch (error) {
         console.error(error);
+        toast({
+          title: "Oops! Failed to connect to bank.",
+          variant: "destructive",
+          description: `Please try again later`,
+        });
       }
     };
     getToken();

@@ -106,7 +106,9 @@ const SignupForm = ({ closeModal }: { closeModal: () => void }) => {
   const handlePhoneNumberVerification = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await phoneNumberVerification({ phone_number: phoneNumber }).unwrap();
+      await phoneNumberVerification({
+        phone_number: `44${phoneNumber}`,
+      }).unwrap();
       dispatch(setCurrentStage("verifyPhoneNumber"));
     } catch (err) {
       dispatch(setError("Phone number verification failed"));
@@ -121,7 +123,10 @@ const SignupForm = ({ closeModal }: { closeModal: () => void }) => {
   const handleVerifyPhoneNumber = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await verifyPhoneNumber({ phone_number: phoneNumber, otp }).unwrap();
+      await verifyPhoneNumber({
+        phone_number: `44${phoneNumber}`,
+        otp,
+      }).unwrap();
       dispatch(setCurrentStage("registerDetails"));
     } catch (err) {
       dispatch(setError("Phone number verification failed"));
@@ -140,7 +145,7 @@ const SignupForm = ({ closeModal }: { closeModal: () => void }) => {
         first_name: firstName,
         last_name: lastName,
         date_of_birth: dateOfBirth,
-        phone_number: phoneNumber,
+        phone_number: `44${phoneNumber}`,
         email,
         password,
       }).unwrap();
@@ -389,7 +394,7 @@ const SignupForm = ({ closeModal }: { closeModal: () => void }) => {
                 className="border border-[#F0F0F1] shadow rounded-lg bg-white p-3"
               />
             </div>
-            <Popover>
+            <Popover modal>
               <PopoverTrigger asChild>
                 <div
                   className={`grid items-center gap-1.5 w-full text-left font-normal relative mb-6`}
@@ -418,6 +423,7 @@ const SignupForm = ({ closeModal }: { closeModal: () => void }) => {
                   selected={date}
                   onSelect={setDate}
                   initialFocus
+                  className="z-[1000]"
                 />
               </PopoverContent>
             </Popover>

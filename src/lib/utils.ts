@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import {
   FlightSearchPayload,
   FlightSearchResult,
+  Passenger,
   TicketType,
 } from "./global-types";
 import getSymbolFromCurrency from "currency-symbol-map";
@@ -85,6 +86,21 @@ export function formatFlightDuration(
 
   // Join all parts with a space and return
   return friendlyDurations.join(" ");
+}
+
+function hasRequiredFields(person: Passenger): boolean {
+  return (
+    person.title.trim() !== "" &&
+    person.gender !== undefined &&
+    person.firstName.trim() !== "" &&
+    person.lastName.trim() !== "" &&
+    person.email.trim() !== "" &&
+    person.dob.trim() !== ""
+  );
+}
+
+export function checkPersonsArray(persons: Passenger[]): boolean {
+  return persons.every(hasRequiredFields);
 }
 
 export function convertToFormattedDateTime(dateString: string): {
