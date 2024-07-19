@@ -98,7 +98,7 @@ type Flyer = {
 
 export type FlightSelect = {
   selectedFlight: FlightSearchResult | null;
-  flightId: string | null;
+  flightId: FlightIdData | null;
   flyers: {
     adults: Flyer[] | [];
     infants: Flyer[] | [];
@@ -111,6 +111,10 @@ export type ResultsTabType = "stopovers" | "price" | "flightTime";
 
 export type FlightIdData = {
   id: number;
+  down: number;
+  recurring: number[];
+  duration: number;
+  total: number;
 };
 
 export interface LoginRequest {

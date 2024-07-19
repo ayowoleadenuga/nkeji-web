@@ -54,12 +54,10 @@ const MakePayment = () => {
         const result = await getFlightIdMutation(selectedFlight?.id || "");
         if ("data" in result) {
           const {
-            data: {
-              data: { id },
-            },
+            data: { data: flightIdData },
           } = result;
 
-          dispatch(updateFlightId(id));
+          dispatch(updateFlightId(flightIdData));
         }
       } catch (error) {
         console.error("Failed to get flight id:", error);
@@ -73,22 +71,17 @@ const MakePayment = () => {
     return;
   }
 
-  const { passengerDetails, selectedFlight, flightId } = selected;
-  const fullAmount =
-    selectedFlight && selectedFlight.price
-      ? passengerDetails.length *
-        parseFloat(selectedFlight?.price.replace(/[^0-9.-]+/g, ""))
-      : 0.0;
-  const downPaymentForFNPL = 0.25 * fullAmount;
-  const spreadableAmountForFNPL = (
-    (fullAmount - downPaymentForFNPL) /
-    5
-  ).toFixed(2);
+  const { selectedFlight, flightId } = selected;
+  const fullAmount = flightId?.total || 0.0;
+  const downPaymentForFNPL = flightId?.down;
+  const spreadableAmountForFNPL = flightId?.recurring || [
+    0.0, 0.0, 0.0, 0.0, 0.0,
+  ];
 
   const handleInstantPayment = async () => {
     try {
       await getDirectPaymentLink({
-        flightId: flightId || "",
+        flightId: flightId?.id?.toString() || "",
         amount: Number(fullAmount.toFixed(2)),
       }).unwrap();
     } catch (err) {
@@ -98,8 +91,8 @@ const MakePayment = () => {
   const handleDirectDebitPayment = async () => {
     try {
       await getPaymentMandateLink({
-        flightId: flightId || "",
-        amount: Number(fullAmount.toFixed(2)),
+        flightId: flightId?.id.toString() || "",
+        amount: Number(downPaymentForFNPL),
       }).unwrap();
     } catch (err) {
       console.error("Failed to get direct debit payment link:", err);
@@ -267,45 +260,33 @@ const MakePayment = () => {
 
                 <div className="flex justify-between items-start mt-5">
                   <div className="flex flex-col items-center">
-                    <span className="text-lg inter-semibold ">{`£${moneyValueformat(
-                      parseFloat(downPaymentForFNPL.toFixed(2))
-                    )}`}</span>
+                    <span className="text-lg inter-semibold ">{`£${downPaymentForFNPL}`}</span>
                     <span className="text-[#A3A7AB] text-xs">Due today</span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <span className="text-lg inter-semibold ">{`£${moneyValueformat(
-                      parseFloat(spreadableAmountForFNPL)
-                    )}`}</span>
+                    <span className="text-lg inter-semibold ">{`£${spreadableAmountForFNPL[0]}`}</span>
                     <span className="text-[#A3A7AB] text-xs">
                       Due in 30 days
                     </span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <span className="text-lg inter-semibold ">{`£${moneyValueformat(
-                      parseFloat(spreadableAmountForFNPL)
-                    )}`}</span>
+                    <span className="text-lg inter-semibold ">{`£${spreadableAmountForFNPL[1]}`}</span>
                     <span className="text-[#A3A7AB] text-xs">
                       Due in 60 days
                     </span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <span className="text-lg inter-semibold ">{`£${moneyValueformat(
-                      parseFloat(spreadableAmountForFNPL)
-                    )}`}</span>
+                    <span className="text-lg inter-semibold ">{`£${spreadableAmountForFNPL[2]}`}</span>
                     <span className="text-[#A3A7AB] text-xs">
                       Due in 90 days
                     </span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <span className="text-lg inter-semibold ">{`£${moneyValueformat(
-                      parseFloat(spreadableAmountForFNPL)
-                    )}`}</span>
+                    <span className="text-lg inter-semibold ">{`£${spreadableAmountForFNPL[3]}`}</span>
                     <span className="text-[#A3A7AB] text-xs">Due 120 days</span>
                   </div>
                   <div className="flex flex-col items-center ">
-                    <span className="text-lg inter-semibold ">{`£${moneyValueformat(
-                      parseFloat(spreadableAmountForFNPL)
-                    )}`}</span>
+                    <span className="text-lg inter-semibold ">{`£${spreadableAmountForFNPL[4]}`}</span>
                     <span className="text-[#A3A7AB] text-xs">Due 150 days</span>
                   </div>
                 </div>

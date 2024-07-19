@@ -11,6 +11,7 @@ import { PlaidLink, PlaidLinkOnSuccessMetadata } from "react-plaid-link";
 import Modal, { ModalProps } from "./modal";
 import { updateUser } from "@nkeji-web/redux/features/authSlice";
 import { useToast } from "./use-toast";
+import MoonLoader from "react-spinners/MoonLoader";
 
 interface AddAccountDialogProps extends Omit<ModalProps, "children"> {
   setIsUnderwritingDone: (val: boolean) => void;
@@ -22,7 +23,7 @@ const AddAccountDialog = (props: AddAccountDialogProps) => {
   const { toast } = useToast();
   const [getPlaidToken] = useGetPlaidTokenMutation();
   const [exchangePlaidToken] = useExchangePlaidTokenMutation();
-  const { refetch } = useGetUserQuery(null);
+  const { refetch, isLoading } = useGetUserQuery(null);
 
   useEffect(() => {
     const getToken = async () => {
@@ -78,44 +79,50 @@ const AddAccountDialog = (props: AddAccountDialogProps) => {
   };
   return (
     <Modal {...props}>
-      <div className="max-w-md bg-white p-10 rounded-lg">
-        <div className="flex flex-col items-center">
-          <Image
-            width={134}
-            height={36}
-            layout="intrinsic"
-            src="/assets/bank-group.svg"
-            alt=""
-            className=""
-          />
-          <h2 className="mt-4 inter-semibold text-lg text-black">
-            Link a bank account
-          </h2>
+      {isLoading ? (
+        <div className="flex items-center justify-center my-4">
+          <MoonLoader color="#7F56D9" size={80} />
         </div>
-        <div className="text-center text-black mb-4">
-          You need to connect your bank account to allow us complete an
-          underwriting process in determining your eligibility. This will only
-          take a few minutes.
+      ) : (
+        <div className="max-w-md bg-white p-10 rounded-lg">
+          <div className="flex flex-col items-center">
+            <Image
+              width={134}
+              height={36}
+              layout="intrinsic"
+              src="/assets/bank-group.svg"
+              alt=""
+              className=""
+            />
+            <h2 className="mt-4 inter-semibold text-lg text-black">
+              Link a bank account
+            </h2>
+          </div>
+          <div className="text-center text-black mb-4">
+            You need to connect your bank account to allow us complete an
+            underwriting process in determining your eligibility. This will only
+            take a few minutes.
+          </div>
+          <div className="flex justify-center">
+            {plaidData && (
+              <PlaidLink
+                className="text-white inter-semibold text-sm bg-[#7F56D9] rounded-full px-12 py-4"
+                style={{
+                  background: "#7f56d9",
+                  padding: "1rem 3rem",
+                  borderRadius: "9999px",
+                }}
+                token={plaidData.data.link_token}
+                onSuccess={(public_token, metadata) =>
+                  onSuccess({ public_token, metadata })
+                }
+              >
+                Add Account
+              </PlaidLink>
+            )}
+          </div>
         </div>
-        <div className="flex justify-center">
-          {plaidData && (
-            <PlaidLink
-              className="text-white inter-semibold text-sm bg-[#7F56D9] rounded-full px-12 py-4"
-              style={{
-                background: "#7f56d9",
-                padding: "1rem 3rem",
-                borderRadius: "9999px",
-              }}
-              token={plaidData.data.link_token}
-              onSuccess={(public_token, metadata) =>
-                onSuccess({ public_token, metadata })
-              }
-            >
-              Add Account
-            </PlaidLink>
-          )}
-        </div>
-      </div>
+      )}
     </Modal>
   );
 };

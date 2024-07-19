@@ -5,19 +5,19 @@ export const navLinks = [
   },
   {
     name: "Flights",
-    navLink: "/about",
+    navLink: "/",
   },
   {
     name: "Packages",
-    navLink: "/research",
+    navLink: "/",
   },
   {
     name: "Rewards",
-    navLink: "/contact-us",
+    navLink: "/",
   },
   {
     name: "About Us",
-    navLink: "/contact-us",
+    navLink: "/",
   },
 ];
 

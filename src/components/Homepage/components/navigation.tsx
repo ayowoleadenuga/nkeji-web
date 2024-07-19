@@ -5,8 +5,6 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { navLinks } from "../constants/constants";
 import { flightSearchLinks } from "@nkeji-web/components/FlightSearch/constants/constants";
-import { Dialog, DialogTrigger } from "@nkeji-web/components/ui/dialog";
-import AuthDialog from "@nkeji-web/components/auth/auth-dialog";
 import { AuthButtons } from "@nkeji-web/components/auth";
 
 interface NavigationProps {
@@ -36,7 +34,7 @@ const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
         />
       </Link>
       <div
-        className={`hidden md:flex  ${
+        className={`hidden lg:flex  ${
           hasBg ? "justify-between w-full pl-10" : ""
         }`}
       >
@@ -59,7 +57,7 @@ const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
           <AuthButtons />
         </div>
       </div>
-      <div className="block md:hidden">
+      <div className="block lg:hidden">
         <button onClick={() => setIsOpen(true)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
