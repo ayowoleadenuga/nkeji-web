@@ -6,8 +6,8 @@ import Image from "next/image";
 export const FAQS = () => {
   const [faqQuestions, setFaqQuestions] = useState(faqs);
   return (
-    <div className="px-0 py-10 md:p-20 flex flex-col md:flex-row justify-between items-start text-left">
-      <div className="text-left md:w-1/3 px-10">
+    <div className="px-6 py-10 md:p-20 flex flex-col md:flex-row justify-between items-start text-left">
+      <div className="text-left md:w-1/3 ">
         <h2 className="text-3xl md:text-4xl font-bold text-[#1B1E21] mb-5 leading-10">
           Frequently asked questions
         </h2>
@@ -21,7 +21,7 @@ export const FAQS = () => {
           return (
             <div
               onClick={() => {
-                setFaqQuestions((prev) => {
+                setFaqQuestions(prev => {
                   const updatedFaqs = prev.map((item, i) => {
                     if (i === index) {
                       return { ...item, expand: !item.expand };
@@ -36,8 +36,8 @@ export const FAQS = () => {
               }`}
               key={index}
             >
-              <div className="mb-4 flex justify-between items-center">
-                <h3 className="text-lg md:text-xl inter-medium text-[#1B1E21]">
+              <div className="mb-4 flex justify-between items-start gap-2">
+                <h3 className="text-lg md:text-xl  font-[700] text-[#1B1E21]">
                   {faq.question}
                 </h3>
                 <Image
