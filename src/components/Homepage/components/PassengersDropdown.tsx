@@ -39,7 +39,7 @@ const PassengersDropdown = () => {
 
   const handlePassengerChange = React.useCallback(
     (passengerType: string, increment: number) => {
-      setSelectedPassengers((prev) => ({
+      setSelectedPassengers(prev => ({
         ...prev,
         [passengerType]: Math.max(prev[passengerType] + increment, 0),
       }));
@@ -64,7 +64,7 @@ const PassengersDropdown = () => {
   return (
     <Popover>
       <PopoverTrigger asChild className="focus:outline-none cursor-pointer">
-        <div className="flex items-center justify-between border border-[#D0D5DD] w-full md:w-1/2 lg:w-[220px] rounded-[100px] p-3">
+        <div className="flex items-center justify-between border border-[#D0D5DD] w-full min-w-fit md:w-[45%] lg:w-[220px] rounded-[100px] p-3 relative">
           <span className="flex items-center space-x-2">
             <Image
               height={15}
@@ -78,7 +78,7 @@ const PassengersDropdown = () => {
           <Image
             height={10}
             width={10}
-            className="float-right"
+            className="ml-2 float-right"
             src="/assets/dropdown.svg"
             alt=""
           />

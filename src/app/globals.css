@@ -158,3 +158,12 @@ input[type="checkbox"]:checked {
     stroke-dasharray: 0, 580, 0, 0, 0, 0, 0, 0, 0;
   }
 }
+
+.landingPageBgImage {
+  background-image: url("/assets/home-bg.png");
+  width: 100vw;
+  height: 75vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
