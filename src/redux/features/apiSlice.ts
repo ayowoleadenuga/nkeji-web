@@ -81,6 +81,16 @@ export const apiSlice = createApi({
         },
       }),
     }),
+    setPaymentMandate: builder.mutation({
+      query: ({ flightId }: { flightId: string; }) => ({
+        url: `/flights/${flightId}/payment-mandates`,
+        method: "POST",
+        body: {
+          successURL: `${process.env.NEXT_PUBLIC_APP_URL}/payment-success`,
+          failureURL: `${process.env.NEXT_PUBLIC_APP_URL}/payment-failure`,
+        },
+      }),
+    }),
     getPlaidToken: builder.mutation({
       query: () => ({
         url: "/bank-connection/tokens",
@@ -121,4 +131,5 @@ export const {
   useExchangePlaidTokenMutation,
   useGetUserQuery,
   useGetPaymentMandateLinkMutation,
+  useSetPaymentMandateMutation
 } = apiSlice;

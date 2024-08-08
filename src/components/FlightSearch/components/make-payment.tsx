@@ -30,6 +30,7 @@ import GoCardlessPaymentMandateDialog from "@nkeji-web/components/ui/payment-man
 import ReusablePaymentModalContainer from "./reusablePaymentModalHead";
 import MoonLoader from "react-spinners/MoonLoader";
 import { moneyValueformat } from "@nkeji-web/lib/utils";
+import StripePayment from "@nkeji-web/components/FlightSearch/components/stripe/stripe-payment";
 
 const MakePayment = () => {
   const [expandCard1, setExpandCard1] = useState<boolean>(false);
@@ -48,6 +49,7 @@ const MakePayment = () => {
     { data: paymentMandateData, isLoading: directDebitLoading },
   ] = useGetPaymentMandateLinkMutation();
   const [getFlightIdMutation] = useGetFlightIdMutation();
+
   useEffect(() => {
     const fetchFlightId = async () => {
       try {
@@ -80,20 +82,37 @@ const MakePayment = () => {
 
   const handleInstantPayment = async () => {
     try {
+
       await getDirectPaymentLink({
         flightId: flightId?.id?.toString() || "",
         amount: Number(fullAmount.toFixed(2)),
       }).unwrap();
+
     } catch (err) {
       console.error("Failed to get payment link:", err);
     }
   };
+
+  const handleDownPayment = async () => {
+    try {
+
+      await getDirectPaymentLink({
+        flightId: flightId?.id?.toString() || "",
+        amount: Number(downPaymentForFNPL),
+      }).unwrap();
+
+    } catch (err) {
+      console.error("Failed to get payment link:", err);
+    }
+  };
+
   const handleDirectDebitPayment = async () => {
     try {
       await getPaymentMandateLink({
         flightId: flightId?.id.toString() || "",
         amount: Number(downPaymentForFNPL),
       }).unwrap();
+
     } catch (err) {
       console.error("Failed to get direct debit payment link:", err);
     }
@@ -181,11 +200,16 @@ const MakePayment = () => {
                         </p>
                       </div>
                     </DialogTrigger>
-                    {data ? (
-                      <GoCardlessDialog
-                        onSuccess={paymentSuccessHandler}
-                        authorisation_url={data?.data?.authorisation_url}
-                      />
+
+                    { data ? (
+                        <ReusablePaymentModalContainer title="Instant Payment">
+                          <StripePayment clientSecret={data?.data?.token}/>
+                        </ReusablePaymentModalContainer>
+
+                      // <GoCardlessDialog
+                      //   onSuccess={paymentSuccessHandler}
+                      //   authorisation_url={data?.data?.authorisation_url}
+                      // />
                     ) : (
                       <ReusablePaymentModalContainer title="Instant Payment">
                         {instantPaymentLoading ? (
@@ -318,19 +342,22 @@ const MakePayment = () => {
                   ) : (
                     <Dialog>
                       <DialogTrigger
-                        onClick={handleDirectDebitPayment}
+                        onClick={handleDownPayment}
                         className="text-white inter-semibold text-sm bg-[#7F56D9] rounded-full px-12 py-4"
                       >
                         Proceed
                       </DialogTrigger>
 
-                      {paymentMandateData ? (
-                        <GoCardlessPaymentMandateDialog
-                          onSuccess={paymentSuccessHandler}
-                          authorisation_url={
-                            paymentMandateData?.data?.authorisation_url
-                          }
-                        />
+                      {data ? (
+                        <ReusablePaymentModalContainer title="Down Payment">
+                          <StripePayment clientSecret={data?.data?.token} successURL={'setup-mandate?flight=' + flightId?.id}/>
+                        </ReusablePaymentModalContainer>
+                        // <GoCardlessPaymentMandateDialog
+                        //   onSuccess={paymentSuccessHandler}
+                        //   authorisation_url={
+                        //     paymentMandateData?.data?.authorisation_url
+                        //   }
+                        // />
                       ) : (
                         <ReusablePaymentModalContainer title="Direct Debit Setup">
                           {directDebitLoading ? (
