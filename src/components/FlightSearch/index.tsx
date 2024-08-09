@@ -19,6 +19,9 @@ import { Footer } from "@nkeji-web/components/Homepage/components/footer";
 import { openModal } from "@nkeji-web/redux/features/authModalReducer";
 import AlternateLoader from "./components/alternate-loader";
 import { useToast } from "../ui/use-toast";
+import CircularProgress from "@nkeji-web/components/ui/CircularProgress";
+import Image from "next/image";
+import { flightSearchTabs } from "@nkeji-web/components/FlightSearch/constants/constants";
 
 const FlightSearch = () => {
   const [showFlightComponent, setShowFlightComponent] = useState(false);
@@ -86,7 +89,30 @@ const FlightSearch = () => {
       ) : (
         <>
           <Navigation hasBg />
-          <FlightTabs currentTab={currentTab} setCurrentTab={() => {}} />
+          <div className="md:block hidden">
+            <FlightTabs currentTab={currentTab} setCurrentTab={() => {}} />
+          </div>
+          <div className="md:hidden w-full items-center justify-between flex px-5 mt-[27%] ">
+            <div
+              className={`flex relative justify-center h-full cursor-pointer space-x-2 items-center 
+              
+              `}
+              // onClick={() => setCurrentTab(currentTab++)}
+              key={flightSearchTabs[currentTab].navLink}
+            >
+              <Image
+                src={flightSearchTabs[currentTab].icon}
+                alt=""
+                height={100}
+                width={20}
+                className=" "
+              />
+              <p className="text-[#33383E] text-sm inter-bold">
+                {flightSearchTabs[currentTab].name}
+              </p>
+            </div>
+            <CircularProgress currentStep={currentTab} totalSteps={5} />
+          </div>
           {currentTab === 0 && (
             <SearchResultView
               showFlightComponent={showFlightComponent}

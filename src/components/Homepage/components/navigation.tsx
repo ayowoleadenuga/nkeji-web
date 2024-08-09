@@ -18,7 +18,7 @@ const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
   const filteredNavLists = hasBg ? flightSearchLinks : navLinks;
   return (
     <div
-      className={`w-full  px-6 lg:px-20 py-8 flex items-center  relative
+      className={`w-full  px-6 lg:px-20 py-8 flex items-center justify-between fixed md:relative top-0 z-50
     ${hasBg ? "bg-[#35245B]" : "bg-transparent justify-between"}
     
     `}

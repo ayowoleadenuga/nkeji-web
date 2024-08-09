@@ -29,8 +29,8 @@ const BaggageAllowanceCard: React.FC<BaggageAllowanceCardProps> = ({
     });
   };
   return (
-    <div className="bg-[#F2EEFB] rounded-xl overflow-hidden">
-      <div className="px-6 pt-6 pb-10">
+    <div className="bg-[#F2EEFB] rounded-xl w-full overflow-hidden">
+      <div className=" w-full md:w-[42%] lg:w-[30%] px-2 md:px-4 xl:px-6 pt-6 pb-10">
         <div className="flex">
           <h3 className="inter-semibold text-base">
             {passenger.firstName
@@ -119,10 +119,10 @@ const BaggageAllowance: React.FC<BaggageAllowanceProps> = ({}) => {
           </div>
         </div>
 
-        <div className="flex mt-5 mb-3">
+        <div className="flex w-full gap-6 flex-wrap mt-5 mb-3">
           {uploadedPassengers && uploadedPassengers.length
             ? uploadedPassengers.map((passenger, index) => (
-                <div key={index} className="mr-6">
+                <div key={index} className="">
                   <BaggageAllowanceCard
                     isChecked={isChecked[index]}
                     setIsChecked={setIsChecked}

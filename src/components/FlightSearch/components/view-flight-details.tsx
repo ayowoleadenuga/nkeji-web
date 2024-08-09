@@ -172,7 +172,7 @@ const ViewFlightDetails = forwardRef<HTMLDivElement, ViewFlightDetailsProps>(
         <div className="px-10">
           <div className="w-full mt-2 mb-8">
             <div className="relative">
-              <DialogTitle className="text-xl inter-bold">
+              <DialogTitle className="text-[14px] md:text-xl inter-bold">
                 Your departure flight to{" "}
                 {departurePath &&
                   departurePath.length > 0 &&
@@ -315,8 +315,8 @@ const ViewFlightDetails = forwardRef<HTMLDivElement, ViewFlightDetailsProps>(
             </div>
           </div>
         </div>
-        <div className="flex justify-between px-10 pt-10 pb-10 bg-[#D7CBF3]">
-          <div className=" my-auto flex">
+        <div className="flex justify-between px-4 md:px-10 pt-10 pb-10 bg-[#D7CBF3]">
+          <div className=" my-auto flex items-center">
             <h4 className="text-xl inter-bold mr-2">£{price}</h4>
             <span className="inter-semibold text-[#95989b] text-md">
               in total

@@ -12,6 +12,7 @@ import PassengersDropdown from "@nkeji-web/components/Homepage/components/Passen
 import CabinClassDropdown from "./CabinClassDropdown";
 import { TicketType } from "@nkeji-web/lib/global-types";
 import { RootState } from "@nkeji-web/redux/store";
+import { useGetFlightsMutation } from "@nkeji-web/redux/features/apiSlice";
 
 interface BookingWidgetProps {
   setShowFlightComponent?: (show: boolean) => void;

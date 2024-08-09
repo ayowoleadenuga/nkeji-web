@@ -42,8 +42,8 @@ const BookingSteps = ({
         departure={flightSearchPayload.departure.id}
         destination={flightSearchPayload.destination.id}
       />
-      <div className="bg-[#F7F8F9] px-6 py-5 lg:px-20 mt-10 flex justify-between">
-        <div className="w-[68%] flex flex-col space-y-3">
+      <div className="bg-[#F7F8F9] px-6 py-5 lg:px-20 mt-2 lg:mt-10 lg:flex lg:flex-row flex-col justify-between">
+        <div className="w-full lg:w-[68%] flex flex-col space-y-3">
           {currentTab === 1 && (
             <>
               {/* <ContactDetails /> */}
@@ -81,8 +81,10 @@ const BookingSteps = ({
           )}
           {currentTab === 4 && <MakePayment />}
         </div>
-        <div className="w-[30%] flex flex-col space-y-3">
-          <CancellationProtection />
+        <div className="w-full lg:w-[30%] flex flex-col-reverse  md:flex-col space-y-3">
+          <div className="mt-4 md:mt-0">
+            <CancellationProtection />
+          </div>
           <BaggageProtection />
           <PriceDetails />
         </div>

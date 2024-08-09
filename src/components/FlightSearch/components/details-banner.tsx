@@ -27,8 +27,8 @@ const DetailsBanner = ({
     infants: noOfInfants,
   };
   return (
-    <div className="flex justify-between items-start">
-      <div>
+    <div className="flex justify-between items-start w-full">
+      <div className="w-[45%] ">
         <div>
           <label className="text-gray-500 text-xs inter-semibold">From</label>
           <p className="text-[#33383E] text-sm inter-medium">
@@ -52,24 +52,24 @@ const DetailsBanner = ({
       </div>
       {type === TicketType.RETURN ? (
         <Image
-          height={30}
-          width={30}
+          height={20}
+          width={20}
           layout="intrinsic"
           src="/assets/to-fro.svg"
           alt=""
-          className="mt-4"
+          className="mt-[20%] md:mt-4 rotate-90 md:rotate-0"
         />
       ) : (
         <Image
-          height={30}
-          width={30}
+          height={20}
+          width={20}
           layout="intrinsic"
           src="/assets/to.svg"
           alt=""
-          className="mt-4"
+          className="mt-[20%] md:mt-4 rotate-90 md:rotate-0"
         />
       )}
-      <div>
+      <div className="w-[45%] ">
         <div>
           <label className="text-gray-500 text-xs inter-semibold">To</label>
           <p className="text-[#33383E] text-sm inter-medium">

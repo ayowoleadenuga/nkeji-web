@@ -4,6 +4,7 @@ import ExtraIcon from '../../../../public/assets/extra.svg'
 import ReviewIcon from '../../../../public/assets/review.svg'
 import WalletIcon from '../../../../public/assets/wallet.svg'
 import MapImg from '../../../../public/assets/map.png'
+import MapImg2 from '../../../../public/assets/mapImage.png'
 
 export {
     PassengerIcon,
@@ -11,5 +12,6 @@ export {
     ExtraIcon,
     ReviewIcon,
     WalletIcon,
-    MapImg
+    MapImg,
+    MapImg2
 }

@@ -288,3 +288,51 @@ export function scrollToTop(): void {
 export function moneyValueformat(amount: number): string {
   return amount.toLocaleString();
 }
+
+export function formatDate2(dateString: string): string {
+  const date = new Date(dateString);
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+
+  return `${day} ${month} ${year}`;
+}
+
+export function convertTo24HourFormat(time: string): string {
+  const match = time.match(/(\d{1,2}):(\d{2})\s*([APMapm]{2})/);
+
+  if (!match) {
+    throw new Error("Invalid time format");
+  }
+
+  let [ , hours, minutes, period] = match;
+  let hourNum = parseInt(hours, 10);
+  const minuteNum = parseInt(minutes, 10);
+  if (period.toUpperCase() === "PM" && hourNum < 12) {
+    hourNum += 12;
+  }
+  if (period.toUpperCase() === "AM" && hourNum === 12) {
+    hourNum = 0;
+  }
+  const hoursStr = hourNum.toString().padStart(2, "0");
+  const minutesStr = minuteNum.toString().padStart(2, "0");
+
+  return `${hoursStr}:${minutesStr}`;
+}
+
+

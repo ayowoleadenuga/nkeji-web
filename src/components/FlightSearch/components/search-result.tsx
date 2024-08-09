@@ -25,7 +25,7 @@ const SearchResultComponent = ({ data }: { data: DataList | null }) => {
   const [activeFlightTime, setActiveFlightTime] = useState("outbound");
 
   return (
-    <div className="flex flex-col space-y-2 bg-transparent w-[26%]">
+    <div className=" hidden md:flex flex-col space-y-2 bg-transparent w-[26%]">
       <div className="bg-white rounded shadow-lg p-4">
         <h5 className="inter-bold text-2xl text-[#1B1E21] ">Search result</h5>
         {data && data.price && (
@@ -66,7 +66,7 @@ const SearchResultComponent = ({ data }: { data: DataList | null }) => {
         </div>
         {toggleStop && (
           <RadioGroup defaultValue={stops[0]}>
-            {stops.map((stop) => {
+            {stops.map(stop => {
               return (
                 <div
                   onClick={() => setActiveStop(stop)}

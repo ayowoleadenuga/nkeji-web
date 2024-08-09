@@ -151,16 +151,16 @@ const PassengerDetails: React.FC<PassengerDetailsProps> = ({
           </div>
         </div>
       ) : (
-        <div className="bg-white w-full py-4 px-5">
-          <div className="flex justify-between items-start">
-            <div>
+        <div className="bg-white w-full py-4 px-5 ">
+          <div className="flex justify-between  items-center ">
+            <div className="w-[70%] ">
               <h3 className="text-lg inter-bold">Who&apos;s flying?</h3>
               <p className="text-sm ">
                 <b>Note:</b> &quot;First Name&quot; and &quot;Last Name&quot;
                 must match your travel document exactly.
               </p>
             </div>
-            <span className="flex items-center space-x-2">
+            <span className="flex items-center justify-end space-x-1 lg:space-x-2 w-[25%] ">
               <Image
                 height={15}
                 width={15}
@@ -168,13 +168,16 @@ const PassengerDetails: React.FC<PassengerDetailsProps> = ({
                 alt=""
                 color="#8A3FFC"
               />
-              <p>{passengerCount} Passengers</p>
+              <p className="md:block hidden text-[14px] xl:text-[16px] ">
+                {passengerCount} Passengers
+              </p>
+              <p className="md:hidden block">{passengerCount}</p>
             </span>
           </div>
 
-          <div className="w-full flex space-x-5 mt-5 mb-3">
+          <div className="w-full flex flex-wrap  gap-5  justify-start mt-5 mb-3">
             {passengers.map((passenger, index) => (
-              <div key={passenger.id}>
+              <div key={passenger.id} className="w-full md:w-auto ">
                 <PassengerDetailCard
                   index={index}
                   title={passengers[index].title}
