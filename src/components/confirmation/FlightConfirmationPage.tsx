@@ -1,16 +1,44 @@
 "use client";
 import { CircleCheckIcon } from "lucide-react";
-// import { useSelector } from "react-redux";
-// import { RootState } from "@nkeji-web/redux/store";
 import { useRouter } from "next/navigation";
+import confetti from "canvas-confetti";
+import { useEffect } from "react";
 
 const FlightConfirmationPage = () => {
   const router = useRouter();
-  // const user = useSelector((state: RootState) => state.auth.user);
 
-  // if (!user) {
-  //   redirect("/");
-  // }
+  useEffect(() => {
+    const handleConfetti = () => {
+      const duration = 5 * 1000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+      const randomInRange = (min: number, max: number) =>
+        Math.random() * (max - min) + min;
+
+      const interval = window.setInterval(() => {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+        });
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+        });
+      }, 250);
+    };
+    handleConfetti();
+  }, []);
+
   return (
     <div>
       <div className="flex flex-col items-center justify-center min-h-screen pt-12 space-y-4 md:py-24">
