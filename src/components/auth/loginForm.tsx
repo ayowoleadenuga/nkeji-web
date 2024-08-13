@@ -100,7 +100,7 @@ const LoginForm = ({ closeModal }: { closeModal: () => void }) => {
               id="email"
               placeholder="lagbaja@gmail.com"
               value={values.email}
-              onChange={(e) => setValues({ ...values, email: e.target.value })}
+              onChange={e => setValues({ ...values, email: e.target.value })}
               className="border border-[#F0F0F1] shadow rounded-lg bg-white p-3"
             />
           </div>
@@ -117,7 +117,7 @@ const LoginForm = ({ closeModal }: { closeModal: () => void }) => {
                 placeholder="Enter password"
                 id="password"
                 value={values.password}
-                onChange={(e) =>
+                onChange={e =>
                   setValues({ ...values, password: e.target.value })
                 }
                 className="border-0 outline-none"

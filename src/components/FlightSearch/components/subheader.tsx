@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 interface SubHeaderProps {
   departure: string;
   destination?: string;
@@ -7,6 +8,7 @@ const SubHeader = ({ departure, destination }: SubHeaderProps) => {
   return (
     <div className="hidden lg:flex justify-between items-center bg-white w-full px-6 lg:px-20 mt-6">
       <div className=" flex space-x-3 items-center">
+        <Image src="/assets/planeIcon.svg" alt="plane" height={20} width={20} />
         <h3 className="inter-bold text-2xl">Your flight details</h3>
         {destination && (
           <p className="text-[#A3A7AB] inter-bold text-base">{`${departure} - ${destination}`}</p>

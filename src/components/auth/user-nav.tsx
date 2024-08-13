@@ -32,7 +32,7 @@ export function UserNav({ user }: { user: User }) {
           <Avatar className="h-9 w-9">
             <AvatarFallback>{`${first_name[0]}${last_name[0]}`}</AvatarFallback>
           </Avatar>
-          <p className="text-sm ml-2 text-white font-medium leading-none">{`${first_name} ${last_name}`}</p>
+          <p className="text-sm ml-2 md:text-white font-medium leading-none">{`${first_name} ${last_name}`}</p>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>

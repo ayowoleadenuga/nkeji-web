@@ -14,7 +14,7 @@ const BaggageReviewCard: React.FC<BaggageReviewCardProps> = ({
   checkedInLuggage,
 }) => {
   return (
-    <div className="bg-[#F2EEFB] rounded-xl w-[26%] overflow-hidden">
+    <div className="bg-[#F2EEFB] rounded-xl w-full md:w-[40%] xl:w-[30%] s overflow-hidden">
       <div className="px-6 pt-6 pb-10">
         <h3 className="inter-semibold text-base">Flight to {place}</h3>
         <div className=" mt-5 flex items-center space-x-2">
@@ -79,7 +79,7 @@ const BaggageReview = ({}) => {
           </div>
         </div>
 
-        <div className="flex space-x-4 mt-5 mb-3 ">
+        <div className="flex flex-wrap gap-4  mt-5 mb-3 ">
           <BaggageReviewCard
             place={selectedFlight?.departure.arrivalAirport.city}
             handLuggage={selectedFlight?.handLuggage}

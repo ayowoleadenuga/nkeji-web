@@ -202,7 +202,7 @@ const ViewFlightDetails = forwardRef<HTMLDivElement, ViewFlightDetailsProps>(
 
         <div className="bg-[#FAFAFA] w-full px-10 pt-10 pb-20 mt-5">
           <div className="w-full flex flex-wrap gap-8">
-            <div className="w-[20%] flex items-center space-x-2">
+            <div className="w-[50%] md:w-[20%] flex items-center space-x-2">
               <Image
                 height={32}
                 width={32}
@@ -222,7 +222,7 @@ const ViewFlightDetails = forwardRef<HTMLDivElement, ViewFlightDetailsProps>(
               </div>
             </div>
 
-            <div className=" w-[20%] flex items-center space-x-2">
+            <div className=" w-[50%] md:w-[20%] flex items-center space-x-2">
               <Image
                 height={32}
                 width={32}
@@ -236,7 +236,7 @@ const ViewFlightDetails = forwardRef<HTMLDivElement, ViewFlightDetailsProps>(
               </div>
             </div>
 
-            <div className="w-[20%] flex items-center space-x-2">
+            <div className="w-[50%] md:w-[20%] flex items-center space-x-2">
               <Image
                 height={32}
                 width={32}
@@ -250,7 +250,7 @@ const ViewFlightDetails = forwardRef<HTMLDivElement, ViewFlightDetailsProps>(
               </div>
             </div>
 
-            <div className="w-[20%] flex items-center space-x-2">
+            <div className="w-[50%] md:w-[20%] flex items-center space-x-2">
               <Image
                 height={32}
                 width={32}
@@ -264,7 +264,7 @@ const ViewFlightDetails = forwardRef<HTMLDivElement, ViewFlightDetailsProps>(
               </div>
             </div>
 
-            <div className="w-[20%] flex items-center space-x-2">
+            <div className="w-[50%] md:w-[20%] flex items-center space-x-2">
               <Image
                 height={32}
                 width={32}
@@ -286,7 +286,7 @@ const ViewFlightDetails = forwardRef<HTMLDivElement, ViewFlightDetailsProps>(
               </div>
             </div>
 
-            <div className="w-[20%] flex items-center space-x-2">
+            <div className="w-[50%] md:w-[20%] flex items-center space-x-2">
               <Image
                 height={32}
                 width={32}
@@ -300,7 +300,7 @@ const ViewFlightDetails = forwardRef<HTMLDivElement, ViewFlightDetailsProps>(
               </div>
             </div>
 
-            <div className="w-[20%] flex items-center space-x-2">
+            <div className="w-[50%] md:w-[20%] flex items-center space-x-2">
               <Image
                 height={32}
                 width={32}

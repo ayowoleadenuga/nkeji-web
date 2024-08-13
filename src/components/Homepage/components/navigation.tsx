@@ -6,6 +6,10 @@ import { useState } from "react";
 import { navLinks } from "../constants/constants";
 import { flightSearchLinks } from "@nkeji-web/components/FlightSearch/constants/constants";
 import { AuthButtons } from "@nkeji-web/components/auth";
+import { useSelector } from "react-redux";
+import { RootState } from "@nkeji-web/redux/store";
+import { UserNav } from "@nkeji-web/components/auth/user-nav";
+import { Avatar, AvatarFallback } from "@nkeji-web/components/ui/avatar";
 
 interface NavigationProps {
   hasBg?: boolean;
@@ -15,6 +19,8 @@ const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const pathname = usePathname();
+  const user = useSelector((state: RootState) => state.auth.user);
+  const { first_name, last_name } = user!;
   const filteredNavLists = hasBg ? flightSearchLinks : navLinks;
   return (
     <div
@@ -57,7 +63,12 @@ const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
           <AuthButtons />
         </div>
       </div>
-      <div className="block lg:hidden">
+      <div className="flex items-center gap-3 lg:hidden">
+        {user && (
+          <Avatar className="h-9 w-9">
+            <AvatarFallback>{`${first_name[0]}${last_name[0]}`}</AvatarFallback>
+          </Avatar>
+        )}
         <button onClick={() => setIsOpen(true)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -103,15 +114,16 @@ const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
                 </Link>
               </li>
             ))}
-            <li>
+
+            <li className={`${user ? "hidden" : "block"}`}>
               <a
                 href="/"
-                className="border border-black text-black px-6 py-2 rounded-[100px] w-full block text-center"
+                className={` border border-black text-black px-6 py-2 rounded-[100px] w-full  text-center`}
               >
                 Login
               </a>
             </li>
-            <li>
+            <li className={`${user ? "hidden" : "block"}`}>
               <a
                 href="/"
                 className="bg-black text-white px-6 py-2 rounded-[100px] w-full block text-center"

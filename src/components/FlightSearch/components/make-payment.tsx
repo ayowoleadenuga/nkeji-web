@@ -108,7 +108,7 @@ const MakePayment = () => {
   return (
     <div>
       <div className="bg-white px-5 py-4 ">
-        <h3 className="text-lg inter-bold">
+        <h3 className="md:text-lg inter-bold">
           {`How do you want to pay £${moneyValueformat(fullAmount)}?`}
         </h3>
         <p className="text-sm ">Select payment method below</p>
@@ -122,8 +122,8 @@ const MakePayment = () => {
          ${expandCard1 ? "bg-[#F2EEFB] border-b border-black" : "bg-white"}
          `}
             >
-              <div className="flex justify-between w-full">
-                <div>
+              <div className="flex md:flex-row flex-col justify-between w-full">
+                <div className=" flex items-start flex-col mb-6 md:mb-0">
                   <h3 className="text-lg text-[#1B1E21] text-left inter-bold">
                     Pay now
                   </h3>
@@ -238,11 +238,11 @@ const MakePayment = () => {
              `}
             >
               <div className="flex justify-between w-full ">
-                <div>
+                <div className=" flex items-start flex-col mb-6 md:mb-0">
                   <h3 className="text-lg text-[#1B1E21] text-left inter-bold">
                     Pay in 6
                   </h3>
-                  <p className="text-sm text-[#1B1E21]">
+                  <p className="text-sm text-[#1B1E21]  text-start">
                     Spread the cost into smaller payments, over 6 months.
                   </p>
                 </div>
@@ -258,7 +258,7 @@ const MakePayment = () => {
                   profile.
                 </p>
 
-                <div className="flex justify-between items-start mt-5">
+                <div className="flex justify-between flex-wrap items-start mt-5">
                   <div className="flex flex-col items-center">
                     <span className="text-lg inter-semibold ">{`£${downPaymentForFNPL}`}</span>
                     <span className="text-[#A3A7AB] text-xs">Due today</span>
@@ -349,7 +349,7 @@ const MakePayment = () => {
                   )}
                 </div>
 
-                <div className="pr-10">
+                <div className="md:pr-10">
                   <p className="text-[#A3A7AB] text-xs">
                     By proceeding, I acknowledge my acceptance of the terms
                     provided by the Nkeji. I have reviewed both the

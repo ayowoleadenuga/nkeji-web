@@ -16,7 +16,7 @@ const AuthDialog = () => {
       <DialogHeader className="">
         <DialogDescription>
           <div className="flex h-[700px]">
-            <div className="relative w-full h-full">
+            <div className=" relative w-full h-full">
               <Image
                 layout="fill"
                 src="/assets/auth-screen.png"

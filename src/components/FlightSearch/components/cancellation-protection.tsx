@@ -29,12 +29,12 @@ const CancellationProtection = () => {
         <AccordionItem value="item1">
           <div className="md:hidden flex justify-between items-center mb-3">
             <AccordionTrigger>
-              <h3 className="text-[14px] xl:text-lg inter-semibold text-[#1B1E21]">
+              <h3 className="text-[14px] xl:text-lg mr-2 inter-semibold text-[#1B1E21]">
                 Cancellation Protection
               </h3>
             </AccordionTrigger>
             <p className="text-[#7F56D9] text-[14px] xl:text-lg inter-semibold">
-              £300
+              £30
             </p>
           </div>
           <AccordionContent>

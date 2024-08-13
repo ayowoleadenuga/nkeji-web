@@ -13,6 +13,7 @@ import TravelerDetails from "./traveler-details";
 import { useSelector } from "react-redux";
 import { RootState } from "@nkeji-web/redux/store";
 import { checkPersonsArray } from "@nkeji-web/lib/utils";
+import ContactDetails from "@nkeji-web/components/FlightSearch/components/contact-details";
 
 interface BookingStepsProps {
   currentTab: number;
@@ -58,7 +59,11 @@ const BookingSteps = ({
               setCurrentTab={setCurrentTab}
               index={2}
             /> */}
-              <PassengerDetails flightSearchPayload={flightSearchPayload} />
+              <PassengerDetails
+                flightSearchPayload={flightSearchPayload}
+                currentTab={currentTab}
+                setCurrentTab={setCurrentTab}
+              />
               <BaggageAllowance setCurrentTab={setCurrentTab} index={2} />
               <div className="bg-white w-full py-6 px-5">
                 <div className="flex justify-between items-center">

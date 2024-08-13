@@ -36,7 +36,7 @@ const AuthModal = ({
       className="lg:max-w-[55%] md:max-w-[70%] max-w-[100%] lg:max-h-[90vh] md:max-h-[80vh] max-h-[100vh] overflow-auto p-0"
     >
       <div className="flex overflow-auto rounded-lg relative mb-[-16px]">
-        <div className="relative w-[40%]">
+        <div className="md:block hidden relative w-[40%]">
           <Image
             layout="fill"
             src="/assets/auth-screen.png"
@@ -45,7 +45,7 @@ const AuthModal = ({
             className=""
           />
         </div>
-        <div className="bg-white w-[60%] relative pt-4">
+        <div className="bg-white w-full md:w-[60%] relative pt-4">
           <div className="px-10">
             <div className="flex border-b border-b-[#DEDFE0] w-full space-x-8 mt-5 ">
               <div

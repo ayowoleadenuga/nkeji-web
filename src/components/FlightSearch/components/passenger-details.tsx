@@ -13,10 +13,12 @@ import PassengerForm from "./passenger-form";
 import { RootState } from "@nkeji-web/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePassengerDetails } from "@nkeji-web/redux/features/flightSelectReducer";
+import ContactDetailsForm from "@nkeji-web/components/FlightSearch/components/ContactDetailsForm";
 
 interface PassengerDetailsProps {
   showDetails?: boolean;
   setCurrentTab?: any;
+  currentTab?: number;
   index?: number;
   flightSearchPayload: FlightSearchPayload;
 }
@@ -24,6 +26,7 @@ interface PassengerDetailsProps {
 const PassengerDetails: React.FC<PassengerDetailsProps> = ({
   showDetails,
   setCurrentTab,
+  currentTab,
   index,
   flightSearchPayload,
 }) => {
@@ -84,6 +87,10 @@ const PassengerDetails: React.FC<PassengerDetailsProps> = ({
   };
   return (
     <div>
+      <ContactDetailsForm
+        currentTab={currentTab}
+        setCurrentTab={setCurrentTab}
+      />
       {showDetails ? (
         <div className="bg-white w-full py-4 px-5">
           <div className="flex justify-between items-start">
