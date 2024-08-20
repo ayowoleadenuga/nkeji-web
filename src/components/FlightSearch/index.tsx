@@ -92,7 +92,7 @@ const FlightSearch = () => {
           <div className="md:block hidden">
             <FlightTabs currentTab={currentTab} setCurrentTab={() => {}} />
           </div>
-          <div className="md:hidden w-full items-center justify-between flex px-5 mt-[27%] ">
+          <div className="md:hidden w-full items-center justify-between flex px-5  ">
             <div
               className={`flex relative justify-center h-full cursor-pointer space-x-2 items-center 
               

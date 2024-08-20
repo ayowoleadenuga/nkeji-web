@@ -20,11 +20,10 @@ const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
 
   const pathname = usePathname();
   const user = useSelector((state: RootState) => state.auth.user);
-  const { first_name, last_name } = user!;
   const filteredNavLists = hasBg ? flightSearchLinks : navLinks;
   return (
     <div
-      className={`w-full  px-6 lg:px-20 py-8 flex items-center justify-between fixed md:relative top-0 z-50
+      className={`w-full  px-6 lg:px-20 py-8 flex items-center justify-between relative top-0 
     ${hasBg ? "bg-[#35245B]" : "bg-transparent justify-between"}
     
     `}
@@ -36,7 +35,7 @@ const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
           src="/assets/logo.svg"
           placeholder="blur"
           blurDataURL="/assets/logo.svg"
-          alt="Nkeji Logo"
+          alt="Nkeji-Logo"
         />
       </Link>
       <div
@@ -66,7 +65,7 @@ const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
       <div className="flex items-center gap-3 lg:hidden">
         {user && (
           <Avatar className="h-9 w-9">
-            <AvatarFallback>{`${first_name[0]}${last_name[0]}`}</AvatarFallback>
+            <AvatarFallback>{`${user.first_name[0]}${user.last_name[0]}`}</AvatarFallback>
           </Avatar>
         )}
         <button onClick={() => setIsOpen(true)}>
