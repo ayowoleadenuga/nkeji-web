@@ -8,7 +8,7 @@ import FlightRangeTabs from "./flight-range";
 import LoadingSpinner from "./loading-spinner";
 import SearchResultComponent from "./search-result";
 import Image from "next/image";
-import { MapImg } from "../constants/images";
+import { MapImg, MapImg2 } from "../constants/images";
 import FlightDetailsBanner from "./flight-details-banner";
 import FlightBookingWidget from "@nkeji-web/components/Homepage/components/flightBookingWidget";
 import { flightRangeTabLists } from "../constants/constants";
@@ -49,7 +49,7 @@ const SearchResultView = ({
       setDataList(allSortedList);
     }
   }, [currentTab, data]);
-
+  const { departure, destination } = flightSearchPayload;
   return (
     <div>
       <div>
@@ -61,20 +61,39 @@ const SearchResultView = ({
             searchHandler={search}
           />
         ) : (
-          <div className="px-6 lg:px-20 bg-white mt-10 w-full flex flex-col lg:flex-row justify-between">
-            <div className="w-[38%]">
+          <div className="px-6 lg:px-20 bg-white mt-10 w-full flex flex-col-reverse md:flex-row md:gap-0 gap-4 justify-between">
+            <div className="w-full md:w-[55%] lg:w-[38%]">
               <FlightDetailsBanner
                 flightSearchPayload={flightSearchPayload}
                 setShowFlightComponent={setShowFlightComponent}
               />
             </div>
-            <Image src={MapImg} alt="map" className="w-1/2" />
+            <div className=" relative w-full md:w-[40%] lg:w-1/2 h-auto">
+              <div className="w-full h-full ">
+                <Image src={MapImg2} alt="map" className="w-full h-full" />
+                <div className="absolute top-[25%] left-10 w-[40%] ">
+                  <Image
+                    src="/assets/flightMoving.svg"
+                    alt="flight-route"
+                    height={100}
+                    width={100}
+                    className=" w-full h-full  "
+                  />
+                  <p className="absolute text-[#1513A0] font-[600] text-[12px]  left-[-1%] bottom-[-55%] ">
+                    {destination.id}
+                  </p>
+                  <p className="absolute text-[#1513A0] font-[600] text-[12px] right-[-4%] bottom-[-35%]">
+                    {departure.id}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>
-      <div className="px-6 py-10 lg:px-20 bg-[#F7F8F9] mt-10 flex space-x-4">
+      <div className="px-6 py-10 lg:px-20 bg-[#F7F8F9] mt-10 flex md:space-x-4">
         <SearchResultComponent data={dataList} />
-        <div className="w-[74%]">
+        <div className="w-full md:w-[74%] relative">
           {isLoading ? (
             <div className="bg-white flex items-center justify-center h-screen">
               <LoadingSpinner />

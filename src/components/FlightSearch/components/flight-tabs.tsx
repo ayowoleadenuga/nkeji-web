@@ -11,17 +11,32 @@ const FlightTabs: React.FC<FlightTabsProps> = ({
   setCurrentTab,
 }) => {
   return (
-    <div className="bg-[#F2EEFB] h-[55px] w-full flex justify-around items-center px-6 lg:px-20">
+    <div className="bg-[#F2EEFB] h-[55px] w-full flex justify-around items-center px-6 lg:px-20 overflow-hidden ">
       {flightSearchTabs.map((tab, index) => {
         return (
           <div
-            className={`flex justify-center h-full cursor-pointer space-x-2 items-center w-[20%]
+            className={`flex relative justify-center h-full cursor-pointer space-x-2 items-center w-[20%]
               ${currentTab === index ? "bg-white" : "bg-transparent"}
               `}
             onClick={() => setCurrentTab(index++)}
             key={tab.navLink}
           >
-            <Image src={tab.icon} alt="" height={20} width={20} />
+            <Image
+              src="/assets/angle.svg"
+              alt=""
+              height={20}
+              width={20}
+              className={`${
+                currentTab === index ? "block" : "hidden"
+              } absolute right-[-8px] `}
+            />
+            <Image
+              src={tab.icon}
+              alt=""
+              height={100}
+              width={20}
+              className=" "
+            />
             <p className="text-[#33383E] text-sm inter-bold">{tab.name}</p>
           </div>
         );

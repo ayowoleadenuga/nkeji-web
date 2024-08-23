@@ -13,6 +13,7 @@ import TravelerDetails from "./traveler-details";
 import { useSelector } from "react-redux";
 import { RootState } from "@nkeji-web/redux/store";
 import { checkPersonsArray } from "@nkeji-web/lib/utils";
+import ContactDetails from "@nkeji-web/components/FlightSearch/components/contact-details";
 
 interface BookingStepsProps {
   currentTab: number;
@@ -42,8 +43,8 @@ const BookingSteps = ({
         departure={flightSearchPayload.departure.id}
         destination={flightSearchPayload.destination.id}
       />
-      <div className="bg-[#F7F8F9] px-6 py-5 lg:px-20 mt-10 flex justify-between">
-        <div className="w-[68%] flex flex-col space-y-3">
+      <div className="bg-[#F7F8F9] px-6 py-5 lg:px-20 mt-2 lg:mt-10 lg:flex lg:flex-row flex-col justify-between">
+        <div className="w-full lg:w-[68%] flex flex-col space-y-3">
           {currentTab === 1 && (
             <>
               {/* <ContactDetails /> */}
@@ -58,7 +59,11 @@ const BookingSteps = ({
               setCurrentTab={setCurrentTab}
               index={2}
             /> */}
-              <PassengerDetails flightSearchPayload={flightSearchPayload} />
+              <PassengerDetails
+                flightSearchPayload={flightSearchPayload}
+                currentTab={currentTab}
+                setCurrentTab={setCurrentTab}
+              />
               <BaggageAllowance setCurrentTab={setCurrentTab} index={2} />
               <div className="bg-white w-full py-6 px-5">
                 <div className="flex justify-between items-center">
@@ -81,8 +86,10 @@ const BookingSteps = ({
           )}
           {currentTab === 4 && <MakePayment />}
         </div>
-        <div className="w-[30%] flex flex-col space-y-3">
-          <CancellationProtection />
+        <div className="w-full lg:w-[30%] flex flex-col-reverse  md:flex-col space-y-3">
+          <div className="mt-4 md:mt-0">
+            <CancellationProtection />
+          </div>
           <BaggageProtection />
           <PriceDetails />
         </div>

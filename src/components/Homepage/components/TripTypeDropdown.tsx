@@ -19,7 +19,7 @@ const TripTypeDropdown = () => {
   const tripType = useSelector((state: RootState) => state.flightSearch.type);
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="focus:outline-none w-full md:w-1/2 lg:w-[220px]">
+      <DropdownMenuTrigger className="focus:outline-none w-full min-w-fit md:w-[45%] lg:w-[220px]">
         <div className="flex items-center justify-between border border-[#D0D5DD] w-full  rounded-[100px] p-3">
           <span className="flex items-center space-x-2">
             <Image height={15} width={15} src="/assets/plane.svg" alt="" />
