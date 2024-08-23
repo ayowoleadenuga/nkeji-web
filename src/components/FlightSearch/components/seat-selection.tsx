@@ -28,7 +28,7 @@ const SeatSelectionCard: React.FC<PassengerDetailProps> = ({
   return (
     <div
       onClick={() => setActiveSeat(data.title)}
-      className="w-[33%] bg-[#F2EEFB] rounded-lg px-5 pt-4 pb-8 cursor-pointer flex flex-col space-y-3 "
+      className="w-full md:w-[30%] bg-[#F2EEFB] rounded-lg px-5 pt-4 pb-8 cursor-pointer flex flex-col space-y-3 "
     >
       <div className="flex justify-between items-center">
         <Image height={15} width={15} src={data.icon} alt="" />
@@ -54,7 +54,7 @@ const SeatSelection = () => {
   const stops = [
     {
       title: "Sit Together",
-      icon: "/assets/seat-1.svg",
+      icon: "/assets/sit-together.svg",
     },
     {
       title: "Select your seats",
@@ -70,22 +70,52 @@ const SeatSelection = () => {
   const [toggleStop, setToggleStop] = useState(true);
   return (
     <div className="bg-white w-full py-4 px-5">
-      <div className="flex justify-between items-start">
+      <div className=" hidden md:flex justify-between items-start">
         <div>
           <h3 className="text-lg inter-bold">Seat Selection</h3>
         </div>
-        {/* <div className="">
-              <p className="text-base inter-semibold ">From £5,541.95</p>
-            <p className=" text-right text-xs">Per seat</p>
-
-            </div> */}
+        <div className="">
+          <p className="text-base inter-semibold ">From £5,541.95</p>
+          <p className=" text-right text-xs">Per seat</p>
+        </div>
       </div>
+      <Accordion type="single" collapsible className="md:hidden block ">
+        <AccordionItem value="item-1">
+          <div className="flex justify-between items-center px-4 rounded-[8px] bg-[#F2EEFB] ">
+            <AccordionTrigger>
+              <h3 className="text-lg inter-bold">Seat Selection</h3>
+            </AccordionTrigger>
+            <div className="">
+              <p className="text-base inter-semibold ">From £5,541.95</p>
+              <p className=" text-right text-xs">Per seat</p>
+            </div>
+          </div>
+
+          <AccordionContent>
+            <RadioGroup
+              defaultValue={stops[0].title}
+              className="md:hidden flex flex-wrap gap-5 mt-5 mb-3 w-full"
+            >
+              {stops.map(stop => {
+                return (
+                  <SeatSelectionCard
+                    key={stop.title}
+                    setActiveSeat={setActiveStop}
+                    activeSeat={activeStop}
+                    data={stop}
+                  />
+                );
+              })}
+            </RadioGroup>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
 
       <RadioGroup
         defaultValue={stops[0].title}
-        className="flex space-x-5 mt-5 mb-3"
+        className="hidden md:flex flex-wrap gap-5 mt-5 mb-3 w-full"
       >
-        {stops.map((stop) => {
+        {stops.map(stop => {
           return (
             <SeatSelectionCard
               key={stop.title}

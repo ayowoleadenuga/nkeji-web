@@ -17,7 +17,7 @@ const PassengerDetailCard: React.FC<PassengerDetailProps> = ({
   isSelected,
 }) => {
   return (
-    <div className="bg-[#F2EEFB] rounded-lg px-5 py-3 flex justify-between items-center">
+    <div className="bg-[#F2EEFB] rounded-lg px-5 md:w-[250px] py-3 w-full  flex justify-between items-center">
       <div className="flex items-center space-x-2">
         <div
           className={`rounded-full  h-[32px] w-[32px] flex justify-center items-center
