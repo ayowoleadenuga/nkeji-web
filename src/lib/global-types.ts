@@ -87,6 +87,12 @@ export interface Passenger {
   gender?: "male" | "female";
 }
 
+export interface ContactDetails {
+  id: string;
+  email: string;
+  phoneNumber?: string;
+}
+
 type Flyer = {
   dateOfBirth: string;
   email: string;

@@ -85,7 +85,7 @@ const PassengerForm = ({ passenger, onChange }: PassengerFormProps) => {
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-[220px] text-center">
-          {human_titles.map((title) => (
+          {human_titles.map(title => (
             <DropdownMenuItem
               onClick={() => onChange("title", title)}
               className="text-center"
@@ -97,7 +97,7 @@ const PassengerForm = ({ passenger, onChange }: PassengerFormProps) => {
         </DropdownMenuContent>
       </DropdownMenu>
       <DropdownMenu>
-        <DropdownMenuTrigger className="focus:outline-none w-full md:w-1/2 lg:w-[200px] mb-5 ml-4">
+        <DropdownMenuTrigger className="focus:outline-none w-full md:w-[45%] lg:w-[200px] mb-5 ml-0 md:ml-2 lg:ml-4">
           <p className="text-left">
             Gender
             <span className="text-red-500">*</span>
@@ -133,38 +133,38 @@ const PassengerForm = ({ passenger, onChange }: PassengerFormProps) => {
       </DropdownMenu>
       <div className="flex flex-wrap w-[100%] gap-4">
         <RequestsInput
-          containerClass={"w-[240px]"}
+          containerClass={"w-full md:w-[240px]"}
           label="First Name"
           placeholder="Lagbaja"
           value={firstName}
-          onChange={(e) => onChange("firstName", e.target.value)}
+          onChange={e => onChange("firstName", e.target.value)}
           isRequired
         />
         <RequestsInput
-          containerClass={"w-[240px]"}
+          containerClass={"w-full md:w-[240px]"}
           label="Middle Name"
           value={middleName}
           placeholder="Lagbaja"
-          onChange={(e) => onChange("middleName", e.target.value)}
+          onChange={e => onChange("middleName", e.target.value)}
         />
         <RequestsInput
-          containerClass={"w-[240px]"}
+          containerClass={"w-full md:w-[240px]"}
           label="Last Name"
           isRequired
           placeholder="Lagbaja"
           value={lastName}
-          onChange={(e) => onChange("lastName", e.target.value)}
+          onChange={e => onChange("lastName", e.target.value)}
         />
         <RequestsInput
-          containerClass={"w-[240px]"}
+          containerClass={"w-full md:w-[240px]"}
           label="Email"
           isRequired
           placeholder="Enter Passenger's email"
           value={email}
-          onChange={(e) => onChange("email", e.target.value)}
+          onChange={e => onChange("email", e.target.value)}
         />
         <RequestsInput
-          containerClass={"w-[240px] relative"}
+          containerClass={"w-full md:w-[240px] relative"}
           label="Phone Number"
           placeholder="Enter phone number"
           value={phoneNumber}
@@ -174,14 +174,14 @@ const PassengerForm = ({ passenger, onChange }: PassengerFormProps) => {
           min="10"
           pattern="[0-9]{10}"
           prependContent={<span className="absolute top-9 left-2">+44</span>}
-          onChange={(e) => onChange("phoneNumber", e.target.value)}
+          onChange={e => onChange("phoneNumber", e.target.value)}
         />
 
         <Popover>
           <PopoverTrigger asChild>
             <div
               className={cn(
-                "w-[240px] justify-start text-left font-normal mb-2 relative  transition-colors",
+                "w-full md:w-[240px] justify-start text-left font-normal mb-2 relative  transition-colors",
                 !date && "text-muted-foreground"
               )}
             >

@@ -41,7 +41,7 @@ const Label: React.FC<LabelProps> = ({ label, id, isFocused, value }) => (
     className={`absolute cursor-pointer left-4 md:left-2 top-1/2 px-0 transition-all ease-in-out duration-300 transform flex items-center ${
       isFocused || value
         ? "-translate-y-8 text-xs text-purple-500"
-        : "text-gray-500 -translate-y-1/2"
+        : "text-gray-500 -translate-y-1/2 "
     }`}
   >
     <span className="inter-medium">{label}</span>
@@ -66,15 +66,15 @@ const DropdownList: React.FC<DropdownListProps> = ({
   text,
   handleSelectAirport,
 }) => (
-  <ul className="w-full shadow-lg border-gray-600 bg-[#FDFDFD] rounded p-2 mt-2 max-h-80 overflow-y-scroll text-center flex flex-col space-y-5">
+  <ul className="w-full shadow-lg border-gray-600 bg-[#FDFDFD] rounded p-2 mt-2 max-h-80 overflow-y-auto text-center flex flex-col space-y-5">
     {isLoading && <div>Loading...</div>}
     {error && <div>Error fetching airports</div>}
     {data?.data ? (
-      data.data.map((option) => (
+      data.data.map(option => (
         <li
           key={option.id}
           className="text-left p-2 hover:bg-[#eeedfb] cursor-pointer"
-          onClick={(e) => handleSelectAirport(e, option)}
+          onClick={e => handleSelectAirport(e, option)}
         >
           <p className="text-[#33383E] text-sm inter-bold">{option.name}</p>
           <p className="text-[#A3A7AB] text-xs">
@@ -178,7 +178,7 @@ const AirportSearchComponent: React.FC<AirportSearchComponentProps> = ({
     <>
       <div
         className={cn(
-          "w-full pl-3 md:w-[200px] lg:w-[240px] justify-start text-left font-normal relative transition-colors h-full",
+          "w-full pl-3  justify-start text-left font-normal relative transition-colors h-full",
           className
         )}
         onClick={() => setIsFocused(true)}
@@ -197,11 +197,14 @@ const AirportSearchComponent: React.FC<AirportSearchComponentProps> = ({
           />
         )}
         {value && (
-          <div className="w-full flex">
-            <div className="pt-8 pb-1 px-2 text-gray-700">
+          <div className="w-full  flex">
+            <div className="pt-6 pb-1 pl-2 text-gray-700">
               <p className="text-[#33383E] text-sm inter-bold">{value.city}</p>
-              <p className="text-[#A3A7AB] text-xs">
+              <p className="text-[#A3A7AB] text-xs xl:block hidden">
                 {`${truncateSentence(value.name, 15)}${" "}(${value.id})`}
+              </p>
+              <p className="text-[#A3A7AB] text-xs block xl:hidden">
+                {`${value.name}${" "}(${value.id})`}
               </p>
             </div>
             <p className="ml-2 flex flex-col justify-center items-center">
@@ -214,14 +217,17 @@ const AirportSearchComponent: React.FC<AirportSearchComponentProps> = ({
           </div>
         )}
       </div>
+
       {isFocused && !value && debouncedText.length > 2 && (
-        <DropdownList
-          data={data}
-          isLoading={isLoading}
-          error={error}
-          text={debouncedText}
-          handleSelectAirport={handleSelectAirport}
-        />
+        <div className="absolute top-[72px] left-0 z-[100] ">
+          <DropdownList
+            data={data}
+            isLoading={isLoading}
+            error={error}
+            text={debouncedText}
+            handleSelectAirport={handleSelectAirport}
+          />
+        </div>
       )}
     </>
   );

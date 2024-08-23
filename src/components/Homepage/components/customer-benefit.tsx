@@ -3,18 +3,18 @@ import Image from "next/image";
 export const CustomerBenefits = () => {
   return (
     <div
-      className="my-10 bg-white py-10 mx-10 md:mx-20 relative h-[300px] flex justify-between items-center rounded-lg"
+      className="my-10 bg-white py-10 mx-10 md:mx-20 h-auto relative flex flex-col lg:block rounded-lg"
       style={{
         backgroundImage: "url(/assets/Referral.png)",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div className="relative z-40 px-10 lg:w-[35%] md:w-[70%] w-full h-full flex flex-col justify-start items-start">
-        <h3 className="text-white lg:text-4xl md:text-2xl text-xl inter-bold text-left">
+      <div className="relative z-40 px-10 xl:w-[35%] lg:w-[65%]  w-full h-full flex flex-col justify-start items-start">
+        <h3 className="text-white text-[24px] md:text-4xl  inter-bold text-left">
           Get Bonuses From Referrals & Usage
         </h3>
-        <p className="text-xl text-white mt-5 text-left">
+        <p className=" text-[14px] md:text-xl text-white mt-5 text-left md:w-[80%] ">
           Earn $50 every time you use and refer people to our platform
         </p>
         <a className="text-white cursor-pointer inter-semibold mt-4 flex items-center space-x-2  text-base text-left underline ">
@@ -32,7 +32,7 @@ export const CustomerBenefits = () => {
 
       <Image
         layout="intrinsic"
-        className=" cursor-pointer contain absolute right-0 "
+        className=" cursor-pointer  contain block lg:absolute right-0 bottom-0 mt-[90px] md:mt-0 "
         src="/assets/gold.png"
         alt="get started icon"
         width={554}

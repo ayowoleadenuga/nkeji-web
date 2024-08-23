@@ -74,7 +74,7 @@ const TravelerDetails: React.FC<TravelerDetailsProps> = ({
           </div>
           <div
             onClick={() => index && setCurrentTab(index - 2)}
-            className="cursor-pointer flex space-x-2 items-center w-[fit-content]"
+            className="cursor-pointer hidden md:flex space-x-2 items-center w-[fit-content]"
           >
             <Image
               height={15}
@@ -89,10 +89,10 @@ const TravelerDetails: React.FC<TravelerDetailsProps> = ({
           </div>
         </div>
 
-        <div className="flex justify-between mt-5 mb-3">
+        <div className="flex flex-wrap gap-x-3 mt-5 mb-3">
           {uploadedPassengers && uploadedPassengers.length
             ? uploadedPassengers.map((passenger, index) => (
-                <div key={index} className="mr-6">
+                <div key={index} className="w-full md:w-[40%] xl:w-[30%]">
                   <TravelerDetailsCard
                     gender={passenger.gender}
                     firstName={passenger.firstName}
@@ -103,6 +103,21 @@ const TravelerDetails: React.FC<TravelerDetailsProps> = ({
                 </div>
               ))
             : ""}
+        </div>
+        <div
+          onClick={() => index && setCurrentTab(index - 2)}
+          className="cursor-pointer md:hidden flex space-x-2 items-center w-[fit-content]"
+        >
+          <Image
+            height={15}
+            width={15}
+            src="/assets/edit.svg"
+            alt=""
+            className="cursor-pointer"
+          />
+          <p className="text-sm text-[#7F56D9] inter-semibold underline">
+            Edit details
+          </p>
         </div>
       </div>
     </div>

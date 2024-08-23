@@ -76,7 +76,7 @@ export const Footer = () => {
         </div>
       </div>
 
-      <div className="px-5 md:px-20 py-10 bg-[#35245B] flex justify-between items-center flex-wrap">
+      <div className="px-5 md:px-20 py-10 bg-[#35245B] flex lg:flex-row flex-col-reverse justify-center gap-4 lg:justify-between items-center flex-wrap">
         <p className="text-base text-[#D6BBFB] mb-4 md:mb-0">
           © 2024 Nkeji. All rights reserved.
         </p>

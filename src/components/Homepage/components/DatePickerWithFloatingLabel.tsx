@@ -108,12 +108,12 @@ const DatePickerWithFloatingLabel: React.FC<
     <div
       ref={containerRef}
       className={cn(
-        "relative w-full pl-3 md:w-[200px] lg:w-[240px] text-left font-normal transition-colors h-full",
+        "relative pr-2 w-full  justify-start text-left font-normal transition-colors h-full",
         className
       )}
     >
       <div
-        className="relative flex items-center"
+        className="relative flex items-center justify-start text-left"
         onClick={handleFocus}
         tabIndex={0}
       >
@@ -129,7 +129,7 @@ const DatePickerWithFloatingLabel: React.FC<
         {date && (
           <CrossCircledIcon
             onClick={handleClear}
-            className="absolute right-8 bottom-4 cursor-pointer"
+            className="absolute right-10 sm:right-0 bottom-4 cursor-pointer"
             stroke="#7F56D9"
           />
         )}
