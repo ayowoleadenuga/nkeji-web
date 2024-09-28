@@ -36,7 +36,7 @@ const ContactDetailsForm = ({
       <div className="mb-5">
         <h3 className="text-lg inter-bold">Contact Details</h3>
         <p className="text-xs">
-          We'll send your flight confirmation to the information provide.
+          We&apos;ll send your flight confirmation to the information provide.
         </p>
       </div>
       {currentTab === 2 ? (

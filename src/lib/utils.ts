@@ -320,7 +320,7 @@ export function convertTo24HourFormat(time: string): string {
     throw new Error("Invalid time format");
   }
 
-  let [ , hours, minutes, period] = match;
+  let [, hours, minutes, period] = match;
   let hourNum = parseInt(hours, 10);
   const minuteNum = parseInt(minutes, 10);
   if (period.toUpperCase() === "PM" && hourNum < 12) {
@@ -335,4 +335,9 @@ export function convertTo24HourFormat(time: string): string {
   return `${hoursStr}:${minutesStr}`;
 }
 
-
+export const truncateString = (str: string | undefined, maxLength: number) => {
+  if (str && str.length > maxLength) {
+    return str.slice(0, maxLength) + "...";
+  }
+  return str;
+};

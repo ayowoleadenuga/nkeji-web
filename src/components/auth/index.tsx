@@ -8,6 +8,7 @@ import { UserNav } from "./user-nav";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import { clearError, resetState } from "@nkeji-web/redux/features/authSlice";
 import { closeModal } from "@nkeji-web/redux/features/authModalReducer";
+import NewAuthModal from "@nkeji-web/components/auth/newAuthModal";
 
 export type AuthTabType = "login" | "register";
 export const AuthButtons = () => {
