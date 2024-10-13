@@ -4,7 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { navLinks } from "../constants/constants";
-import { flightSearchLinks } from "@nkeji-web/components/FlightSearch/constants/constants";
+import {
+  flightSearchLinks,
+  profileLinks,
+} from "@nkeji-web/components/FlightSearch/constants/constants";
 import { AuthButtons } from "@nkeji-web/components/auth";
 import { useSelector } from "react-redux";
 import { RootState } from "@nkeji-web/redux/store";
@@ -13,14 +16,24 @@ import { Avatar, AvatarFallback } from "@nkeji-web/components/ui/avatar";
 
 interface NavigationProps {
   hasBg?: boolean;
+  isProfilePage?: boolean;
 }
 
-const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
+const Navigation: React.FC<NavigationProps> = ({
+  hasBg = false,
+  isProfilePage,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const pathname = usePathname();
   const user = useSelector((state: RootState) => state.auth.user);
-  const filteredNavLists = hasBg ? flightSearchLinks : navLinks;
+  const filteredNavLists = hasBg
+    ? flightSearchLinks
+    : !hasBg
+    ? navLinks
+    : isProfilePage
+    ? profileLinks
+    : [];
   return (
     <div
       className={`w-full  px-6 lg:px-20 py-8 flex items-center justify-between relative top-0 
@@ -32,7 +45,9 @@ const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
         <Image
           height={40}
           width={100}
-          src="/assets/logo.svg"
+          src={`${
+            isProfilePage ? "/assets/nkejiLogo.svg" : "/assets/logo.svg"
+          }`}
           placeholder="blur"
           blurDataURL="/assets/logo.svg"
           alt="Nkeji-Logo"
@@ -48,7 +63,7 @@ const Navigation: React.FC<NavigationProps> = ({ hasBg = false }) => {
             <li key={`${link.navLink}-${index}`}>
               <Link href={link.navLink}>
                 <span
-                  className={`text-sm text-white ${
+                  className={`text-sm ${isProfilePage ? "" : "text-white"}  ${
                     pathname === link.navLink ? "inter-bold" : ""
                   }`}
                 >

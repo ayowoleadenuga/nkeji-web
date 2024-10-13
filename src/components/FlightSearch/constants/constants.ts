@@ -26,6 +26,29 @@ export const flightSearchLinks = [
   },
 ];
 
+export const profileLinks = [
+  {
+    name: "Overview",
+    navLink: "/overwiew",
+  },
+  {
+    name: "Bookings",
+    navLink: "/bookings",
+  },
+  {
+    name: "Flight history",
+    navLink: "/flight-history",
+  },
+  {
+    name: "Loans and repayment",
+    navLink: "/loans-repayment",
+  },
+  {
+    name: "Transactions",
+    navLink: "/transactions",
+  },
+];
+
 export const human_titles = [
   "Mr.",
   "Mrs.",
