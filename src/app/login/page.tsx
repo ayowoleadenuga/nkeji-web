@@ -11,7 +11,7 @@ import Link from "next/link";
 import { useLoginMutation } from "@nkeji-web/redux/features/authApi";
 import { useToast } from "@nkeji-web/components/ui/use-toast";
 import { clearError } from "@nkeji-web/redux/features/authSlice";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const router = useRouter();
@@ -134,7 +134,7 @@ const Page = () => {
                 pattern="[0-9]{10}"
                 required
                 value={phoneNumber}
-                onChange={e => dispatch(setPhoneNumber(e.target.value))}
+                onChange={(e) => dispatch(setPhoneNumber(e.target.value))}
                 className="border border-[#F0F0F1] shadow rounded-r-lg bg-white h-full px-3 w-[80%] outline-none"
               />
             </div>
@@ -154,7 +154,7 @@ const Page = () => {
                 placeholder="Enter password"
                 id="password"
                 value={values.password}
-                onChange={e =>
+                onChange={(e) =>
                   setValues({ ...values, password: e.target.value })
                 }
                 className="border-0 outline-none"
